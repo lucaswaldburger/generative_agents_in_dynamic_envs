@@ -1,6 +1,0 @@
-sim:
-  steps: 500
-  seed: 0
-  agent_view_size: 7
-map:
-  file: configs/maps/simple.json
