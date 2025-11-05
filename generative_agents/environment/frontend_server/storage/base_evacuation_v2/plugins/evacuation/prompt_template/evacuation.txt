@@ -1,0 +1,33 @@
+evacuation.txt
+
+Variables: 
+!<INPUT 0>! -- persona 1 learned
+!<INPUT 1>! -- persona 2 learned
+!<INPUT 3>! -- current players status
+!<INPUT 4>! -- current conversation
+!<INPUT 5>! -- persona 1 name
+!<INPUT 6>! -- persona 2 name
+<commentblockmarker>###</commentblockmarker>
+Context for the task: 
+
+The following 2 people are attempting to evacuate.
+!<INPUT 0>!
+!<INPUT 1>!
+
+Current players status:
+!<INPUT 3>!
+
+Current conversation:
+!<INPUT 4>!
+
+---
+Task: Given the above, decide whether an evacuation just completed, and whether each person successfully evacuated. If an evacuation is still in progress, no one has successfully evacuated yet.
+
+Output format: Output a json of the following format: 
+{
+    "Did an evacuation just complete?": <json Boolean>,
+    "Did !<INPUT 5>! evacuate successfully?": <json Boolean>,
+    "Did !<INPUT 6>! evacuate successfully?": <json Boolean>,
+}
+
+Output:

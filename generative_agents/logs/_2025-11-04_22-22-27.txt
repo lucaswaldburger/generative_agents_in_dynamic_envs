@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/automatic_execution.py", line 8, in <module>
+    import reverie
+  File "/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/reverie.py", line 38, in <module>
+    from persona.persona import Persona
+  File "/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/persona/persona.py", line 18, in <module>
+    from persona.cognitive_modules.perceive import perceive
+  File "/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/persona/cognitive_modules/perceive.py", line 14, in <module>
+    from persona.prompt_template.gpt_structure import get_embedding
+  File "/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/persona/prompt_template/gpt_structure.py", line 13, in <module>
+    from utils import openai_api_key, use_openai, api_model
+ImportError: cannot import name 'api_model' from 'utils' (/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/utils.py)

@@ -1,0 +1,1092 @@
+imported openai-cost-logger
+Enter the name of the forked simulation (leave blank for base_the_ville_isabella_maria_klaus): Enter the name of the new simulation (last was test-simulation-s-0-0-200): Would you like to use MQTT for communication? (y/N): MQTT mode disabled
+(reverie): Temp storage:  ../../environment/frontend_server/temp_storage
+Note: The agents in this simulation package are computational
+constructs powered by generative agents architecture and LLM. We
+clarify that these agents lack human-like agency, consciousness,
+and independent decision-making.
+---
+Enter option: run 1
+Setting headless to False.
+Starting main loop at step 0
+GNS FUNCTION: <generate_wake_up_hour>
+Attempt 1
+Response:  ParsedChatCompletion[WakeUpHour](id='chatcmpl-CYRcJ25KukIlTsfDLOJz4LkCV1AQF', choices=[ParsedChoice[WakeUpHour](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[WakeUpHour](content='{"wake_up_hour":1}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=WakeUpHour(wake_up_hour=1), annotations=[]))], created=1762325347, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=7, prompt_tokens=224, total_tokens=231, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/wake_up_hour_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0.8, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': "Name: Isabella Rodriguez\nAge: 34\nInnate traits: Obedient, empathy, humility, sensitivity\nLearned traits: Isabella Rodriguez is one of the best hide and seek players around who loves to hide in the hide and seek game. She is always looking for ways to improve her strategy in hiding so Klaus can't find her.\nCurrently: Isabella has agreed to meet Klaus at Johnson Park at 1:30am to start their first game of hide-and-seek of the day. She can hide anywhere in town.\nLifestyle: Isabella awakes at 1am and plays hide and seek all over town.\nDaily plan requirement: Isabella Rodriguez plays hide and seek all day every day.\nCurrent Date: Monday February 13\n", 'persona_lifestyle': 'Isabella awakes at 1am and plays hide and seek all over town.', 'persona_firstname': 'Isabella'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Name: Isabella Rodriguez
+Age: 34
+Innate traits: Obedient, empathy, humility, sensitivity
+Learned traits: Isabella Rodriguez is one of the best hide and seek players around who loves to hide in the hide and seek game. She is always looking for ways to improve her strategy in hiding so Klaus can't find her.
+Currently: Isabella has agreed to meet Klaus at Johnson Park at 1:30am to start their first game of hide-and-seek of the day. She can hide anywhere in town.
+Lifestyle: Isabella awakes at 1am and plays hide and seek all over town.
+Daily plan requirement: Isabella Rodriguez plays hide and seek all day every day.
+Current Date: Monday February 13
+
+
+In general, Isabella awakes at 1am and plays hide and seek all over town.
+Isabella's wake up hour:
+
+
+~~~ processed output    ----------------------------------------------------
+1
+
+=== END ==========================================================
+
+
+-------- new_retrieve ----------
+Number of focal_points:  2
+
+-------- focal_pt:  Isabella Rodriguez's plan for Monday February 13.
+
+
+-------- focal_pt:  Important recent events for Isabella Rodriguez's life.
+
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, is there anything that Isabella Rodriguez should remember as they plan for *Monday February 13*? If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement)
+
+Write the response from Isabella Rodriguez's perspective.
+Response content: As I plan for Monday, February 13, I need to remember the following important details:
+
+- **Meeting with the Marketing Team**: This is scheduled for **10:00 AM** at our usual conference room on the second floor. It's crucial that I prepare the latest campaign data to discuss during this meeting.
+  
+- **Lunch appointment**: I have a lunch appointment with the client at **12:30 PM** at *The Green Bistro*, which is located downtown. I need to make sure to finalize the presentation materials beforehand.
+
+- **Call with the supplier**: There’s a scheduled call with the supplier at **3:00 PM**. I should ensure I have all the relevant details ready to discuss our order status and any upcoming deliveries.
+
+I’ll double-check my calendar to make sure everything is in order and set reminders for each of these events to stay on track.
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, how might we summarize Isabella Rodriguez's feelings about their days up to now?
+
+Write the response from Isabella Rodriguez's perspective.
+Response content: From my perspective, my days have been a mix of ups and downs. There have been moments of joy where I’ve felt accomplished and connected, but there have also been times of frustration and uncertainty. I often find myself reflecting on the little things that bring me happiness, like spending time with loved ones or achieving personal goals. At the same time, I sometimes struggle with the weight of expectations and the challenges that life throws my way. Overall, I feel a blend of hope and resilience, as I navigate through my experiences. Each day brings new lessons, and I’m learning to embrace both the highs and lows as part of my journey.
+--- ChatGPT_single_request() ---
+Prompt: Isabella Rodriguez's status from Sunday February 12:
+Isabella has agreed to meet Klaus at Johnson Park at 1:30am to start their first game of hide-and-seek of the day. She can hide anywhere in town.
+
+Isabella Rodriguez's thoughts at the end of Sunday February 12:
+As I plan for Monday, February 13, I need to remember the following important details:- **Meeting with the Marketing Team**: This is scheduled for **10:00 AM** at our usual conference room on the second floor. It's crucial that I prepare the latest campaign data to discuss during this meeting.  - **Lunch appointment**: I have a lunch appointment with the client at **12:30 PM** at *The Green Bistro*, which is located downtown. I need to make sure to finalize the presentation materials beforehand.- **Call with the supplier**: There’s a scheduled call with the supplier at **3:00 PM**. I should ensure I have all the relevant details ready to discuss our order status and any upcoming deliveries.I’ll double-check my calendar to make sure everything is in order and set reminders for each of these events to stay on track.From my perspective, my days have been a mix of ups and downs. There have been moments of joy where I’ve felt accomplished and connected, but there have also been times of frustration and uncertainty. I often find myself reflecting on the little things that bring me happiness, like spending time with loved ones or achieving personal goals. At the same time, I sometimes struggle with the weight of expectations and the challenges that life throws my way. Overall, I feel a blend of hope and resilience, as I navigate through my experiences. Each day brings new lessons, and I’m learning to embrace both the highs and lows as part of my journey.
+
+It is now Monday February 13. Given the above, write Isabella Rodriguez's status for Monday February 13 that reflects Isabella Rodriguez's thoughts at the end of Sunday February 12. Write this in third-person talking about Isabella Rodriguez.If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement).
+
+Follow this format below:
+Status: <new status>
+Response content: Status: Isabella Rodriguez is starting her day on Monday, February 13, feeling a mix of hope and resilience. She has a busy schedule ahead that includes a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor, where she plans to present the latest campaign data. Afterward, she has a lunch appointment with a client at 12:30 PM at The Green Bistro downtown, and she aims to finalize her presentation materials beforehand. Later in the afternoon, at 3:00 PM, Isabella has a scheduled call with the supplier to discuss order status and upcoming deliveries. To stay organized, she plans to double-check her calendar and set reminders for each event, ensuring she remains on track while navigating the ups and downs of her day.
+--- ChatGPT_single_request() ---
+Prompt: Name: Isabella Rodriguez
+Age: 34
+Innate traits: Obedient, empathy, humility, sensitivity
+Learned traits: Isabella Rodriguez is one of the best hide and seek players around who loves to hide in the hide and seek game. She is always looking for ways to improve her strategy in hiding so Klaus can't find her.
+Currently: Status: Isabella Rodriguez is starting her day on Monday, February 13, feeling a mix of hope and resilience. She has a busy schedule ahead that includes a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor, where she plans to present the latest campaign data. Afterward, she has a lunch appointment with a client at 12:30 PM at The Green Bistro downtown, and she aims to finalize her presentation materials beforehand. Later in the afternoon, at 3:00 PM, Isabella has a scheduled call with the supplier to discuss order status and upcoming deliveries. To stay organized, she plans to double-check her calendar and set reminders for each event, ensuring she remains on track while navigating the ups and downs of her day.
+Lifestyle: Isabella awakes at 1am and plays hide and seek all over town.
+Daily plan requirement: Isabella Rodriguez plays hide and seek all day every day.
+Current Date: Monday February 13
+
+Today is Monday February 13. Here is Isabella Rodriguez's plan today in broad-strokes (with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).
+
+Follow this format (the list should have 4~6 items but no more):
+1. wake up and complete the morning routine at <time>, 2. ...
+Response content: 1. Wake up and complete the morning routine at 1:00 AM.  
+2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.  
+3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.  
+4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.  
+5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.  
+6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.  
+DEBUG new_daily_req: 1. Wake up and complete the morning routine at 1:00 AM.   2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.   3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.   4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.   5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.   6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.
+GNS FUNCTION: <generate_first_daily_plan>
+Attempt 1
+Response:  ParsedChatCompletion[DailyPlan](id='chatcmpl-CYRcew26DBkgrXbJ4pD8OUtowRcUi', choices=[ParsedChoice[DailyPlan](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[DailyPlan](content='{"daily_plan":["Wake up and complete the morning routine at 1:00 AM.","Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.","Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.","Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.","Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.","Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM."]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=DailyPlan(daily_plan=['Wake up and complete the morning routine at 1:00 AM.', 'Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.', 'Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.', 'Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.', 'Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.', 'Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.']), annotations=[]))], created=1762325368, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=125, prompt_tokens=549, total_tokens=674, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/daily_planning_v6.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 2000, 'temperature': 1, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': "Name: Isabella Rodriguez\nAge: 34\nInnate traits: Obedient, empathy, humility, sensitivity\nLearned traits: Isabella Rodriguez is one of the best hide and seek players around who loves to hide in the hide and seek game. She is always looking for ways to improve her strategy in hiding so Klaus can't find her.\nCurrently: Status: Isabella Rodriguez is starting her day on Monday, February 13, feeling a mix of hope and resilience. She has a busy schedule ahead that includes a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor, where she plans to present the latest campaign data. Afterward, she has a lunch appointment with a client at 12:30 PM at The Green Bistro downtown, and she aims to finalize her presentation materials beforehand. Later in the afternoon, at 3:00 PM, Isabella has a scheduled call with the supplier to discuss order status and upcoming deliveries. To stay organized, she plans to double-check her calendar and set reminders for each event, ensuring she remains on track while navigating the ups and downs of her day.\nLifestyle: Isabella awakes at 1am and plays hide and seek all over town.\nDaily plan requirement: 1. Wake up and complete the morning routine at 1:00 AM.   2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.   3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.   4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.   5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.   6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.\nCurrent Date: Monday February 13\n", 'lifestyle': 'Isabella awakes at 1am and plays hide and seek all over town.', 'curr_date': 'Monday February 13', 'persona_name': 'Isabella', 'wake_up_hour': '1:00', 'noncognitive': False}
+
+~~~ final prompt    ----------------------------------------------------
+
+  Name: Isabella Rodriguez
+Age: 34
+Innate traits: Obedient, empathy, humility, sensitivity
+Learned traits: Isabella Rodriguez is one of the best hide and seek players around who loves to hide in the hide and seek game. She is always looking for ways to improve her strategy in hiding so Klaus can't find her.
+Currently: Status: Isabella Rodriguez is starting her day on Monday, February 13, feeling a mix of hope and resilience. She has a busy schedule ahead that includes a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor, where she plans to present the latest campaign data. Afterward, she has a lunch appointment with a client at 12:30 PM at The Green Bistro downtown, and she aims to finalize her presentation materials beforehand. Later in the afternoon, at 3:00 PM, Isabella has a scheduled call with the supplier to discuss order status and upcoming deliveries. To stay organized, she plans to double-check her calendar and set reminders for each event, ensuring she remains on track while navigating the ups and downs of her day.
+Lifestyle: Isabella awakes at 1am and plays hide and seek all over town.
+Daily plan requirement: 1. Wake up and complete the morning routine at 1:00 AM.   2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.   3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.   4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.   5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.   6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.
+Current Date: Monday February 13
+
+
+  In general, Isabella awakes at 1am and plays hide and seek all over town.
+  Today is Monday February 13. Describe Isabella's plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at 1:00", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
+  
+
+~~~ processed output    ----------------------------------------------------
+['Wake up and complete the morning routine at 1:00 AM.', 'Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.', 'Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.', 'Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.', 'Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.', 'Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_hourly_schedule>
+Attempt 1
+Response:  ParsedChatCompletion[HourlySchedule](id='chatcmpl-CYRcgVLoISMiV4TQas3G1EdKNRQ9O', choices=[ParsedChoice[HourlySchedule](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[HourlySchedule](content='{"hourly_schedule":[{"datetime":"Monday February 13, 00:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 01:00 AM","activity":"waking up and completing the morning routine"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 04:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 05:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 06:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 07:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 08:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 09:00 AM","activity":"[Playing hide and seek in various locations around town]"},{"datetime":"Monday February 13, 10:00 AM","activity":"attending a crucial meeting with the Marketing Team in the usual conference room on the second floor"},{"datetime":"Monday February 13, 11:00 AM","activity":"[Finalizing notes from the meeting]"},{"datetime":"Monday February 13, 12:00 PM","activity":"[Preparing for lunch appointment]"},{"datetime":"Monday February 13, 12:30 PM","activity":"having a lunch appointment with a client at The Green Bistro downtown"},{"datetime":"Monday February 13, 1:00 PM","activity":"[Discussing client needs during lunch]"},{"datetime":"Monday February 13, 2:00 PM","activity":"[Wrapping up lunch and heading back to the office]"},{"datetime":"Monday February 13, 2:30 PM","activity":"finalizing presentation materials for upcoming meetings"},{"datetime":"Monday February 13, 3:00 PM","activity":"having a scheduled call with the supplier to discuss order status and upcoming deliveries"},{"datetime":"Monday February 13, 4:00 PM","activity":"[Reviewing notes from the call]"},{"datetime":"Monday February 13, 5:00 PM","activity":"[Planning next steps for supplier orders]"},{"datetime":"Monday February 13, 6:00 PM","activity":"[Wrapping up work for the day]"},{"datetime":"Monday February 13, 7:00 PM","activity":"[Relaxing and unwinding after a busy day]"},{"datetime":"Monday February 13, 8:00 PM","activity":"[Preparing for the next day]"},{"datetime":"Monday February 13, 9:00 PM","activity":"[Reading or enjoying leisure time]"},{"datetime":"Monday February 13, 10:00 PM","activity":"[Getting ready for bed]"},{"datetime":"Monday February 13, 11:00 PM","activity":"[Going to sleep]"}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=HourlySchedule(hourly_schedule=[Activity(datetime='Monday February 13, 00:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 01:00 AM', activity='waking up and completing the morning routine'), Activity(datetime='Monday February 13, 02:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 03:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 04:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 05:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 06:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 07:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 08:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 09:00 AM', activity='[Playing hide and seek in various locations around town]'), Activity(datetime='Monday February 13, 10:00 AM', activity='attending a crucial meeting with the Marketing Team in the usual conference room on the second floor'), Activity(datetime='Monday February 13, 11:00 AM', activity='[Finalizing notes from the meeting]'), Activity(datetime='Monday February 13, 12:00 PM', activity='[Preparing for lunch appointment]'), Activity(datetime='Monday February 13, 12:30 PM', activity='having a lunch appointment with a client at The Green Bistro downtown'), Activity(datetime='Monday February 13, 1:00 PM', activity='[Discussing client needs during lunch]'), Activity(datetime='Monday February 13, 2:00 PM', activity='[Wrapping up lunch and heading back to the office]'), Activity(datetime='Monday February 13, 2:30 PM', activity='finalizing presentation materials for upcoming meetings'), Activity(datetime='Monday February 13, 3:00 PM', activity='having a scheduled call with the supplier to discuss order status and upcoming deliveries'), Activity(datetime='Monday February 13, 4:00 PM', activity='[Reviewing notes from the call]'), Activity(datetime='Monday February 13, 5:00 PM', activity='[Planning next steps for supplier orders]'), Activity(datetime='Monday February 13, 6:00 PM', activity='[Wrapping up work for the day]'), Activity(datetime='Monday February 13, 7:00 PM', activity='[Relaxing and unwinding after a busy day]'), Activity(datetime='Monday February 13, 8:00 PM', activity='[Preparing for the next day]'), Activity(datetime='Monday February 13, 9:00 PM', activity='[Reading or enjoying leisure time]'), Activity(datetime='Monday February 13, 10:00 PM', activity='[Getting ready for bed]'), Activity(datetime='Monday February 13, 11:00 PM', activity='[Going to sleep]')]), annotations=[]))], created=1762325370, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=674, prompt_tokens=821, total_tokens=1495, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_hourly_schedule_v2.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 5000, 'temperature': 0.5, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Isabella', 'schedule_format': '{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}', 'identity_stable_set': "Name: Isabella Rodriguez\nAge: 34\nInnate traits: Obedient, empathy, humility, sensitivity\nLearned traits: Isabella Rodriguez is one of the best hide and seek players around who loves to hide in the hide and seek game. She is always looking for ways to improve her strategy in hiding so Klaus can't find her.\nCurrently: Status: Isabella Rodriguez is starting her day on Monday, February 13, feeling a mix of hope and resilience. She has a busy schedule ahead that includes a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor, where she plans to present the latest campaign data. Afterward, she has a lunch appointment with a client at 12:30 PM at The Green Bistro downtown, and she aims to finalize her presentation materials beforehand. Later in the afternoon, at 3:00 PM, Isabella has a scheduled call with the supplier to discuss order status and upcoming deliveries. To stay organized, she plans to double-check her calendar and set reminders for each event, ensuring she remains on track while navigating the ups and downs of her day.\nLifestyle: Isabella awakes at 1am and plays hide and seek all over town.\nDaily plan requirement: 1. Wake up and complete the morning routine at 1:00 AM.   2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.   3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.   4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.   5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.   6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.\nCurrent Date: Monday February 13\n", 'instructions': 'Create an hourly schedule for the following person to fill out their whole day.', 'broad_daily_plan': '1) Wake up and complete the morning routine at 1:00 AM., 2) Play hide and seek in various locations around town from 1:30 AM to 9:00 AM., 3) Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor., 4) Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM., 5) Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM., 6) Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.', 'existing_schedule': '', 'extra_instructions': '', 'prompt_ending': "Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):"}
+
+~~~ final prompt    ----------------------------------------------------
+
+Hourly schedule format:
+{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}
+===
+Name: Isabella Rodriguez
+Age: 34
+Innate traits: Obedient, empathy, humility, sensitivity
+Learned traits: Isabella Rodriguez is one of the best hide and seek players around who loves to hide in the hide and seek game. She is always looking for ways to improve her strategy in hiding so Klaus can't find her.
+Currently: Status: Isabella Rodriguez is starting her day on Monday, February 13, feeling a mix of hope and resilience. She has a busy schedule ahead that includes a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor, where she plans to present the latest campaign data. Afterward, she has a lunch appointment with a client at 12:30 PM at The Green Bistro downtown, and she aims to finalize her presentation materials beforehand. Later in the afternoon, at 3:00 PM, Isabella has a scheduled call with the supplier to discuss order status and upcoming deliveries. To stay organized, she plans to double-check her calendar and set reminders for each event, ensuring she remains on track while navigating the ups and downs of her day.
+Lifestyle: Isabella awakes at 1am and plays hide and seek all over town.
+Daily plan requirement: 1. Wake up and complete the morning routine at 1:00 AM.   2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.   3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.   4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.   5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.   6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.
+Current Date: Monday February 13
+
+Create an hourly schedule for the following person to fill out their whole day.
+Replace "[Fill in]" with the actual activity for each hour.
+Here is the originally intended hourly breakdown of Isabella's schedule today:
+1) Wake up and complete the morning routine at 1:00 AM., 2) Play hide and seek in various locations around town from 1:30 AM to 9:00 AM., 3) Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor., 4) Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM., 5) Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM., 6) Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.
+
+
+Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):
+
+
+~~~ processed output    ----------------------------------------------------
+['Playing hide and seek in various locations around town', 'waking up and completing the morning routine', 'Playing hide and seek in various locations around town', 'Playing hide and seek in various locations around town', 'Playing hide and seek in various locations around town', 'Playing hide and seek in various locations around town', 'Playing hide and seek in various locations around town', 'Playing hide and seek in various locations around town', 'Playing hide and seek in various locations around town', 'Playing hide and seek in various locations around town', 'attending a crucial meeting with the Marketing Team in the usual conference room on the second floor', 'Finalizing notes from the meeting', 'Preparing for lunch appointment', 'having a lunch appointment with a client at The Green Bistro downtown', 'Discussing client needs during lunch', 'Wrapping up lunch and heading back to the office', 'finalizing presentation materials for upcoming meetings', 'having a scheduled call with the supplier to discuss order status and upcoming deliveries', 'Reviewing notes from the call', 'Planning next steps for supplier orders', 'Wrapping up work for the day', 'Relaxing and unwinding after a busy day', 'Preparing for the next day', 'Reading or enjoying leisure time', 'Getting ready for bed', 'Going to sleep']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_task_decomp>
+Attempt 1
+Response:  ParsedChatCompletion[TaskDecomposition](id='chatcmpl-CYRcs1rqZ7qB09r3uTMK2HQc9pML0', choices=[ParsedChoice[TaskDecomposition](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[TaskDecomposition](content='{"subtasks":[{"task":"hiding in a nearby park","duration":5,"minutes_left":55},{"task":"searching for a new hiding spot behind a tree","duration":5,"minutes_left":50},{"task":"observing Klaus from a distance to see where he is looking","duration":5,"minutes_left":45},{"task":"crouching down behind a bench to stay hidden","duration":5,"minutes_left":40},{"task":"listening for Klaus\'s footsteps to gauge his location","duration":5,"minutes_left":35},{"task":"deciding to move to a different location","duration":5,"minutes_left":30},{"task":"running to a nearby playground to find a hiding spot","duration":5,"minutes_left":25},{"task":"climbing into a small tunnel in the playground","duration":5,"minutes_left":20},{"task":"peeking out to see if Klaus is nearby","duration":5,"minutes_left":15},{"task":"staying quiet and still to avoid being found","duration":5,"minutes_left":10},{"task":"thinking of new strategies for hiding","duration":5,"minutes_left":5},{"task":"preparing to jump out of hiding if Klaus gets close","duration":5,"minutes_left":0}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=TaskDecomposition(subtasks=[Subtask(task='hiding in a nearby park', duration=5, minutes_left=55), Subtask(task='searching for a new hiding spot behind a tree', duration=5, minutes_left=50), Subtask(task='observing Klaus from a distance to see where he is looking', duration=5, minutes_left=45), Subtask(task='crouching down behind a bench to stay hidden', duration=5, minutes_left=40), Subtask(task="listening for Klaus's footsteps to gauge his location", duration=5, minutes_left=35), Subtask(task='deciding to move to a different location', duration=5, minutes_left=30), Subtask(task='running to a nearby playground to find a hiding spot', duration=5, minutes_left=25), Subtask(task='climbing into a small tunnel in the playground', duration=5, minutes_left=20), Subtask(task='peeking out to see if Klaus is nearby', duration=5, minutes_left=15), Subtask(task='staying quiet and still to avoid being found', duration=5, minutes_left=10), Subtask(task='thinking of new strategies for hiding', duration=5, minutes_left=5), Subtask(task='preparing to jump out of hiding if Klaus gets close', duration=5, minutes_left=0)]), annotations=[]))], created=1762325382, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=260, prompt_tokens=1176, total_tokens=1436, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+DEBUG here
+['Playing hide and seek in various locations around town (hiding in a nearby park)', 5]
+['Playing hide and seek in various locations around town (searching for a new hiding spot behind a tree)', 5]
+['Playing hide and seek in various locations around town (observing Klaus from a distance to see where he is looking)', 5]
+['Playing hide and seek in various locations around town (crouching down behind a bench to stay hidden)', 5]
+["Playing hide and seek in various locations around town (listening for Klaus's footsteps to gauge his location)", 5]
+['Playing hide and seek in various locations around town (deciding to move to a different location)', 5]
+['Playing hide and seek in various locations around town (running to a nearby playground to find a hiding spot)', 5]
+['Playing hide and seek in various locations around town (climbing into a small tunnel in the playground)', 5]
+['Playing hide and seek in various locations around town (peeking out to see if Klaus is nearby)', 5]
+['Playing hide and seek in various locations around town (staying quiet and still to avoid being found)', 5]
+['Playing hide and seek in various locations around town (thinking of new strategies for hiding)', 5]
+['Playing hide and seek in various locations around town (preparing to jump out of hiding if Klaus gets close)', 5]
+['waking up and completing the morning routine', 60]
+['Playing hide and seek in various locations around town', 480]
+['attending a crucial meeting with the Marketing Team in the usual conference room on the second floor', 60]
+['Finalizing notes from the meeting', 60]
+['Preparing for lunch appointment', 60]
+['having a lunch appointment with a client at The Green Bistro downtown', 60]
+['Discussing client needs during lunch', 60]
+['Wrapping up lunch and heading back to the office', 60]
+['finalizing presentation materials for upcoming meetings', 60]
+['having a scheduled call with the supplier to discuss order status and upcoming deliveries', 60]
+['Reviewing notes from the call', 60]
+['Planning next steps for supplier orders', 60]
+['Wrapping up work for the day', 60]
+['Relaxing and unwinding after a busy day', 60]
+['Preparing for the next day', 60]
+['Reading or enjoying leisure time', 60]
+['Getting ready for bed', 60]
+['Going to sleep', 60]
+0
+30
+Isabella Rodriguez
+------
+GNS FUNCTION: <generate_action_sector>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CYRczk1oRZvwgWT885D5e8EbAynyE', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Johnson Park"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area='Johnson Park'), annotations=[]))], created=1762325389, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=6, prompt_tokens=661, total_tokens=667, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_sector_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Isabella Rodriguez', 'living_sector': "Isabella Rodriguez's apartment", 'living_sector_arenas': 'main room', 'current_sector': '', 'current_sector_arenas': '', 'daily_plan_requirement': '1. Wake up and complete the morning routine at 1:00 AM.   2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.   3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.   4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.   5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.   6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.', 'available_sectors': "Hobbs Cafe, Isabella Rodriguez's apartment, The Rose and Crown Pub, Harvey Oak Supply Store, The Willows Market and Pharmacy, Dorm for Oak Hill College, Johnson Park", 'broad_action': 'Playing hide and seek in various locations around town', 'specific_action': 'hiding in a nearby park'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task -- choose an appropriate area from the area options for a task at hand.
+
+Sam Kim lives in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Sam Kim is currently in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Area options: [Sam Kim's house, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For taking a walk, Sam Kim should go to the following area: Johnson Park
+---
+Jane Anderson lives in [Oak Hill College Student Dormatory] that has [Jane Anderson's room].
+Jane Anderson is currently in [Oak Hill College] that has [a classroom, library]
+Area options: [Oak Hill College Student Dormatory, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For eating dinner, Jane Anderson should go to the following area: Hobbs Cafe
+---
+Isabella Rodriguez lives in [Isabella Rodriguez's apartment] that has [main room].
+Isabella Rodriguez is currently in [] that has []. 1. Wake up and complete the morning routine at 1:00 AM.   2. Play hide and seek in various locations around town from 1:30 AM to 9:00 AM.   3. Attend a crucial meeting with the Marketing Team at 10:00 AM in the usual conference room on the second floor.   4. Have a lunch appointment with a client at The Green Bistro downtown at 12:30 PM.   5. Finalize presentation materials for upcoming meetings from 1:30 PM to 2:30 PM.   6. Have a scheduled call with the supplier to discuss order status and upcoming deliveries at 3:00 PM.
+Area options: [Hobbs Cafe, Isabella Rodriguez's apartment, The Rose and Crown Pub, Harvey Oak Supply Store, The Willows Market and Pharmacy, Dorm for Oak Hill College, Johnson Park].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+Isabella Rodriguez is Playing hide and seek in various locations around town. For hiding in a nearby park, Isabella Rodriguez should go to the following area:
+
+
+~~~ processed output    ----------------------------------------------------
+Johnson Park
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_arena>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CYRd0RWeFRr590agbEOSVuBBn1Gu7', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"park"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area='park'), annotations=[]))], created=1762325390, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=5, prompt_tokens=320, total_tokens=325, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_arena_vMar11.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Isabella Rodriguez', 'action_sector': 'Johnson Park', 'accessible_arenas': 'park', 'broad_action': 'Playing hide and seek in various locations around town', 'specific_action': 'hiding in a nearby park'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Jane Anderson is in kitchen in Jane Anderson's house.
+Jane Anderson is going to Jane Anderson's house that has the following areas: [kitchen, bedroom, bathroom]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For cooking, Jane Anderson should go to the following area in Jane Anderson's house:
+Answer: kitchen
+---
+Tom Watson is in common room in Tom Watson's apartment.
+Tom Watson is going to Hobbs Cafe that has the following areas: [cafe]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For getting coffee, Tom Watson should go to the following area in Hobbs Cafe:
+Answer: cafe
+---
+Isabella Rodriguez is going to Johnson Park that has the following areas: [park]
+* Stay in the current area if the activity can be done there.
+* NEVER go into other people's rooms unless necessary.
+Isabella Rodriguez is Playing hide and seek in various locations around town. For hiding in a nearby park, Isabella Rodriguez should go to the following area in Johnson Park (MUST pick one of [park]):
+Answer:
+  
+
+~~~ processed output    ----------------------------------------------------
+park
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_game_object>
+Attempt 1
+Response:  ParsedChatCompletion[GameObject](id='chatcmpl-CYRd1zkjA629uQyUYutFqrJt5mDXh', choices=[ParsedChoice[GameObject](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[GameObject](content='{"object":"park garden"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=GameObject(object='park garden'), annotations=[]))], created=1762325391, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=6, prompt_tokens=262, total_tokens=268, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_object_v2.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'activity': 'hiding in a nearby park', 'available_objects': 'park garden'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Current activity: sleep in bed
+Objects available: [bed, easel, closet, painting]
+Pick ONE most relevant object from the objects available: bed
+---
+Current activity: painting
+Objects available: [easel, closet, sink, microwave]
+Pick ONE most relevant object from the objects available: easel
+---
+Current activity: cooking
+Objects available: [stove, sink, fridge, counter]
+Pick ONE most relevant object from the objects available: stove
+---
+Current activity: watch TV
+Objects available: [couch, TV, remote, coffee table]
+Pick ONE most relevant object from the objects available: TV
+---
+Current activity: study
+Objects available: [desk, computer, chair, bookshelf]
+Pick ONE most relevant object from the objects available: desk
+---
+Current activity: talk on the phone
+Objects available: [phone, charger, bed, nightstand]
+Pick ONE most relevant object from the objects available: phone
+---
+Current activity: hiding in a nearby park
+Objects available: [park garden]
+Pick ONE most relevant object from the objects available:
+
+
+~~~ processed output    ----------------------------------------------------
+park garden
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: hiding in a nearby park
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: hiding in a nearby park
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CYRd12DH14mWSteCSNpEKyHTwaZx8', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"🌳🙈"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='🌳🙈'), annotations=[]))], created=1762325391, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=8, prompt_tokens=115, total_tokens=123, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CYRd2OtyBm7MNyCl1YR7fDpvjaugI', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"Isabella Rodriguez","predicate":"hide","object":"nearby park"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='Isabella Rodriguez', predicate='hide', object='nearby park'), annotations=[]))], created=1762325392, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=17, prompt_tokens=218, total_tokens=235, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'Isabella Rodriguez', 'action': 'hiding in a nearby park'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: Isabella Rodriguez is hiding in a nearby park.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('Isabella Rodriguez', 'hide', 'nearby park')
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_act_obj_desc>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the park garden.
+Step 1. Isabella Rodriguez is Playing hide and seek in various locations around town (hiding in a nearby park).
+Step 2. Describe the state of the park garden: park garden is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the park garden.
+Step 1. Isabella Rodriguez is Playing hide and seek in various locations around town (hiding in a nearby park).
+Step 2. Describe the state of the park garden: park garden is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Response: ParsedChatCompletion[ObjDesc](id='chatcmpl-CYRd3WbXNjtFm5ZWhOn10FJyOZEuY', choices=[ParsedChoice[ObjDesc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ObjDesc](content='{"description":"lively with children playing and flowers blooming"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ObjDesc(description='lively with children playing and flowers blooming'), annotations=[]))], created=1762325393, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=12, prompt_tokens=167, total_tokens=179, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: lively with children playing and flowers blooming
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: lively with children playing and flowers blooming
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CYRd4Z6Wx5JkrdH3hmuYYg5GWxm5L', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"🌼🏃\u200d♂️"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='🌼🏃\u200d♂️'), annotations=[]))], created=1762325394, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=11, prompt_tokens=117, total_tokens=128, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_act_obj_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CYRd5uj1vzedyGUFx8SlIj0DPFsbI', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"park garden","predicate":"is lively with","object":"children playing and flowers blooming"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='park garden', predicate='is lively with', object='children playing and flowers blooming'), annotations=[]))], created=1762325395, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=20, prompt_tokens=220, total_tokens=240, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'park garden', 'action': 'lively with children playing and flowers blooming'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: park garden is lively with children playing and flowers blooming.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('park garden', 'is lively with', 'children playing and flowers blooming')
+
+=== END ==========================================================
+
+
+the Ville:Johnson Park:park:park garden
+GNS FUNCTION: <generate_wake_up_hour>
+Attempt 1
+Response:  ParsedChatCompletion[WakeUpHour](id='chatcmpl-CYRd8iy1yA9RMbULMav8pcHZkTDiY', choices=[ParsedChoice[WakeUpHour](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[WakeUpHour](content='{"wake_up_hour":1}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=WakeUpHour(wake_up_hour=1), annotations=[]))], created=1762325398, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=7, prompt_tokens=229, total_tokens=236, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/wake_up_hour_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0.8, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': 'Name: Klaus Mueller\nAge: 20\nInnate traits: resourceful, intelligent, perseverant\nLearned traits: Klaus Mueller is the seeker in the game of hide and seek. He is passionate about being the seeker and wants to find all the people hiding in town at all costs.\nCurrently: Klaus has agreed to meet Isabella at Johnson Park at 1:30am to start their first game of hide-and-seek of the day. The whole town is open for play.\nLifestyle: Klaus Mueller awakes up at 1am and immediately plays hide and seek.\nDaily plan requirement: Klaus Mueller starts playing hide and seek at 1am. He is the seeker and looks for Isabella all over town.\nCurrent Date: Monday February 13\n', 'persona_lifestyle': 'Klaus Mueller awakes up at 1am and immediately plays hide and seek.', 'persona_firstname': 'Klaus'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Name: Klaus Mueller
+Age: 20
+Innate traits: resourceful, intelligent, perseverant
+Learned traits: Klaus Mueller is the seeker in the game of hide and seek. He is passionate about being the seeker and wants to find all the people hiding in town at all costs.
+Currently: Klaus has agreed to meet Isabella at Johnson Park at 1:30am to start their first game of hide-and-seek of the day. The whole town is open for play.
+Lifestyle: Klaus Mueller awakes up at 1am and immediately plays hide and seek.
+Daily plan requirement: Klaus Mueller starts playing hide and seek at 1am. He is the seeker and looks for Isabella all over town.
+Current Date: Monday February 13
+
+
+In general, Klaus Mueller awakes up at 1am and immediately plays hide and seek.
+Klaus's wake up hour:
+
+
+~~~ processed output    ----------------------------------------------------
+1
+
+=== END ==========================================================
+
+
+-------- new_retrieve ----------
+Number of focal_points:  2
+
+-------- focal_pt:  Klaus Mueller's plan for Monday February 13.
+
+
+-------- focal_pt:  Important recent events for Klaus Mueller's life.
+
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, is there anything that Klaus Mueller should remember as they plan for *Monday February 13*? If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement)
+
+Write the response from Klaus Mueller's perspective.
+Response content: As I plan for Monday, February 13, I need to keep in mind any important meetings, appointments, or events that are scheduled for that day. If there are specific details about timing or locations mentioned in the statements, I should ensure I'm aware of those to avoid any conflicts or missing anything important.
+
+Unfortunately, since I don’t have access to the statements themselves right now, I'm not able to pinpoint specific information. However, I’ll make sure to double-check my calendar and any correspondence to confirm my schedule for that day. I want to be well-prepared and not overlook anything crucial as I get closer to February 13. If there are any reminders or notes I've made previously, I’ll revisit those as well.
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, how might we summarize Klaus Mueller's feelings about their days up to now?
+
+Write the response from Klaus Mueller's perspective.
+Response content: As I reflect on my days up to now, I feel a mix of nostalgia and anticipation. There have been moments of joy and achievement that I've cherished deeply, but also challenges that have tested my resolve. I appreciate the lessons learned through both triumphs and setbacks. Overall, I am hopeful for what lies ahead, and I remain committed to embracing each day with an open heart and mind.
+--- ChatGPT_single_request() ---
+Prompt: Klaus Mueller's status from Sunday February 12:
+Klaus has agreed to meet Isabella at Johnson Park at 1:30am to start their first game of hide-and-seek of the day. The whole town is open for play.
+
+Klaus Mueller's thoughts at the end of Sunday February 12:
+As I plan for Monday, February 13, I need to keep in mind any important meetings, appointments, or events that are scheduled for that day. If there are specific details about timing or locations mentioned in the statements, I should ensure I'm aware of those to avoid any conflicts or missing anything important.Unfortunately, since I don’t have access to the statements themselves right now, I'm not able to pinpoint specific information. However, I’ll make sure to double-check my calendar and any correspondence to confirm my schedule for that day. I want to be well-prepared and not overlook anything crucial as I get closer to February 13. If there are any reminders or notes I've made previously, I’ll revisit those as well.As I reflect on my days up to now, I feel a mix of nostalgia and anticipation. There have been moments of joy and achievement that I've cherished deeply, but also challenges that have tested my resolve. I appreciate the lessons learned through both triumphs and setbacks. Overall, I am hopeful for what lies ahead, and I remain committed to embracing each day with an open heart and mind.
+
+It is now Monday February 13. Given the above, write Klaus Mueller's status for Monday February 13 that reflects Klaus Mueller's thoughts at the end of Sunday February 12. Write this in third-person talking about Klaus Mueller.If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement).
+
+Follow this format below:
+Status: <new status>
+Response content: Status: On Monday, February 13, Klaus Mueller is focused on ensuring a well-organized day ahead. He takes the time to review his calendar for any important meetings, appointments, or events scheduled for this date to prevent potential conflicts. Reflecting on the experiences of the previous days, Klaus feels a mix of nostalgia and anticipation, cherishing both the joys and challenges he has encountered. He remains committed to approaching the day with an open heart and mind, eager to embrace whatever comes his way. Klaus is determined to maintain this positive perspective as he navigates through the day's tasks and activities.
+--- ChatGPT_single_request() ---
+Prompt: Name: Klaus Mueller
+Age: 20
+Innate traits: resourceful, intelligent, perseverant
+Learned traits: Klaus Mueller is the seeker in the game of hide and seek. He is passionate about being the seeker and wants to find all the people hiding in town at all costs.
+Currently: Status: On Monday, February 13, Klaus Mueller is focused on ensuring a well-organized day ahead. He takes the time to review his calendar for any important meetings, appointments, or events scheduled for this date to prevent potential conflicts. Reflecting on the experiences of the previous days, Klaus feels a mix of nostalgia and anticipation, cherishing both the joys and challenges he has encountered. He remains committed to approaching the day with an open heart and mind, eager to embrace whatever comes his way. Klaus is determined to maintain this positive perspective as he navigates through the day's tasks and activities.
+Lifestyle: Klaus Mueller awakes up at 1am and immediately plays hide and seek.
+Daily plan requirement: Klaus Mueller starts playing hide and seek at 1am. He is the seeker and looks for Isabella all over town.
+Current Date: Monday February 13
+
+Today is Monday February 13. Here is Klaus Mueller's plan today in broad-strokes (with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).
+
+Follow this format (the list should have 4~6 items but no more):
+1. wake up and complete the morning routine at <time>, 2. ...
+Response content: 1. Wake up and complete the morning routine at 1:00 am.  
+2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.  
+3. Have a breakfast at 3:15 am to recharge after the early morning adventure.  
+4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.  
+5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.  
+6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.  
+DEBUG new_daily_req: 1. Wake up and complete the morning routine at 1:00 am.   2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.   3. Have a breakfast at 3:15 am to recharge after the early morning adventure.   4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.   5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.   6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.
+GNS FUNCTION: <generate_first_daily_plan>
+Attempt 1
+Response:  ParsedChatCompletion[DailyPlan](id='chatcmpl-CYRdLfwqPxJ4aDPIyHuANqOwN5cJp', choices=[ParsedChoice[DailyPlan](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[DailyPlan](content='{"daily_plan":["Wake up and complete the morning routine at 1:00 am","Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am","Have breakfast at 3:15 am to recharge after the early morning adventure","Review the calendar and organize appointments for the day from 4:00 am to 5:00 am","Take a short nap from 5:30 am to 7:00 am","Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day","Take a lunch break at 12:00 pm to refuel","Continue tasks and work on any important projects from 1:00 pm to 5:00 pm","Engage in a relaxing activity or hobby from 5:30 pm to 6:30 pm","Have dinner at 7:00 pm, enjoying some leisure time","Spend the evening from 8:00 pm to 10:00 pm reflecting on the day and preparing for tomorrow","Wind down and get ready for bed by 10:30 pm"]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=DailyPlan(daily_plan=['Wake up and complete the morning routine at 1:00 am', 'Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am', 'Have breakfast at 3:15 am to recharge after the early morning adventure', 'Review the calendar and organize appointments for the day from 4:00 am to 5:00 am', 'Take a short nap from 5:30 am to 7:00 am', 'Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day', 'Take a lunch break at 12:00 pm to refuel', 'Continue tasks and work on any important projects from 1:00 pm to 5:00 pm', 'Engage in a relaxing activity or hobby from 5:30 pm to 6:30 pm', 'Have dinner at 7:00 pm, enjoying some leisure time', 'Spend the evening from 8:00 pm to 10:00 pm reflecting on the day and preparing for tomorrow', 'Wind down and get ready for bed by 10:30 pm']), annotations=[]))], created=1762325411, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=230, prompt_tokens=506, total_tokens=736, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/daily_planning_v6.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 2000, 'temperature': 1, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': "Name: Klaus Mueller\nAge: 20\nInnate traits: resourceful, intelligent, perseverant\nLearned traits: Klaus Mueller is the seeker in the game of hide and seek. He is passionate about being the seeker and wants to find all the people hiding in town at all costs.\nCurrently: Status: On Monday, February 13, Klaus Mueller is focused on ensuring a well-organized day ahead. He takes the time to review his calendar for any important meetings, appointments, or events scheduled for this date to prevent potential conflicts. Reflecting on the experiences of the previous days, Klaus feels a mix of nostalgia and anticipation, cherishing both the joys and challenges he has encountered. He remains committed to approaching the day with an open heart and mind, eager to embrace whatever comes his way. Klaus is determined to maintain this positive perspective as he navigates through the day's tasks and activities.\nLifestyle: Klaus Mueller awakes up at 1am and immediately plays hide and seek.\nDaily plan requirement: 1. Wake up and complete the morning routine at 1:00 am.   2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.   3. Have a breakfast at 3:15 am to recharge after the early morning adventure.   4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.   5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.   6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.\nCurrent Date: Monday February 13\n", 'lifestyle': 'Klaus Mueller awakes up at 1am and immediately plays hide and seek.', 'curr_date': 'Monday February 13', 'persona_name': 'Klaus', 'wake_up_hour': '1:00', 'noncognitive': False}
+
+~~~ final prompt    ----------------------------------------------------
+
+  Name: Klaus Mueller
+Age: 20
+Innate traits: resourceful, intelligent, perseverant
+Learned traits: Klaus Mueller is the seeker in the game of hide and seek. He is passionate about being the seeker and wants to find all the people hiding in town at all costs.
+Currently: Status: On Monday, February 13, Klaus Mueller is focused on ensuring a well-organized day ahead. He takes the time to review his calendar for any important meetings, appointments, or events scheduled for this date to prevent potential conflicts. Reflecting on the experiences of the previous days, Klaus feels a mix of nostalgia and anticipation, cherishing both the joys and challenges he has encountered. He remains committed to approaching the day with an open heart and mind, eager to embrace whatever comes his way. Klaus is determined to maintain this positive perspective as he navigates through the day's tasks and activities.
+Lifestyle: Klaus Mueller awakes up at 1am and immediately plays hide and seek.
+Daily plan requirement: 1. Wake up and complete the morning routine at 1:00 am.   2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.   3. Have a breakfast at 3:15 am to recharge after the early morning adventure.   4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.   5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.   6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.
+Current Date: Monday February 13
+
+
+  In general, Klaus Mueller awakes up at 1am and immediately plays hide and seek.
+  Today is Monday February 13. Describe Klaus's plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at 1:00", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
+  
+
+~~~ processed output    ----------------------------------------------------
+['Wake up and complete the morning routine at 1:00 am', 'Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am', 'Have breakfast at 3:15 am to recharge after the early morning adventure', 'Review the calendar and organize appointments for the day from 4:00 am to 5:00 am', 'Take a short nap from 5:30 am to 7:00 am', 'Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day', 'Take a lunch break at 12:00 pm to refuel', 'Continue tasks and work on any important projects from 1:00 pm to 5:00 pm', 'Engage in a relaxing activity or hobby from 5:30 pm to 6:30 pm', 'Have dinner at 7:00 pm, enjoying some leisure time', 'Spend the evening from 8:00 pm to 10:00 pm reflecting on the day and preparing for tomorrow', 'Wind down and get ready for bed by 10:30 pm']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_hourly_schedule>
+Attempt 1
+Response:  ParsedChatCompletion[HourlySchedule](id='chatcmpl-CYRdRh0LaElCOj1qbS3urWbeEIJBx', choices=[ParsedChoice[HourlySchedule](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[HourlySchedule](content='{"hourly_schedule":[{"datetime":"Monday February 13, 01:00 AM","activity":"waking up and completing the morning routine"},{"datetime":"Monday February 13, 01:15 AM","activity":"starting the hide and seek game as the seeker, searching for Isabella around town"},{"datetime":"Monday February 13, 02:00 AM","activity":"continuing the hide and seek game as the seeker, searching for Isabella around town"},{"datetime":"Monday February 13, 03:00 AM","activity":"finishing the hide and seek game as the seeker, concluding the search for Isabella"},{"datetime":"Monday February 13, 03:15 AM","activity":"having breakfast to recharge after the early morning adventure"},{"datetime":"Monday February 13, 04:00 AM","activity":"reviewing the calendar and organizing appointments for the day"},{"datetime":"Monday February 13, 05:00 AM","activity":"continuing to review the calendar and organize appointments for the day"},{"datetime":"Monday February 13, 05:30 AM","activity":"taking a short nap to ensure energy for the day ahead"},{"datetime":"Monday February 13, 07:00 AM","activity":"waking up from the short nap and preparing for the day ahead"},{"datetime":"Monday February 13, 07:30 AM","activity":"beginning daily tasks and activities, maintaining a positive outlook throughout the day"},{"datetime":"Monday February 13, 08:00 AM","activity":"continuing daily tasks and activities, maintaining a positive outlook throughout the day"},{"datetime":"Monday February 13, 09:00 AM","activity":"continuing daily tasks and activities, maintaining a positive outlook throughout the day"},{"datetime":"Monday February 13, 10:00 AM","activity":"continuing daily tasks and activities, maintaining a positive outlook throughout the day"},{"datetime":"Monday February 13, 11:00 AM","activity":"continuing daily tasks and activities, maintaining a positive outlook throughout the day"},{"datetime":"Monday February 13, 12:00 PM","activity":"taking a lunch break to refuel"},{"datetime":"Monday February 13, 01:00 PM","activity":"continuing tasks and working on any important projects"},{"datetime":"Monday February 13, 02:00 PM","activity":"continuing tasks and working on any important projects"},{"datetime":"Monday February 13, 03:00 PM","activity":"continuing tasks and working on any important projects"},{"datetime":"Monday February 13, 04:00 PM","activity":"continuing tasks and working on any important projects"},{"datetime":"Monday February 13, 05:00 PM","activity":"continuing tasks and working on any important projects"},{"datetime":"Monday February 13, 05:30 PM","activity":"engaging in a relaxing activity or hobby"},{"datetime":"Monday February 13, 06:30 PM","activity":"continuing to engage in a relaxing activity or hobby"},{"datetime":"Monday February 13, 07:00 PM","activity":"having dinner and enjoying some leisure time"},{"datetime":"Monday February 13, 08:00 PM","activity":"spending the evening reflecting on the day and preparing for tomorrow"},{"datetime":"Monday February 13, 09:00 PM","activity":"continuing to spend the evening reflecting on the day and preparing for tomorrow"},{"datetime":"Monday February 13, 10:00 PM","activity":"winding down and getting ready for bed"},{"datetime":"Monday February 13, 10:30 PM","activity":"getting ready for bed and preparing to sleep"},{"datetime":"Monday February 13, 11:00 PM","activity":"sleeping"}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=HourlySchedule(hourly_schedule=[Activity(datetime='Monday February 13, 01:00 AM', activity='waking up and completing the morning routine'), Activity(datetime='Monday February 13, 01:15 AM', activity='starting the hide and seek game as the seeker, searching for Isabella around town'), Activity(datetime='Monday February 13, 02:00 AM', activity='continuing the hide and seek game as the seeker, searching for Isabella around town'), Activity(datetime='Monday February 13, 03:00 AM', activity='finishing the hide and seek game as the seeker, concluding the search for Isabella'), Activity(datetime='Monday February 13, 03:15 AM', activity='having breakfast to recharge after the early morning adventure'), Activity(datetime='Monday February 13, 04:00 AM', activity='reviewing the calendar and organizing appointments for the day'), Activity(datetime='Monday February 13, 05:00 AM', activity='continuing to review the calendar and organize appointments for the day'), Activity(datetime='Monday February 13, 05:30 AM', activity='taking a short nap to ensure energy for the day ahead'), Activity(datetime='Monday February 13, 07:00 AM', activity='waking up from the short nap and preparing for the day ahead'), Activity(datetime='Monday February 13, 07:30 AM', activity='beginning daily tasks and activities, maintaining a positive outlook throughout the day'), Activity(datetime='Monday February 13, 08:00 AM', activity='continuing daily tasks and activities, maintaining a positive outlook throughout the day'), Activity(datetime='Monday February 13, 09:00 AM', activity='continuing daily tasks and activities, maintaining a positive outlook throughout the day'), Activity(datetime='Monday February 13, 10:00 AM', activity='continuing daily tasks and activities, maintaining a positive outlook throughout the day'), Activity(datetime='Monday February 13, 11:00 AM', activity='continuing daily tasks and activities, maintaining a positive outlook throughout the day'), Activity(datetime='Monday February 13, 12:00 PM', activity='taking a lunch break to refuel'), Activity(datetime='Monday February 13, 01:00 PM', activity='continuing tasks and working on any important projects'), Activity(datetime='Monday February 13, 02:00 PM', activity='continuing tasks and working on any important projects'), Activity(datetime='Monday February 13, 03:00 PM', activity='continuing tasks and working on any important projects'), Activity(datetime='Monday February 13, 04:00 PM', activity='continuing tasks and working on any important projects'), Activity(datetime='Monday February 13, 05:00 PM', activity='continuing tasks and working on any important projects'), Activity(datetime='Monday February 13, 05:30 PM', activity='engaging in a relaxing activity or hobby'), Activity(datetime='Monday February 13, 06:30 PM', activity='continuing to engage in a relaxing activity or hobby'), Activity(datetime='Monday February 13, 07:00 PM', activity='having dinner and enjoying some leisure time'), Activity(datetime='Monday February 13, 08:00 PM', activity='spending the evening reflecting on the day and preparing for tomorrow'), Activity(datetime='Monday February 13, 09:00 PM', activity='continuing to spend the evening reflecting on the day and preparing for tomorrow'), Activity(datetime='Monday February 13, 10:00 PM', activity='winding down and getting ready for bed'), Activity(datetime='Monday February 13, 10:30 PM', activity='getting ready for bed and preparing to sleep'), Activity(datetime='Monday February 13, 11:00 PM', activity='sleeping')]), annotations=[]))], created=1762325417, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=756, prompt_tokens=900, total_tokens=1656, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_hourly_schedule_v2.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 5000, 'temperature': 0.5, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Klaus', 'schedule_format': '{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}', 'identity_stable_set': "Name: Klaus Mueller\nAge: 20\nInnate traits: resourceful, intelligent, perseverant\nLearned traits: Klaus Mueller is the seeker in the game of hide and seek. He is passionate about being the seeker and wants to find all the people hiding in town at all costs.\nCurrently: Status: On Monday, February 13, Klaus Mueller is focused on ensuring a well-organized day ahead. He takes the time to review his calendar for any important meetings, appointments, or events scheduled for this date to prevent potential conflicts. Reflecting on the experiences of the previous days, Klaus feels a mix of nostalgia and anticipation, cherishing both the joys and challenges he has encountered. He remains committed to approaching the day with an open heart and mind, eager to embrace whatever comes his way. Klaus is determined to maintain this positive perspective as he navigates through the day's tasks and activities.\nLifestyle: Klaus Mueller awakes up at 1am and immediately plays hide and seek.\nDaily plan requirement: 1. Wake up and complete the morning routine at 1:00 am.   2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.   3. Have a breakfast at 3:15 am to recharge after the early morning adventure.   4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.   5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.   6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.\nCurrent Date: Monday February 13\n", 'instructions': 'Create an hourly schedule for the following person to fill out their whole day.', 'broad_daily_plan': '1) Wake up and complete the morning routine at 1:00 am, 2) Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am, 3) Have breakfast at 3:15 am to recharge after the early morning adventure, 4) Review the calendar and organize appointments for the day from 4:00 am to 5:00 am, 5) Take a short nap from 5:30 am to 7:00 am, 6) Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day, 7) Take a lunch break at 12:00 pm to refuel, 8) Continue tasks and work on any important projects from 1:00 pm to 5:00 pm, 9) Engage in a relaxing activity or hobby from 5:30 pm to 6:30 pm, 10) Have dinner at 7:00 pm, enjoying some leisure time, 11) Spend the evening from 8:00 pm to 10:00 pm reflecting on the day and preparing for tomorrow, 12) Wind down and get ready for bed by 10:30 pm', 'existing_schedule': '', 'extra_instructions': '', 'prompt_ending': "Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):"}
+
+~~~ final prompt    ----------------------------------------------------
+
+Hourly schedule format:
+{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}
+===
+Name: Klaus Mueller
+Age: 20
+Innate traits: resourceful, intelligent, perseverant
+Learned traits: Klaus Mueller is the seeker in the game of hide and seek. He is passionate about being the seeker and wants to find all the people hiding in town at all costs.
+Currently: Status: On Monday, February 13, Klaus Mueller is focused on ensuring a well-organized day ahead. He takes the time to review his calendar for any important meetings, appointments, or events scheduled for this date to prevent potential conflicts. Reflecting on the experiences of the previous days, Klaus feels a mix of nostalgia and anticipation, cherishing both the joys and challenges he has encountered. He remains committed to approaching the day with an open heart and mind, eager to embrace whatever comes his way. Klaus is determined to maintain this positive perspective as he navigates through the day's tasks and activities.
+Lifestyle: Klaus Mueller awakes up at 1am and immediately plays hide and seek.
+Daily plan requirement: 1. Wake up and complete the morning routine at 1:00 am.   2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.   3. Have a breakfast at 3:15 am to recharge after the early morning adventure.   4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.   5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.   6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.
+Current Date: Monday February 13
+
+Create an hourly schedule for the following person to fill out their whole day.
+Replace "[Fill in]" with the actual activity for each hour.
+Here is the originally intended hourly breakdown of Klaus's schedule today:
+1) Wake up and complete the morning routine at 1:00 am, 2) Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am, 3) Have breakfast at 3:15 am to recharge after the early morning adventure, 4) Review the calendar and organize appointments for the day from 4:00 am to 5:00 am, 5) Take a short nap from 5:30 am to 7:00 am, 6) Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day, 7) Take a lunch break at 12:00 pm to refuel, 8) Continue tasks and work on any important projects from 1:00 pm to 5:00 pm, 9) Engage in a relaxing activity or hobby from 5:30 pm to 6:30 pm, 10) Have dinner at 7:00 pm, enjoying some leisure time, 11) Spend the evening from 8:00 pm to 10:00 pm reflecting on the day and preparing for tomorrow, 12) Wind down and get ready for bed by 10:30 pm
+
+
+Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):
+
+
+~~~ processed output    ----------------------------------------------------
+['waking up and completing the morning routine', 'starting the hide and seek game as the seeker, searching for Isabella around town', 'continuing the hide and seek game as the seeker, searching for Isabella around town', 'finishing the hide and seek game as the seeker, concluding the search for Isabella', 'having breakfast to recharge after the early morning adventure', 'reviewing the calendar and organizing appointments for the day', 'continuing to review the calendar and organize appointments for the day', 'taking a short nap to ensure energy for the day ahead', 'waking up from the short nap and preparing for the day ahead', 'beginning daily tasks and activities, maintaining a positive outlook throughout the day', 'continuing daily tasks and activities, maintaining a positive outlook throughout the day', 'continuing daily tasks and activities, maintaining a positive outlook throughout the day', 'continuing daily tasks and activities, maintaining a positive outlook throughout the day', 'continuing daily tasks and activities, maintaining a positive outlook throughout the day', 'taking a lunch break to refuel', 'continuing tasks and working on any important projects', 'continuing tasks and working on any important projects', 'continuing tasks and working on any important projects', 'continuing tasks and working on any important projects', 'continuing tasks and working on any important projects', 'engaging in a relaxing activity or hobby', 'continuing to engage in a relaxing activity or hobby', 'having dinner and enjoying some leisure time', 'spending the evening reflecting on the day and preparing for tomorrow', 'continuing to spend the evening reflecting on the day and preparing for tomorrow', 'winding down and getting ready for bed', 'getting ready for bed and preparing to sleep', 'sleeping']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_task_decomp>
+Attempt 1
+Response:  ParsedChatCompletion[TaskDecomposition](id='chatcmpl-CYRdieJb18Ko2qrFMGHCMHrjSOJ9q', choices=[ParsedChoice[TaskDecomposition](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[TaskDecomposition](content='{"subtasks":[{"task":"waking up and stretching","duration":5,"minutes_left":55},{"task":"brushing teeth","duration":5,"minutes_left":50},{"task":"washing face","duration":5,"minutes_left":45},{"task":"taking a shower","duration":10,"minutes_left":35},{"task":"drying off and getting dressed","duration":10,"minutes_left":25},{"task":"combing hair","duration":5,"minutes_left":20},{"task":"preparing a light snack","duration":10,"minutes_left":10},{"task":"drinking water","duration":5,"minutes_left":5},{"task":"putting on shoes","duration":5,"minutes_left":0}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=TaskDecomposition(subtasks=[Subtask(task='waking up and stretching', duration=5, minutes_left=55), Subtask(task='brushing teeth', duration=5, minutes_left=50), Subtask(task='washing face', duration=5, minutes_left=45), Subtask(task='taking a shower', duration=10, minutes_left=35), Subtask(task='drying off and getting dressed', duration=10, minutes_left=25), Subtask(task='combing hair', duration=5, minutes_left=20), Subtask(task='preparing a light snack', duration=10, minutes_left=10), Subtask(task='drinking water', duration=5, minutes_left=5), Subtask(task='putting on shoes', duration=5, minutes_left=0)]), annotations=[]))], created=1762325434, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=148, prompt_tokens=1143, total_tokens=1291, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+DEBUG here
+['waking up and completing the morning routine (waking up and stretching)', 5]
+['waking up and completing the morning routine (brushing teeth)', 5]
+['waking up and completing the morning routine (washing face)', 5]
+['waking up and completing the morning routine (taking a shower)', 10]
+['waking up and completing the morning routine (drying off and getting dressed)', 10]
+['waking up and completing the morning routine (combing hair)', 5]
+['waking up and completing the morning routine (preparing a light snack)', 10]
+['waking up and completing the morning routine (drinking water)', 5]
+['waking up and completing the morning routine (putting on shoes)', 5]
+['starting the hide and seek game as the seeker, searching for Isabella around town', 60]
+['continuing the hide and seek game as the seeker, searching for Isabella around town', 60]
+['finishing the hide and seek game as the seeker, concluding the search for Isabella', 60]
+['having breakfast to recharge after the early morning adventure', 60]
+['reviewing the calendar and organizing appointments for the day', 60]
+['continuing to review the calendar and organize appointments for the day', 60]
+['taking a short nap to ensure energy for the day ahead', 60]
+['waking up from the short nap and preparing for the day ahead', 60]
+['beginning daily tasks and activities, maintaining a positive outlook throughout the day', 60]
+['continuing daily tasks and activities, maintaining a positive outlook throughout the day', 240]
+['taking a lunch break to refuel', 60]
+['continuing tasks and working on any important projects', 300]
+['engaging in a relaxing activity or hobby', 60]
+['continuing to engage in a relaxing activity or hobby', 60]
+['having dinner and enjoying some leisure time', 60]
+['spending the evening reflecting on the day and preparing for tomorrow', 60]
+['continuing to spend the evening reflecting on the day and preparing for tomorrow', 60]
+['winding down and getting ready for bed', 60]
+['getting ready for bed and preparing to sleep', 60]
+['sleeping', 60]
+0
+29
+Klaus Mueller
+------
+GNS FUNCTION: <generate_action_sector>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CYRdlQDcM2CvqauyZUVVJeLMqdJKU', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Dorm for Oak Hill College"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area='Dorm for Oak Hill College'), annotations=[]))], created=1762325437, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=9, prompt_tokens=679, total_tokens=688, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_sector_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Klaus Mueller', 'living_sector': 'Dorm for Oak Hill College', 'living_sector_arenas': "garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom", 'current_sector': 'Johnson Park', 'current_sector_arenas': 'park', 'daily_plan_requirement': '1. Wake up and complete the morning routine at 1:00 am.   2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.   3. Have a breakfast at 3:15 am to recharge after the early morning adventure.   4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.   5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.   6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.', 'available_sectors': 'Oak Hill College, Dorm for Oak Hill College, The Willows Market and Pharmacy, Harvey Oak Supply Store, Johnson Park, The Rose and Crown Pub, Hobbs Cafe', 'broad_action': 'waking up and completing the morning routine', 'specific_action': 'waking up and stretching'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task -- choose an appropriate area from the area options for a task at hand.
+
+Sam Kim lives in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Sam Kim is currently in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Area options: [Sam Kim's house, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For taking a walk, Sam Kim should go to the following area: Johnson Park
+---
+Jane Anderson lives in [Oak Hill College Student Dormatory] that has [Jane Anderson's room].
+Jane Anderson is currently in [Oak Hill College] that has [a classroom, library]
+Area options: [Oak Hill College Student Dormatory, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For eating dinner, Jane Anderson should go to the following area: Hobbs Cafe
+---
+Klaus Mueller lives in [Dorm for Oak Hill College] that has [garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom].
+Klaus Mueller is currently in [Johnson Park] that has [park]. 1. Wake up and complete the morning routine at 1:00 am.   2. Start the hide and seek game as the seeker, searching for Isabella around town from 1:15 am to 3:00 am.   3. Have a breakfast at 3:15 am to recharge after the early morning adventure.   4. Review the calendar and organize appointments for the day from 4:00 am to 5:00 am.   5. Take a short nap from 5:30 am to 7:00 am to ensure energy for the day ahead.   6. Begin daily tasks and activities at 7:30 am, maintaining a positive outlook throughout the day.
+Area options: [Oak Hill College, Dorm for Oak Hill College, The Willows Market and Pharmacy, Harvey Oak Supply Store, Johnson Park, The Rose and Crown Pub, Hobbs Cafe].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+Klaus Mueller is waking up and completing the morning routine. For waking up and stretching, Klaus Mueller should go to the following area:
+
+
+~~~ processed output    ----------------------------------------------------
+Dorm for Oak Hill College
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_arena>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CYRdmySBAWySPalIIj0wkevFxgsET', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Klaus Mueller\'s room"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area="Klaus Mueller's room"), annotations=[]))], created=1762325438, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=9, prompt_tokens=351, total_tokens=360, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_arena_vMar11.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Klaus Mueller', 'action_sector': 'Dorm for Oak Hill College', 'accessible_arenas': "garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom", 'broad_action': 'waking up and completing the morning routine', 'specific_action': 'waking up and stretching'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Jane Anderson is in kitchen in Jane Anderson's house.
+Jane Anderson is going to Jane Anderson's house that has the following areas: [kitchen, bedroom, bathroom]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For cooking, Jane Anderson should go to the following area in Jane Anderson's house:
+Answer: kitchen
+---
+Tom Watson is in common room in Tom Watson's apartment.
+Tom Watson is going to Hobbs Cafe that has the following areas: [cafe]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For getting coffee, Tom Watson should go to the following area in Hobbs Cafe:
+Answer: cafe
+---
+Klaus Mueller is going to Dorm for Oak Hill College that has the following areas: [garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom]
+* Stay in the current area if the activity can be done there.
+* NEVER go into other people's rooms unless necessary.
+Klaus Mueller is waking up and completing the morning routine. For waking up and stretching, Klaus Mueller should go to the following area in Dorm for Oak Hill College (MUST pick one of [garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom]):
+Answer:
+  
+
+~~~ processed output    ----------------------------------------------------
+Klaus Mueller's room
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_game_object>
+Attempt 1
+Response:  ParsedChatCompletion[GameObject](id='chatcmpl-CYRdmvPTQSwo4qTfNDCHQ4lfyQhnJ', choices=[ParsedChoice[GameObject](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[GameObject](content='{"object":"bed"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=GameObject(object='bed'), annotations=[]))], created=1762325438, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=5, prompt_tokens=267, total_tokens=272, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_object_v2.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'activity': 'waking up and stretching', 'available_objects': 'bed, game console, closet, desk'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Current activity: sleep in bed
+Objects available: [bed, easel, closet, painting]
+Pick ONE most relevant object from the objects available: bed
+---
+Current activity: painting
+Objects available: [easel, closet, sink, microwave]
+Pick ONE most relevant object from the objects available: easel
+---
+Current activity: cooking
+Objects available: [stove, sink, fridge, counter]
+Pick ONE most relevant object from the objects available: stove
+---
+Current activity: watch TV
+Objects available: [couch, TV, remote, coffee table]
+Pick ONE most relevant object from the objects available: TV
+---
+Current activity: study
+Objects available: [desk, computer, chair, bookshelf]
+Pick ONE most relevant object from the objects available: desk
+---
+Current activity: talk on the phone
+Objects available: [phone, charger, bed, nightstand]
+Pick ONE most relevant object from the objects available: phone
+---
+Current activity: waking up and stretching
+Objects available: [bed, game console, closet, desk]
+Pick ONE most relevant object from the objects available:
+
+
+~~~ processed output    ----------------------------------------------------
+bed
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: waking up and stretching
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: waking up and stretching
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CYRdnlg59PfEOkMnnuRglzhgQX5gI', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"🌅🤸"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='🌅🤸'), annotations=[]))], created=1762325439, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=8, prompt_tokens=114, total_tokens=122, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CYRdnr9NSFLzjyfxi89fYQ9tLSPLN', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"Klaus Mueller","predicate":"wake up and stretch","object":""}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='Klaus Mueller', predicate='wake up and stretch', object=''), annotations=[]))], created=1762325439, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=18, prompt_tokens=217, total_tokens=235, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'Klaus Mueller', 'action': 'waking up and stretching'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: Klaus Mueller is waking up and stretching.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('Klaus Mueller', 'wake up and stretch', '')
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_act_obj_desc>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the bed.
+Step 1. Klaus Mueller is waking up and completing the morning routine (waking up and stretching).
+Step 2. Describe the state of the bed: bed is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the bed.
+Step 1. Klaus Mueller is waking up and completing the morning routine (waking up and stretching).
+Step 2. Describe the state of the bed: bed is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Response: ParsedChatCompletion[ObjDesc](id='chatcmpl-CYRdozR97h786kqK2FIRVJytoGyl8', choices=[ParsedChoice[ObjDesc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ObjDesc](content='{"description":"unmade with disheveled sheets and pillows askew"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ObjDesc(description='unmade with disheveled sheets and pillows askew'), annotations=[]))], created=1762325440, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=16, prompt_tokens=161, total_tokens=177, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: unmade with disheveled sheets and pillows askew
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: unmade with disheveled sheets and pillows askew
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CYRdpE1vHeeyTKrlGjuMgL5OyaUPw', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"🛏️😴"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='🛏️😴'), annotations=[]))], created=1762325441, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=10, prompt_tokens=122, total_tokens=132, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_act_obj_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CYRdqKOX0wwi2qOYbQf0o9IAwj717', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"bed","predicate":"is unmade with","object":"disheveled sheets and pillows askew"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='bed', predicate='is unmade with', object='disheveled sheets and pillows askew'), annotations=[]))], created=1762325442, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=24, prompt_tokens=224, total_tokens=248, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'bed', 'action': 'unmade with disheveled sheets and pillows askew'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: bed is unmade with disheveled sheets and pillows askew.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('bed', 'is unmade with', 'disheveled sheets and pillows askew')
+
+=== END ==========================================================
+
+
+the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed
+
+Enter option: 

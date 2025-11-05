@@ -1,0 +1,25 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        102,
+        76
+      ],
+      "pronunciatio": "\ud83c\udf33",
+      "description": "Playing hide and seek in various locations around town (hiding in a nearby park) @ the Ville:Johnson Park:park:park garden",
+      "chat": null
+    },
+    "Klaus Mueller": {
+      "movement": [
+        30,
+        46
+      ],
+      "pronunciatio": "\ud83c\udf05",
+      "description": "waking up and completing the morning routine (waking up and stretching) @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+      "chat": null
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 00:00:00"
+  }
+}
