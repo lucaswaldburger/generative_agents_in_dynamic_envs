@@ -1,10 +1,12 @@
 import hydra
 from omegaconf import DictConfig
 from hydra.utils import to_absolute_path
-
-from load_map import load_map
-from build_map import MapMiniGrid
 import numpy as np
+import time
+from env.load_map import load_map
+from env.build_map import MapMiniGrid
+
+
 
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
@@ -30,7 +32,7 @@ def run(cfg: DictConfig):
         # action = np.random.randint(0, env.action_space.n)
         action = 0 # just for testing
         obs, reward, term, trunc, info = env.step(action)
-
+        time.sleep(0.2) 
         done = term or trunc
         steps += 1
     env.close()

@@ -4,7 +4,7 @@ from minigrid.minigrid_env import MiniGridEnv
 from minigrid.core.grid import Grid
 from minigrid.core.world_object import WorldObj
 from minigrid.core.mission import MissionSpace
-from load_map import load_map
+from .load_map import load_map
 
 class ColorTile(WorldObj):
     """
