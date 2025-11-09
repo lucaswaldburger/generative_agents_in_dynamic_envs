@@ -1,0 +1,114 @@
+{
+  "width": 31,
+  "height": 23,
+
+  "palette": {
+    "street": [240, 240, 240],
+    "block": [110, 130, 140],          
+    "park": [0, 220, 0],               
+    "home": [230, 0, 230],             
+    "fire": [255, 165, 0, 120],        
+    "human": [255, 255, 255],          
+    "fov": [120, 180, 255, 90],
+    "work": [0, 0, 255]
+  },
+
+  "access_codes": {
+    "blocked": 0,          
+    "walkable": 1,         
+    "park_walkable": 2,    
+    "home_walkable": 3,    
+    "hazard_fire": 4, 
+    "work_walkable": 5       
+  },
+
+  "grid_theme": {
+    "draw_blocks": true,
+    "draw_streets": true
+  },
+
+
+  "groups": [
+    { "id": "row_top",    "name": "North Blocks" },
+    { "id": "row_mid",    "name": "Central Blocks" },
+    { "id": "row_bot",    "name": "South Blocks" },
+    { "id": "col_west",   "name": "West Column" },
+    { "id": "col_cw",     "name": "Central-West Column" },
+    { "id": "col_ce",     "name": "Central-East Column" },
+    { "id": "col_east",   "name": "East Column" }
+  ],
+
+  "regions": [
+
+    { "name": "B1",  "group_ids": ["row_top","col_west"], "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 2,  "y": 2,  "w": 5,  "h": 5 },
+    { "name": "B2",  "group_ids": ["row_top","col_cw"],   "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 9,  "y": 2,  "w": 5,  "h": 5 },
+    { "name": "B3",  "group_ids": ["row_top","col_ce"],   "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 16, "y": 2,  "w": 5,  "h": 5 },
+    { "name": "B4",  "group_ids": ["row_top","col_east"], "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 23, "y": 2,  "w": 5,  "h": 5 },
+
+    { "name": "B5",  "group_ids": ["row_mid","col_west"], "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 2,  "y": 9,  "w": 5,  "h": 5 },
+    { "name": "B7",  "group_ids": ["row_mid","col_ce"],   "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 16, "y": 9,  "w": 5,  "h": 5 },
+    { "name": "B8",  "group_ids": ["row_mid","col_east"], "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 23, "y": 9,  "w": 5,  "h": 5 },
+
+    { "name": "B9",  "group_ids": ["row_bot","col_west"], "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 2,  "y": 15, "w": 5,  "h": 5 },
+    { "name": "B10", "group_ids": ["row_bot","col_cw"],   "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 9,  "y": 15, "w": 5,  "h": 5 },
+    { "name": "B11", "group_ids": ["row_bot","col_ce"],   "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 16, "y": 15, "w": 5,  "h": 5 },
+    { "name": "B12", "group_ids": ["row_bot","col_east"], "type": "block", "access_code": 0, "render": "block", "shape": "rect", "x": 23, "y": 15, "w": 5,  "h": 5 },
+
+
+    { "name": "Park", "group_ids": ["row_bot","col_cw"], "type": "park", "access_code": 2, "render": "park",
+      "shape": "rect", "x": 9, "y": 9, "w": 5, "h": 5
+    },
+
+    { "name": "Home A", "group_ids": ["row_bot","col_west"], "type": "home", "access_code": 3, "render": "home",
+      "shape": "rect", "x": 4, "y": 15, "w": 3, "h": 2
+    },
+    { "name": "Home B", "group_ids": ["row_bot","col_west"], "type": "home", "access_code": 3, "render": "home",
+      "shape": "rect", "x": 4, "y": 18, "w": 3, "h": 2
+    },
+    { "name": "Workplace A", "group_ids": ["row_bot","col_west"], "type": "work", "access_code": 3, "render": "work",
+      "shape": "rect", "x": 23, "y": 9, "w": 3, "h": 2
+    },
+   
+    { "name": "Fire", "group_ids": [], "type": "fire", "access_code": 4, "render": "fire",
+      "shape": "rect", "x": 27, "y": 0, "w": 4, "h": 4
+    }
+  ],
+
+  "background_access": 1,   
+  "block_fill": true,      
+
+  "agents": [
+    {
+      "id": "human_1",
+      "kind": "human",
+      "shape": "triangle",
+      "color": "human",
+      "start": { "x": 0, "y": 0 },
+      "heading_deg": 0,                
+      "fov": { "range_cells": 6, "angle_deg": 90, "shade_color": "fov" }
+    },
+    {
+      "id": "human_2",
+      "kind": "human",
+      "shape": "triangle",
+      "color": "human",
+      "start": { "x": 0, "y": 0},
+      "heading_deg": 315,               
+      "fov": { "range_cells": 7, "angle_deg": 80, "shade_color": "fov" }
+    }
+  ],
+
+  "rendering": {
+    "draw_fov": true,            
+    "draw_region_borders": true,
+    "label_blocks": true,
+    "label_regions": true
+  },
+
+  "semantics": {
+    "can_enter": {
+      "0": false, "1": true, "2": true, "3": true, "4": false
+    },
+    "is_hazard": { "4": true }
+  }
+}
