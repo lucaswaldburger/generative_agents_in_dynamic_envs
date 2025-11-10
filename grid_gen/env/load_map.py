@@ -55,8 +55,26 @@ def load_map(json_path):
         if r.get("shape") != "rect":
             continue
         obj_type, rgba, color_name = region_to_tile(r.get("type", "block"))
+        sem_name = r.get("type", "unknown")
         for x, y in _iter_rect_cells(r["x"], r["y"], r["w"], r["h"]):
-            elements.append((obj_type, rgba, color_name, (x, y)))
+            elements.append((obj_type, rgba, color_name, sem_name, (x, y)))
+
+
+    agents = []
+    for a in data.get("agents", []):
+        agents.append({
+            "id": a.get("id", ""),
+            "kind": a.get("kind", "human"),
+            "shape": a.get("shape", "triangle"),
+            "color": a.get("color", "human"),
+            "start": {
+                "x": int(a.get("start", {}).get("x", 0)),
+                "y": int(a.get("start", {}).get("y", 0)),
+            },
+
+            "heading_deg": int(a.get("heading_deg", a.get("heading", 0))),
+            "fov": a.get("fov", {}),
+        })
 
     width, height = int(data["width"]), int(data["height"])
-    return elements, (width, height)
+    return elements, (width, height), agents

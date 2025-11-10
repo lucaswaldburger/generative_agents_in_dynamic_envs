@@ -19,12 +19,12 @@ COLOR_TO_IDX  = {name: i for i, name in enumerate(COLOR_NAMES)}
 IDX_TO_COLOR  = {v: k for k, v in COLOR_TO_IDX.items()}
 
 
-DIR_TO_VEC = [
-    np.array(( 1,  0)),  # 0: right / east
-    np.array(( 0,  1)),  # 1: down  / south
-    np.array((-1,  0)),  # 2: left  / west
-    np.array(( 0, -1)),  # 3: up    / north
-]
+# DIR_TO_VEC = [
+#     np.array(( 1,  0)),  # 0: right / east
+#     np.array(( 0,  1)),  # 1: down  / south
+#     np.array((-1,  0)),  # 2: left  / west
+#     np.array(( 0, -1)),  # 3: up    / north
+# ]
 
 
 SEM_TO_ID = {
