@@ -65,6 +65,8 @@ def run(cfg: DictConfig):
         # print(f"Step {steps}:\n{summary}")
 
         ## at some point we need to add the logic for exteral environment 
+        # Env update
+        # send signal to agents about evacuation and fire spread
         time.sleep(0.2) 
         done = term or trunc
         steps += 1
