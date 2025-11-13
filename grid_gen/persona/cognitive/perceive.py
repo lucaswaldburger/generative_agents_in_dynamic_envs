@@ -78,6 +78,10 @@ def get_obs(env, *, include_world_coords: bool = True, include_street: bool = Tr
 
     counts = Counter(it["sem_name"] for it in visible)
 
+
+
+    ### we need now here to store the observations in memeory
+
     return {
         "visible": visible,
         "counts": dict(sorted(counts.items())),

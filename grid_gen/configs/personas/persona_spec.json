@@ -1,0 +1,86 @@
+{
+  "agents": [
+    {
+      "id": "human_1",
+      "kind": "human",
+      "shape": "triangle",
+      "color": "human",
+      "start": { "x": 5, "y": 13 },
+      "heading_deg": 0,
+      "fov": { "range_cells": 6, "angle_deg": 90, "shade_color": "fov" },
+      "att_bandwidth": 8,
+      "retention": 8,
+
+      "name": "Isabella Rodriguez",
+      "first_name": "Isabella",
+      "last_name": "Rodriguez",
+      "age": 34,
+
+      "innate": "friendly, outgoing, hospitable, risk-prone, low trust in local alarm systems",
+      "learned": "Isabella Rodriguez is the owner of Hobbs Cafe and loves to make people feel welcome. She has two cats whom she deeply cares about.",
+      "currently": "Isabella Rodriguez is working.",
+      "lifestyle": "Isabella normally walks to work. Her apartment is small; one cat is usually easy to find, while the other often hides so she must look for it. She does not own a car but owns a Vespa.",
+      "living_area": "The Ville: Isabella Rodriguez's apartment: main room, rented unit.",
+      "likelihood_to_help_others": "Lower toward strangers.",
+      "chatting_likelihood": "only if needed",
+
+      "concept_forget": 100,
+      "daily_reflection_time": 180,
+      "daily_reflection_size": 5,
+      "overlap_reflect_th": 4,
+      "kw_strg_event_reflect_th": 10,
+      "kw_strg_thought_reflect_th": 9,
+      "recency_w": 1,
+      "relevance_w": 1,
+      "importance_w": 1,
+      "recency_decay": 0.995,
+      "importance_trigger_max": 150,
+      "importance_trigger_curr": 142,
+      "importance_ele_n": 8,
+      "thought_count": 5
+    },
+   {
+      "id": "human_2",
+      "kind": "human",
+      "shape": "triangle",
+      "color": "human",
+      "start": { "x": 0, "y": 0 },
+      "heading_deg": 315,
+      "fov": { "range_cells": 7, "angle_deg": 80, "shade_color": "fov" },
+
+      "vision_r": 5,
+      "att_bandwidth": 8,
+      "retention": 8,
+      "curr_time": "",
+      "curr_tile": [73, 14],
+
+      "name": "Klaus Mueller",
+      "first_name": "Klaus",
+      "last_name": "Mueller",
+      "age": 44,
+
+      "innate": "friendly, serious, risk-averse, strong trust in local alarm systems",
+      "learned": "Klaus is a father with an 8-year-old son, a wife, and a mother who uses a wheelchair.",
+      "currently": "He is at home helping his child with homework.",
+      "lifestyle": "He lives in a large home with his family and has strong sentimental attachment to the household.",
+      "living_area": "The Ville: Klaus Mueller's house: main room, owned property.",
+      "likelihood_to_help_others": "High for his family, medium for others.",
+      "chatting_likelihood": "high",
+
+      "concept_forget": 100,
+      "daily_reflection_time": 180,
+      "daily_reflection_size": 5,
+      "overlap_reflect_th": 4,
+      "kw_strg_event_reflect_th": 10,
+      "kw_strg_thought_reflect_th": 9,
+      "recency_w": 1,
+      "relevance_w": 1,
+      "importance_w": 1,
+      "recency_decay": 0.995,
+      "importance_trigger_max": 150,
+      "importance_trigger_curr": 142,
+      "importance_ele_n": 8,
+      "thought_count": 5
+    }
+  ]
+}
