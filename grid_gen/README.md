@@ -11,14 +11,35 @@ This project builds a **MiniGrid-based simulation** that loads **floorplan-style
 ## Project Structure
 ```
 cs294_286_final_project/
-├── build_map.py # Builds MiniGrid env from JSON
-├── load_map.py # Parses JSON and returns geometry
-├── main.py # Hydra-based entry point
-├── configs/
-│ ├── config.yaml # Hydra config (sim + map)
-│ └── maps/
-│ └── simple.json
-
+├── configs
+│   ├── config.yaml         # main config file to call personas and map
+│   ├── maps
+│   │   ├── simple.json
+│   │   └── urbanWorld.json
+│   └── personas
+│       └── persona_spec.json
+├── env
+│   ├── build_map.py        # build the grid world based on the json file
+│   ├── constants.py        # IDX of the different elements in the world
+│   ├── load_map.py         # reads the json file
+│   └── world_object.py
+├── main.py
+├── persona
+│   ├── cognitive
+│   │   ├── converse.py
+│   │   ├── execute.py
+│   │   ├── perceive.py
+│   │   ├── plan.py                    
+│   │   ├── reflect.py                 # a bit tricky this one - get memories and conversation and make decisios
+│   │   └── retrieve.py                # a bit 
+│   ├── memory
+│   │   ├── associative_memory.py   # get the core long term memory, the one printed on sim_outputs
+│   │   ├── scratch.py              # gets all the different elements about the persona described in the .json file
+│   │   └── spatial_memory.py       # this sould get info about what the agent remembers about the environemnt, objects, etc
+│   └── promp_templates             # we want to create all the parser files
+├── README.md
+├── requirements.txt
+└── sim_outputs             # we want to output here the memories the person creates
 
 
 ```
