@@ -1,102 +1,124 @@
-import json
-from minigrid.minigrid_env import MiniGridEnv
-from minigrid.core.grid import Grid
-from minigrid.core.mission import MissionSpace
-from .load_map import load_map
-from env.world_object import make_tile         
-from env.constants import SEM_TO_ID            
+from __future__ import annotations
+from typing import Iterable, Dict, Any, Literal
 
-def heading_deg_to_dir(deg: int) -> int:
-    return int(((deg % 360) + 45) // 90) % 4
+import gymnasium as gym
+import numpy as np
 
-def _in_bounds(x, y, W, H):
-    return 0 <= x < W and 0 <= y < H
 
-class MapMiniGrid(MiniGridEnv):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 8}
 
-    def __init__(self, json_path, agent_view_size=7, render_mode=None, max_steps=10_000):
+from .load_map import load_map   # your existing loader
+
+
+DEFAULT_AGENT_COLORS = ["blue", "red", "green", "purple", "yellow", "orange", "grey"]
+
+
+class MapMultiGridEnv(MultiGridEnv):
+    """
+    MultiGrid-based env that:
+      - builds the grid from your JSON map
+      - spawns N agents from personas
+      - uses MultiGrid's standard multi-agent API
+    """
+
+    def __init__(
+        self,
+        json_path: str,
+        personas: Iterable[Dict[str, Any]],
+        max_steps: int = 200,
+        agent_view_size: int = 7,
+        render_mode: str | None = "human",
+        allow_agent_overlap: bool = False,
+        joint_reward: bool = False,
+        success_termination_mode: Literal["any", "all"] = "any",
+        failure_termination_mode: Literal["any", "all"] = "all",
+    ):
         self.json_path = json_path
-        elements, (W, H), agents = load_map(self.json_path)
+        self.personas = list(personas)
+
+        # Load geometry from your map
+        elements, (W, H) = load_map(self.json_path)
         self._elements = elements
         self._W, self._H = W, H
 
-        with open(self.json_path, "r") as f:
-            raw = json.load(f)
-        self._agent_spec = None
-        if agents:
-            a0 = agents[0]
-            self._agent_spec = {
-                "x": int(a0.get("start", {}).get("x", 0)),
-                "y": int(a0.get("start", {}).get("y", 0)),
-                "dir": heading_deg_to_dir(int(a0.get("heading_deg", a0.get("heading", 0)))),
-            }
-        elif "agent_start" in raw:
-            sx, sy = tuple(raw["agent_start"].values())
-            self._agent_spec = {"x": int(sx), "y": int(sy), "dir": 0}
+        # Mission text (shown at bottom when rendering)
+        mission_space = MissionSpace.from_string(" human evacuation")
 
-        mission_space = MissionSpace(mission_func=lambda: "Human evacuation")
+        # Initialize MultiGridEnv with N agents
         super().__init__(
-            width=W, height=H, max_steps=max_steps,
             mission_space=mission_space,
-            agent_view_size=agent_view_size,
+            agents=len(self.personas),
+            width=W,
+            height=H,
+            max_steps=max_steps,
             see_through_walls=False,
+            agent_view_size=agent_view_size,
+            allow_agent_overlap=allow_agent_overlap,
+            joint_reward=joint_reward,
+            success_termination_mode=success_termination_mode,
+            failure_termination_mode=failure_termination_mode,
             render_mode=render_mode,
+            agent_pov=False,  # full map view
         )
 
-    def _gen_grid(self, width, height):
-        self.grid = Grid(self._W, self._H)
+        # Attach persona metadata + colors to each Agent
+        self._init_agents_from_personas()
+
+    # ------------------------------------------------------------------
+    # 1) Map personas → Agent state & color
+    # ------------------------------------------------------------------
+    def _init_agents_from_personas(self):
+        """
+        Map your personas (ids, start positions, headings, etc.)
+        into MultiGrid's Agent objects and joint state.
+        """
+        for i, (persona, agent) in enumerate(zip(self.personas, self.agents)):
+            # position from persona
+            start = persona.get("start", {})
+            x = int(start.get("x", 0))
+            y = int(start.get("y", 0))
+
+            # heading from degrees
+            heading_deg = int(persona.get("heading_deg", persona.get("heading", 0)) or 0)
+            # 0:right, 1:down, 2:left, 3:up → MultiGrid Direction enum
+            dir_idx = int(((heading_deg % 360) + 45) // 90) % 4
+            direction = Direction.from_index(dir_idx)
+
+            # color (from persona or from default palette)
+            color_name = persona.get(
+                "color",
+                DEFAULT_AGENT_COLORS[i % len(DEFAULT_AGENT_COLORS)],
+            )
+            agent.color = Color(color_name)
+
+            # write into joint state
+            self.agent_states.pos[i] = (x, y)
+            self.agent_states.dir[i] = direction.to_index()
+            # carrying is None by default, terminated False by default
+
+    def _gen_grid(self, width: int, height: int):
+        """
+        Create the grid and place static objects from your map.
+        Agent positions are already stored in self.agent_states.
+        """
+        assert width == self._W and height == self._H
+        self.grid = Grid(width, height)
+
         for obj_type, rgba, color_name, sem_name, (x, y) in self._elements:
-            tile = make_tile(sem_name=sem_name, rgba=rgba, name=None)
-            self.grid.set(x, y, tile)
 
-        # perimeter for now - bugs without it
-        wall_rgba = (110, 130, 140)
-        for x in range(width):
-            self.grid.set(x, 0,              make_tile("block", wall_rgba))
-            self.grid.set(x, height - 1,     make_tile("block", wall_rgba))
-        for y in range(height):
-            self.grid.set(0,          y,     make_tile("block", wall_rgba))
-            self.grid.set(width - 1,  y,     make_tile("block", wall_rgba))
+            s = sem_name.lower()
 
-        self._place_agent_from_json()
-
-
-    def _nearest_free(self, x0, y0, max_radius=4):
-        W, H = self.width, self.height
-        for r in range(max_radius + 1):
-            for dx in range(-r, r + 1):
-                for dy in range(-r, r + 1):
-                    x, y = x0 + dx, y0 + dy
-                    if not _in_bounds(x, y, W, H):
-                        continue
-                    cell = self.grid.get(x, y)
-                    if cell is None or (hasattr(cell, "can_overlap") and cell.can_overlap()):
-                        return (x, y)
-        return None
-
-    def _place_agent_from_json(self):
-        """
-        Place a single controllable agent from JSON.
-        If blocked, fallback to place_agent(); keep JSON heading.
-        """
-        if not self._agent_spec:
-            self.place_agent()
-            return
-
-        ax, ay, d = self._agent_spec["x"], self._agent_spec["y"], self._agent_spec["dir"]
-        cell = self.grid.get(ax, ay)
-        if cell is None or (hasattr(cell, "can_overlap") and cell.can_overlap()):
-            self.agent_pos = (ax, ay)
-            self.agent_dir = d
-        else:
-            spot = self._nearest_free(ax, ay)
-            if spot:
-                self.agent_pos = spot
-                self.agent_dir = d
+            # if s in ("street", "road", "sidewalk"):
+            #     obj = Floor(color="grey")
+            if s in ("block", "wall", "building"):
+                obj = Wall(color="grey")
+            elif s in ("park",):
+                obj = Floor(color="green")
+            elif s in ("fire", "lava"):
+                obj = Lava()
+            elif s in ("goal", "exit", "safe_zone"):
+                obj = Goal(color="green")
             else:
-                self.place_agent()
-                self.agent_dir = d 
+                # default: walkable floor
+                obj = Floor(color="blue")
 
-    def step(self, action):
-        return super().step(action)
+            self.grid.set(x, y, obj)

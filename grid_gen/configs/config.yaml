@@ -1,8 +1,11 @@
 sim:
   steps: 100
   seed: 0
-  agent_view_size: 7
   render_mode: "human" 
+
+personas:
+  file: "configs/personas/persona_spec.yaml"
+  personas_in_sim: ["human_1", "human_2"]
 
 
 map:

@@ -76,27 +76,6 @@
   "background_access": 1,   
   "block_fill": true,      
 
-  "agents": [
-    {
-      "id": "human_1",
-      "kind": "human",
-      "shape": "triangle",
-      "color": "human",
-      "start": { "x": 5, "y": 13 },
-      "heading_deg": 0,                
-      "fov": { "range_cells": 6, "angle_deg": 90, "shade_color": "fov" }
-    },
-    {
-      "id": "human_2",
-      "kind": "human",
-      "shape": "triangle",
-      "color": "human",
-      "start": { "x": 0, "y": 0},
-      "heading_deg": 315,               
-      "fov": { "range_cells": 7, "angle_deg": 80, "shade_color": "fov" }
-    }
-  ],
-
   "rendering": {
     "draw_fov": true,            
     "draw_region_borders": true,

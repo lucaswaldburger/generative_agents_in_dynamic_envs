@@ -1,30 +1,48 @@
 from __future__ import annotations
-import numpy as np
+
+from dataclasses import dataclass
+from enum import IntEnum
+from typing import Tuple, Dict
 
 
-TILE_PIXELS = 32
-COLLISION_CHECK_INTERVAL = 0.1
+class Action(IntEnum):
+    STAY = 0
+    UP = 1
+    RIGHT = 2
+    DOWN = 3
+    LEFT = 4
 
-COLORS = {
-    "red":    np.array([204, 0,   0]),
-    "green":  np.array([69,  192, 69]),
-    "blue":   np.array([0,   0, 255]),
-    "purple": np.array([112, 39, 195]),
-    "yellow": np.array([204, 204, 0]),
-    "grey":   np.array([100, 100, 100]),
-    "orange": np.array([204, 102, 0]),
+
+DIR_TO_VEC: Dict[Action, Tuple[int, int]] = {
+    Action.STAY: (0, 0),
+    Action.UP: (0, -1),
+    Action.RIGHT: (1, 0),
+    Action.DOWN: (0, 1),
+    Action.LEFT: (-1, 0),
 }
-COLOR_NAMES   = sorted(COLORS.keys())
-COLOR_TO_IDX  = {name: i for i, name in enumerate(COLOR_NAMES)}
-IDX_TO_COLOR  = {v: k for k, v in COLOR_TO_IDX.items()}
 
 
-# DIR_TO_VEC = [
-#     np.array(( 1,  0)),  # 0: right / east
-#     np.array(( 0,  1)),  # 1: down  / south
-#     np.array((-1,  0)),  # 2: left  / west
-#     np.array(( 0, -1)),  # 3: up    / north
-# ]
+@dataclass
+class FOVConfig:
+    range_cells: int
+    angle_deg: int
+    shade_color: str
+
+
+@dataclass
+class AgentConfig:
+    id: str
+    kind: str
+    start_x: int
+    start_y: int
+    heading_deg: int
+    color: str
+    fov: FOVConfig
+    name: str
+    # you can later add cognitive references here if needed
+
+
+DEFAULT_MAX_STEPS = 200
 
 
 SEM_TO_ID = {
