@@ -1,181 +1,148 @@
-# persona/cognitive/perceive.py
 from __future__ import annotations
-from collections import Counter
-from typing import Any, Dict, Tuple, List, Optional
+from typing import Tuple, List, Dict, Any
+import math
+
+from env.constants import Coord  
 
 
-import numpy as np
-
-try:
-    from env.constants import SEM_TO_ID, ID_TO_SEM
-except Exception:
-    SEM_TO_ID, ID_TO_SEM = {}, {}
-
-
-def _cell_semantics(cell) -> Tuple[int, str, str]:
-    """Return (sem_id, sem_name, mg_type) for a MiniGrid cell."""
-    if cell is None:
-        return SEM_TO_ID.get("street", 0), "street", "empty"
-    if hasattr(cell, "sem_id"):
-        sid = int(getattr(cell, "sem_id", 0))
-        sname = getattr(cell, "sem_name", ID_TO_SEM.get(sid, "unknown"))
-        return sid, sname, getattr(cell, "type", "floor")
-
-    t = getattr(cell, "type", "empty")
-    sid = int(SEM_TO_ID.get(t, SEM_TO_ID.get("street", 0)))
-    sname = ID_TO_SEM.get(sid, t)
-    return sid, sname, t
-
-
-def get_obs(
-    env,
-    *,
-    agent_pos: Optional[Tuple[int, int]] = None,
-    agent_dir: Optional[int] = None,
-    agent_view_size: Optional[int] = None,
-    include_world_coords: bool = True,
-    include_street: bool = True,
-) -> Dict[str, Any]:
+def get_agent_pose(env, agent_id: int) -> Tuple[int, int, int, int, int]:
     """
-    Use MiniGrid's agent-centric FOV and visibility mask.
-
-    If agent_pos / agent_dir / agent_view_size are provided, we temporarily
-    override env.agent_pos / env.agent_dir / env.agent_view_size, compute
-    the observation, then restore the originals.
-
-    Returns ONLY the cells that are actually visible (not occluded).
-    If include_street=False, 'street' cells are filtered out.
-
-    Output:
-      {
-        'visible': [ { 'local':(lx,ly), 'world':(wx,wy), 'sem_id':int, 'sem_name':str, 'type':str }, ... ],
-        'counts': { sem_name: count, ... },
-        'agent_pos': (x,y),
-        'agent_dir': int
-      }
+    Returns (x, y, heading_deg, fov_range, fov_angle_deg) for the given agent.
     """
-
-    # --- save original agent pose ---
-    orig_pos = getattr(env, "agent_pos", None)
-    orig_dir = getattr(env, "agent_dir", None)
-    orig_view = getattr(env, "agent_view_size", None)
-
-    # --- override if custom pose provided ---
-    if agent_pos is not None:
-        env.agent_pos = tuple(agent_pos)
-    if agent_dir is not None:
-        env.agent_dir = int(agent_dir)
-    if agent_view_size is not None:
-        env.agent_view_size = int(agent_view_size)
-
-    try:
-        local_grid, vis_mask = env.gen_obs_grid()
-        V = env.agent_view_size
-        visible: List[Dict[str, Any]] = []
-
-        topX = topY = None
-        if include_world_coords and hasattr(env, "get_view_exts"):
-            topX, topY, _, _ = env.get_view_exts()
-
-        for ly in range(V):
-            for lx in range(V):
-                if vis_mask is not None and not bool(vis_mask[lx, ly]):
-                    continue  # occluded: skip entirely
-
-                cell = local_grid.get(lx, ly)
-                sid, sname, mg_type = _cell_semantics(cell)
-
-                if sname in ("empty", "unknown"):
-                    sname = "street"
-                    sid = SEM_TO_ID.get("street", 0)
-                if sname == "block":
-                    sname = "wall"
-
-                if not include_street and sname == "street":
-                    continue
-
-                item = {
-                    "local": (lx, ly),
-                    "sem_id": sid,
-                    "sem_name": sname,
-                    "type": mg_type,
-                }
-                if include_world_coords and topX is not None:
-                    item["world"] = (topX + lx, topY + ly)
-
-                visible.append(item)
-
-        counts = Counter(it["sem_name"] for it in visible)
-
-        # We could hook memory-writing logic here later
-
-        return {
-            "visible": visible,
-            "counts": dict(sorted(counts.items())),
-            "agent_pos": tuple(env.agent_pos),
-            "agent_dir": int(env.agent_dir),
-        }
-
-    finally:
-        # --- restore original pose so other code isn't confused ---
-        if orig_pos is not None:
-            env.agent_pos = orig_pos
-        if orig_dir is not None:
-            env.agent_dir = orig_dir
-        if orig_view is not None:
-            env.agent_view_size = orig_view
+    agent = env.agents[agent_id]
+    x, y = int(agent.x), int(agent.y)
+    heading_deg = int(agent.heading_deg)
+    fov_range = int(agent.config.fov.range_cells)
+    fov_angle_deg = int(agent.config.fov.angle_deg)
+    return x, y, heading_deg, fov_range, fov_angle_deg
 
 
-def get_all_obs(
-    env,
-    *,
-    include_world_coords: bool = True,
-    include_street: bool = True,
-) -> Dict[str, Dict[str, Any]]:
+def point_in_region(x: int, y: int, r: Dict[str, Any]) -> bool:
+    rx, ry = int(r["x"]), int(r["y"])
+    rw, rh = int(r["w"]), int(r["h"])
+    return (rx <= x < rx + rw) and (ry <= y < ry + rh)
+
+
+def regions_containing_point(env, x: int, y: int) -> List[Dict[str, Any]]:
+    regions = getattr(env.map_spec, "regions", []) or []
+    return [r for r in regions if point_in_region(x, y, r)]
+
+
+def tiles_in_fov(env, agent_id: int) -> List[Coord]:
     """
-    Multi-agent perception helper.
-
-    Expects the env to have:
-      - env.agents: dict[agent_id -> state]
-         where state has at least 'x', 'y', 'dir', 'view_r'
-    Returns:
-      { agent_id: single_agent_obs_dict, ... }
+    Approximate FOV as a circular sector:
+      - radius = fov_range
+      - angle   = fov_angle_deg centered at heading_deg
+    Returns a list of grid coords (x, y) within that cone that are inside the map.
+    No occlusion handling yet.
     """
-    if not hasattr(env, "agents"):
-        raise RuntimeError("env.agents is required for get_all_obs")
+    x, y, heading_deg, fov_range, fov_angle_deg = get_agent_pose(env, agent_id)
 
-    obs_dict: Dict[str, Dict[str, Any]] = {}
+    width, height = env.map_spec.width, env.map_spec.height
 
-    for pid, st in env.agents.items():
-        x, y = st["x"], st["y"]
-        d = st["dir"]
-        view_r = st.get("view_r", getattr(env, "agent_view_size", 7))
+    heading_rad = math.radians(heading_deg)
+    half_angle = math.radians(fov_angle_deg / 2.0)
 
-        obs_dict[pid] = get_obs(
-            env,
-            agent_pos=(x, y),
-            agent_dir=d,
-            agent_view_size=view_r,
-            include_world_coords=include_world_coords,
-            include_street=include_street,
-        )
+    visible: List[Coord] = []
 
-    return obs_dict
+    # Scan a square around the agent, then filter by circle + angle
+    for dx in range(-fov_range, fov_range + 1):
+        for dy in range(-fov_range, fov_range + 1):
+            tx, ty = x + dx, y + dy
+
+            if tx < 0 or tx >= width or ty < 0 or ty >= height:
+                continue
+
+            # Distance check (circle)
+            dist = math.sqrt(dx * dx + dy * dy)
+            if dist == 0 or dist > fov_range:
+                continue
+
+            # Angle check (cone)
+            # NOTE: screen coords: x right, y down
+            # atan2(dy, dx): 0 rad = +x (east), pi/2 = down, pi = west, -pi/2 = up
+            angle_to_tile = math.atan2(dy, dx)
+
+            # Smallest angle difference between heading and tile
+            diff = (angle_to_tile - heading_rad + math.pi) % (2 * math.pi) - math.pi
+            if abs(diff) <= half_angle:
+                visible.append((tx, ty))
+
+    return visible
 
 
+def regions_in_fov(env, agent_id: int) -> List[Dict[str, Any]]:
+    """
+    Regions that have at least one tile inside the agent's FOV cone.
+    """
+    regions = getattr(env.map_spec, "regions", []) or []
+    if not regions:
+        return []
 
-def print_visible(obs: Dict[str, Any]):
+    visible_tiles = tiles_in_fov(env, agent_id)
+    if not visible_tiles:
+        return []
 
-    ax, ay = obs["agent_pos"]
-    print(f"\nVisible (Agent @ {(ax, ay)}, dir={obs['agent_dir']}):")
+    visible_regions: List[Dict[str, Any]] = []
+    for r in regions:
+        rx, ry = int(r["x"]), int(r["y"])
+        rw, rh = int(r["w"]), int(r["h"])
+        # Check if any visible tile lies inside region rect
+        for (tx, ty) in visible_tiles:
+            if rx <= tx < rx + rw and ry <= ty < ry + rh:
+                visible_regions.append(r)
+                break
 
-    if not obs["visible"]:
-        print("nothing visible")
-        return
+    return visible_regions
 
-    for sem_name, count in obs["counts"].items():
-        print(f"  {sem_name:>8s} (x{count})")
 
-    total = sum(obs["counts"].values())
-    print(f"Total distinct: {len(obs['counts'])}, total visible cells: {total}")
+def classify_location(env, x: int, y: int) -> str:
+    """
+    Rough semantic location: 'Home A', 'Workplace A', 'Park', 'B10', or 'street' if none.
+    Prefers non-block regions (home/park/work/fire) over generic blocks.
+    """
+    here = regions_containing_point(env, x, y)
+    if not here:
+        code = int(env.map_spec.access_grid[y, x])
+        access_codes = env.map_spec.raw.get("access_codes", {})
+        inv = {v: k for k, v in access_codes.items()}
+        label = inv.get(code, "walkable")
+        if "hazard" in label:
+            return "a hazard area"
+        return "the street"
 
+    preferred_types = ["home", "work", "park", "fire"]
+    best = None
+    for r in here:
+        if r.get("type") in preferred_types:
+            best = r
+            break
+    if best is None:
+        best = here[0]
+
+    return best.get("name", "unknown place")
+
+
+def describe_perception(env, agent_id: int) -> str:
+    """
+    High-level natural-language description of what the agent perceives.
+    """
+    x, y, heading_deg, fov_range, fov_angle_deg = get_agent_pose(env, agent_id)
+    location_label = classify_location(env, x, y)
+
+    visible_regions = regions_in_fov(env, agent_id)
+
+    visible_names: List[str] = []
+    for r in visible_regions:
+        name = r.get("name")
+        if not name:
+            continue
+        visible_names.append(name)
+
+    visible_names = sorted(set(visible_names))
+
+    if visible_names:
+        visible_str = ", ".join(visible_names)
+        return f"I am at {location_label}. I see {visible_str}."
+    else:
+        return f"I am at {location_label}. I don't see any labeled regions."

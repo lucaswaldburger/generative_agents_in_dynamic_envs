@@ -23,6 +23,7 @@ from env.constants import Action
 # this might be temporary map until we move this high-level to the other cognitive models
 from persona.cognitive.plan import high_level_planner, astar
 from env.constants import SemanticMap
+from persona.cognitive.perceive import describe_perception
 
 
 
@@ -62,17 +63,17 @@ def run(cfg: DictConfig):
             action = np.array([a0, a1], dtype=np.int64)
             obs, _, terminated, truncated, info = env.step(action)
             print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
+            for agent_id in range(env.num_agents):
+                desc = describe_perception(env, agent_id)
+                print(f"[Agent {agent_id}] {desc}")
+
             env.render()
+            time.sleep(0.5)
             if terminated or truncated:
                 break
+        
+    
 
-            
-        # action = np.array([path0, path1], dtype=np.int64)
-        # obs, _, terminated, truncated, info = env.step(action)
-        # print(f"\nStep {t + 1}, action={action}")
-        # env.render()
-        # if terminated or truncated:
-        #     break
     env.close()
     # print(f"[Env] obs keys: {obs['image']}")clear
 
