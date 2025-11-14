@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/automatic_execution.py", line 8, in <module>
-    import reverie
-  File "/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/reverie.py", line 32, in <module>
-    from utils import (
-ImportError: cannot import name 'mqtt_host' from 'utils' (/data2/lucas/01-experiments/eLW085-dynamic_envs/agentic_collab/reverie/backend_server/utils.py)
