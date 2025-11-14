@@ -25,6 +25,46 @@ from persona.cognitive.plan import high_level_planner, astar
 from env.constants import SemanticMap
 from persona.cognitive.perceive import describe_perception
 
+import os
+import datetime
+
+
+# we can move these logger functions to other folder later
+def setup_sim_output_dir():
+    """
+    Creates a run folder in sim_outputs/ with timestamp.
+    Returns the folder path.
+    """
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    base_dir = "sim_outputs"
+    run_dir = os.path.join(base_dir, f"run_{timestamp}")
+    os.makedirs(run_dir, exist_ok=True)
+    return run_dir
+
+
+def create_agent_logs(run_dir, env):
+    """
+    Creates one text file per agent using their name.
+    Returns a dict: agent_id -> file_handle
+    """
+    logs = {}
+    for agent_id, agent in enumerate(env.agents):
+        safe_name = agent.config.name.replace(" ", "_")
+        path = os.path.join(run_dir, f"{safe_name}.txt")
+        logs[agent_id] = open(path, "w")
+        logs[agent_id].write(f"Log for {agent.config.name}\n")
+        logs[agent_id].write("=" * 40 + "\n\n")
+    return logs
+
+def log_agent_step(log_file, agent_id, step, substep, agent, action, desc):
+    """
+
+    """
+    log_file.write(f"Step {step}, Sub-step {substep}\n")
+    log_file.write(f" Position: ({agent.x}, {agent.y})\n")
+    log_file.write(f" Action: {action}\n")
+    log_file.write(f" Observation: {desc}\n")
+    log_file.write("-" * 30 + "\n")
 
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
@@ -48,7 +88,8 @@ def run(cfg: DictConfig):
     obs, info = env.reset()
     print("Initial state:")
     env.render()
-
+    run_dir = setup_sim_output_dir()
+    agent_logs = create_agent_logs(run_dir, env)
 
 
     for t in range(cfg.sim.steps):
@@ -77,6 +118,16 @@ def run(cfg: DictConfig):
             print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
             for agent_id in range(env.num_agents):
                 desc = describe_perception(env, agent_id)
+                log_agent_step(
+                    log_file=agent_logs[agent_id],
+                    agent_id=agent_id,
+                    step=t + 1,
+                    substep=step + 1,
+                    agent=env.agents[agent_id],
+                    action=int(action[agent_id]),
+                    desc=desc,
+                )
+
                 print(f"[Agent {agent_id}] {desc}")
 
             env.render()
@@ -85,6 +136,9 @@ def run(cfg: DictConfig):
             if terminated or truncated:
                 break
 
+    
+    for f in agent_logs.values():
+        f.close()
     env.close()
    
 
