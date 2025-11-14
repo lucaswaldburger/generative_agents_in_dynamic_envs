@@ -2,7 +2,7 @@
 human_1:
   id: "human_1"
   kind: "human"
-  start: {x: 5, y: 14}
+  start: {x: 5, y: 16}
   heading_deg: 0
   fov: {range_cells: 9, angle_deg: 90, shade_color: "fov"} # field of view MUST BE ODD
   color: "red"
@@ -37,7 +37,7 @@ human_1:
 human_2:
   id: "human_2"
   kind: "human"
-  start: {x: 8, y: 14}
+  start: {x: 5, y: 19}
   heading_deg: 315
   color: "blue"
   fov: {range_cells: 7, angle_deg: 80, shade_color: "fov"}

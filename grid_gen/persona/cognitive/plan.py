@@ -1,132 +1,177 @@
 import heapq
 import numpy as np
 import math
-from env.constants import SEM_TO_ID
-from minigrid.core.actions import Actions 
-
-# Map grid deltas to Minigrid direction indices (0:E, 1:S, 2:W, 3:N)
-DIR_IDX = {
-    ( 1,  0): 0,  # east
-    ( 0,  1): 1,  # south
-    (-1,  0): 2,  # west
-    ( 0, -1): 3,  # north
-}
-
-def get_neighbors(node, env):
-    x, y = node
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-    neighbors = []
-    for dx, dy in directions:
-        nx, ny = x + dx, y + dy
-        if 0 <= nx < env.width and 0 <= ny < env.height:
-            cell = env.grid.get(nx, ny)
-            if cell is None or (hasattr(cell, "can_overlap") and cell.can_overlap()):
-                neighbors.append((nx, ny))
-    return neighbors
-
-def get_path(start, goal, env):
-    """A* shortest path on discrete grid."""
-    open_list = []
-    closed_list = set()
-    came_from = {}
-    g_costs = {start: 0}
-
-    heapq.heappush(open_list, (0, start))
-
-    while open_list:
-        current_cost, current_node = heapq.heappop(open_list)
-        if current_node == goal:
-            path = []
-            while current_node in came_from:
-                path.append(current_node)
-                current_node = came_from[current_node]
-            return path[::-1]
-
-        closed_list.add(current_node)
-
-        for neighbor in get_neighbors(current_node, env):
-            if neighbor in closed_list:
-                continue
-            tentative_g = g_costs[current_node] + 1
-            if neighbor not in g_costs or tentative_g < g_costs[neighbor]:
-                g_costs[neighbor] = tentative_g
-                came_from[neighbor] = current_node
-                heapq.heappush(open_list, (tentative_g, neighbor))
-    return None
+from typing import Tuple, List
+from env.constants import SemanticMap, Coord, Action, DIR_TO_VEC
+# from minigrid.core.actions import Actions 
 
 
-def path_to_minigrid_actions(path, start_dir):
-    """Convert path [(x,y)] to Minigrid Actions list based on orientation."""
+
+### High level planner
+
+def find_object_from_command(env, place_token: str) -> Coord:
+    """
+    Given a symbolic place token like 'home_A' or 'park', find the corresponding
+    region in env.map_spec.regions and return a representative grid cell (x, y).
+    """
+    # Normalize the token: 'Home_A' -> 'home a'
+    place_key = place_token.lower().replace("_", " ").strip()
+
+    regions = getattr(env.map_spec, "regions", None)
+    if not regions:
+        raise RuntimeError("[Planner] env.map_spec.regions is empty or missing")
+
+    for r in regions:
+        name = str(r.get("name", "")).lower()          # e.g. "home a"
+        typ  = str(r.get("type", "")).lower()          # e.g. "home"
+
+        name_norm = name.replace("_", " ").strip()
+
+        # Match by type or by (normalized) name
+        # Examples:
+        #   place_key = "park"   -> typ == "park"  or "park" in "park"
+        #   place_key = "home a" -> "home a" in "home a"
+        if place_key == typ or place_key in name_norm:
+            x = int(r["x"])
+            y = int(r["y"])
+            return x, y
+
+    raise KeyError(f"[Planner] No object matched place token: '{place_token}'")
+
+def high_level_planner(env, agent_id: int, command: str) -> Tuple[Coord, Coord]:
+    """
+    Returns (start_cell, goal_cell) in grid coordinates for this agent.
+    """
+    start = get_agent_tile(env, agent_id)
+    goal = resolve_goal_tile(env, agent_id, command)
+    return start, goal
+
+def resolve_goal_tile(env, agent_id: int, command: str) -> Coord:
+    """
+    Parse a high-level command string and resolve it to a goal tile (x, y).
+    For now we assume the LAST token is the place token, e.g.:
+      'go to home_A' -> 'home_A'
+      'go park'      -> 'park'
+    """
+    cmd = command.strip()
+    tokens = cmd.split()
+    if not tokens:
+        raise ValueError(f"[Planner] Empty command for agent {agent_id}")
+
+    place_token = tokens[-1]
+    return find_object_from_command(env, place_token)
+
+def get_agent_tile(env, agent_id: int) -> Coord:
+    """
+    Return the agent's current grid cell as (x, y).
+    Adapt this to however MultiHumanGridEnv stores positions.
+    """
+    agent = env.agents[agent_id]
+    return int(agent.x), int(agent.y)
+
+
+
+def reconstruct_actions(came_from: dict, end: Coord) -> List[Action]:
+    """
+    Reconstruct list of actions from came_from dict:
+      came_from[node] = (prev_node, action_taken)
+    """
     actions = []
-    cur_dir = start_dir
-
-    for (x0, y0), (x1, y1) in zip(path[:-1], path[1:]):
-        dx, dy = x1 - x0, y1 - y0
-        if (dx, dy) not in DIR_IDX:
-            raise ValueError(f"Non-cardinal step: {(dx, dy)}")
-
-        target_dir = DIR_IDX[(dx, dy)]
-        delta = (target_dir - cur_dir) % 4
-
-        if delta == 1:
-            actions.append(Actions.right)
-        elif delta == 3:
-            actions.append(Actions.left)
-        elif delta == 2:
-            actions.extend([Actions.right, Actions.right])
-
-        actions.append(Actions.forward)
-        cur_dir = target_dir
+    current = end
+    while current in came_from:
+        prev, act = came_from[current]
+        actions.append(act)
+        current = prev
+    actions.reverse()
     return actions
 
-def parse_current(text):
-    text = text.lower()
-    if "home" in text:
-        return "home"
-    elif "work" in text:
-        return "work"
-    return None
 
 
-def parse_next(text):
-    text = text.lower()
-    if "go to" in text:
-        goal = text.split("go to")[-1].strip()
-        if goal in ["home", "work"]:
-            return goal
-    return None
 
-def get_goal_coordinates(goal, grid):
-    goal_id = SEM_TO_ID.get(goal)
-    if goal_id is None:
-        return None
-    for x in range(grid.width):
-        for y in range(grid.height):
-            tile = grid.get(x, y)
-            if tile and hasattr(tile, "sem_id") and tile.sem_id == goal_id:
-                return (x, y)
-    return None
+## Low level planner
+def is_traversable(env, x: int, y: int) -> bool:
+    ms = env.map_spec
+    if x < 0 or x >= ms.width or y < 0 or y >= ms.height:
+        return False
+
+    code = int(ms.access_grid[y, x])
+    can_enter = ms.semantics.get("can_enter", {})
+    return bool(can_enter.get(str(code), False))
+
+def neighbors(env, node: Coord) -> List[Tuple[Coord, Action]]:
+    """
+    Return list of (neighbor_coord, action_taken)
+    """
+    x, y = node
+    result = []
+    for action, (dx, dy) in DIR_TO_VEC.items():
+        if action == Action.STAY:
+            continue
+        nx, ny = x + dx, y + dy
+        if is_traversable(env, nx, ny):
+            result.append(((nx, ny), action))
+    return result
+
+def manhattan(a: Coord, b: Coord) -> int:
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
-def get_next_plan_and_waypoint(current_loc_text, get_next_plan_text, env):
-    current_location = parse_current(current_loc_text)
-    next_location = parse_next(get_next_plan_text)
+def astar(env, start: Coord, goal: Coord) -> List[Action]:
+    if start == goal:
+        return []
 
-    if not current_location:
-        return "Current location could not be determined."
-    if not next_location:
-        return "Next location could not be determined."
+    pq = []
+    heapq.heappush(pq, (manhattan(start, goal), 0, start))
 
-    current_coordinates = tuple(env.agent_pos)
-    start_dir = int(env.agent_dir)
-    next_coordinates = get_goal_coordinates(next_location, env.grid)
+    came_from = {}   # node -> (prev_node, action)
+    g_score = {start: 0}
+    closed = set()
 
-    path = get_path(current_coordinates, next_coordinates, env)
-    if path is None or len(path) < 2:
-        return "No valid path."
+    while pq:
+        f, g, node = heapq.heappop(pq)
 
-    actions = path_to_minigrid_actions(path, start_dir)
-    if not actions:
-        return "No valid actions could be generated from the path."
+        if node in closed:
+            continue
+        closed.add(node)
 
+        if node == goal:
+            return reconstruct_actions(came_from, node)
+
+        for (nb, action) in neighbors(env, node):
+            new_g = g + 1
+            if new_g < g_score.get(nb, float("inf")):
+                came_from[nb] = (node, action)
+                g_score[nb] = new_g
+                f_nb = new_g + manhattan(nb, goal)
+                heapq.heappush(pq, (f_nb, new_g, nb))
+
+    print(f"[A*] No path from {start} to {goal}")
+    return []
+
+
+
+def path_to_actions(path: List[Coord]) -> List[Action]:
+    """
+    Convert a list of coords [(x0,y0), (x1,y1), ...] into Actions.
+    Assumes y increases *downwards*, so:
+      up    = (0, -1)
+      down  = (0, 1)
+      right = (1, 0)
+      left  = (-1, 0)
+    """
+    actions: List[Action] = []
+    for (x1, y1), (x2, y2) in zip(path, path[1:]):
+        dx, dy = x2 - x1, y2 - y1
+        if   (dx, dy) == (1, 0):
+            actions.append(Action.RIGHT)
+        elif (dx, dy) == (-1, 0):
+            actions.append(Action.LEFT)
+        elif (dx, dy) == (0, -1):
+            actions.append(Action.UP)
+        elif (dx, dy) == (0, 1):
+            actions.append(Action.DOWN)
+        else:
+            raise ValueError(f"[A*] Non-adjacent step in path: {(x1, y1)} -> {(x2, y2)}")
     return actions
+
+

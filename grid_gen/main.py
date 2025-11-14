@@ -20,6 +20,10 @@ from persona.load_personas import load_agent_configs
 from env.grid import MultiHumanGridEnv
 from env.constants import Action 
 
+# this might be temporary map until we move this high-level to the other cognitive models
+from persona.cognitive.plan import high_level_planner, astar
+from env.constants import SemanticMap
+
 
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
@@ -44,14 +48,31 @@ def run(cfg: DictConfig):
     print("Initial state:")
     env.render()
 
+
+
     for t in range(cfg.sim.steps):
-        # Demo: move agent 0 RIGHT, agent 1 UP
-        action = np.array([Action.RIGHT, Action.UP], dtype=np.int64)
-        obs, reward, terminated, truncated, info = env.step(action)
-        print(f"\nStep {t + 1}, action={action}, reward={reward}")
-        env.render()
-        if terminated or truncated:
-            break
+        # FOR NOW WE have two agents only so this hardcoding works but eventually change to env.agent_ids
+        start0, goal0 = high_level_planner(env, agent_id=0, command="go to work")
+        start1, goal1 = high_level_planner(env, agent_id=1, command="go to park")
+        path0 = astar(env, start0, goal0)
+        path1 = astar(env, start1, goal1)
+        for step in range(max(len(path0), len(path1))):
+            a0 = path0[step] if step < len(path0) else Action.STAY
+            a1 = path1[step] if step < len(path1) else Action.STAY
+            action = np.array([a0, a1], dtype=np.int64)
+            obs, _, terminated, truncated, info = env.step(action)
+            print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
+            env.render()
+            if terminated or truncated:
+                break
+
+            
+        # action = np.array([path0, path1], dtype=np.int64)
+        # obs, _, terminated, truncated, info = env.step(action)
+        # print(f"\nStep {t + 1}, action={action}")
+        # env.render()
+        # if terminated or truncated:
+        #     break
     env.close()
     # print(f"[Env] obs keys: {obs['image']}")clear
 
