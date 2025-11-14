@@ -52,16 +52,28 @@ def run(cfg: DictConfig):
 
 
     for t in range(cfg.sim.steps):
+
+
+        # this will go to plannner eventially
         # FOR NOW WE have two agents only so this hardcoding works but eventually change to env.agent_ids
         start0, goal0 = high_level_planner(env, agent_id=0, command="go to work")
         start1, goal1 = high_level_planner(env, agent_id=1, command="go to park")
-        path0 = astar(env, start0, goal0)
-        path1 = astar(env, start1, goal1)
+        full_path0 = astar(env, start0, goal0)
+        full_path1 = astar(env, start1, goal1)
+
+        # in here we are shortening their low level planner path based on their fov
+        fov0 = env.agents[0].config.fov.range_cells
+        fov1 = env.agents[1].config.fov.range_cells
+        path0 = full_path0[:fov0]
+        path1 = full_path1[:fov1]
+
         for step in range(max(len(path0), len(path1))):
             a0 = path0[step] if step < len(path0) else Action.STAY
             a1 = path1[step] if step < len(path1) else Action.STAY
+
             action = np.array([a0, a1], dtype=np.int64)
             obs, _, terminated, truncated, info = env.step(action)
+
             print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
             for agent_id in range(env.num_agents):
                 desc = describe_perception(env, agent_id)
@@ -69,67 +81,12 @@ def run(cfg: DictConfig):
 
             env.render()
             time.sleep(0.5)
+
             if terminated or truncated:
                 break
-        
-    
 
     env.close()
-    # print(f"[Env] obs keys: {obs['image']}")clear
-
-
-    # if cfg.sim.render_mode == "human":
-    #     env.render()
-
-    # done = False
-    # steps = 0
-    # while not done and steps < cfg.sim.steps:
-    #     # action = np.random.randint(0, env.action_space.n)
-
-    #     actions = {
-    #         agent.index: agent.action_space.sample()
-    #         for agent in env.agents
-    #     }
-    #     obs, rewards, terminations, truncations, infos = env.step(actions)
-
-    #     # perceive -> store in memory -> plant ->reflect -> act -store in memory -> repeat
-    #     # (1) we can instantiate and grab the state of the persona 
-    #     # these next few lines might need to go into execute, they need to go after observe
-    #     # for pid in env.agent_ids:
-    #     #     if pid == "human_1":
-    #     #         # pick an action from your plan/path
-    #     #         # get_next_plan_text = "go to work"
-    #     #         # current_location_text = "home_A"
-    #     #         # path = get_next_plan_and_waypoint(current_location_text, get_next_plan_text, env)
-    #     #         actions[pid] =  env.action_space[pid].sample()
-    #     #     else:
-    #     #         actions[pid] = env.action_space[pid].sample()
-
-        
-    #     # action = 0 # just for testing
-    #     ## we should model each step in the grid because we need to record the observations
-    #     # (2) perceive
-    #     # for action in path: # we want to move this to a per step action but for not just testing
-    #     #     obs, reward, term, trunc, info = env.step(action)
-    #     #     print(obs.keys())
-    #     #     vis = get_obs(env, include_world_coords=True, include_street=False)
-    #     # # (3) store observations in the enviornment
-    #     #     print(f"Step {steps}, action={action}")
-    #     #     print_visible(vis)
-    #     # obs_from_env = get_obs(obs, lookup_name=env.region_name)
-    #     # print(f"Obs shape: {np.array(obs_from_env).shape}")
-    #     # summary = summarize_obs(obs_from_env)
-    #     # print(f"Step {steps}:\n{summary}")
-
-
-    #     ## at some point we need to add the logic for exteral environment 
-    #     # Env update
-    #     # send signal to agents about evacuation and fire spread
-    #     time.sleep(0.5) 
-    #     done = terminations or truncations
-    #     steps += 1
-    # env.close()
-
+   
 
 if __name__ == "__main__":
     run()

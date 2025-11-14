@@ -103,7 +103,6 @@ class MultiHumanGridEnv(gym.Env):
             frame = self._render_human(return_array=True)
             return frame
         elif self.render_mode == "ansi":
-            # keep a simple text renderer if you still want it
             return self._render_ansi()
         else:
             return None

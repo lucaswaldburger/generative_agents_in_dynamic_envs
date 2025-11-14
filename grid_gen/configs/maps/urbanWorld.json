@@ -58,11 +58,31 @@
       "shape": "rect", "x": 9, "y": 9, "w": 5, "h": 5
     },
 
-    { "name": "Home A", "group_ids": ["row_bot","col_west"], "type": "home", "access_code": 3, "render": "home",
-      "shape": "rect", "x": 4, "y": 15, "w": 3, "h": 2
+    { 
+      "name": "Home A",
+      "group_ids": ["row_bot","col_west"],
+      "type": "home",
+      "access_code": 3,
+      "render": "home",
+      "shape": "rect",
+      "x": 4,
+      "y": 15,
+      "w": 3,
+      "h": 2,
+      "residents": ["human_1"]
     },
-    { "name": "Home B", "group_ids": ["row_bot","col_west"], "type": "home", "access_code": 3, "render": "home",
-      "shape": "rect", "x": 4, "y": 18, "w": 3, "h": 2
+    { 
+      "name": "Home B",
+      "group_ids": ["row_bot","col_west"],
+      "type": "home",
+      "access_code": 3,
+      "render": "home",
+      "shape": "rect",
+      "x": 4,
+      "y": 18,
+      "w": 3,
+      "h": 2,
+      "residents": ["human_2"]
     },
     { "name": "Workplace A", "group_ids": ["row_bot","col_west"], "type": "work", "access_code": 3, "render": "work",
       "shape": "rect", "x": 23, "y": 9, "w": 3, "h": 2
@@ -87,6 +107,7 @@
     "can_enter": {
       "0": false, "1": true, "2": true, "3": true, "4": false
     },
+    "blocks_vision": { "0": true, "1": false, "2": false, "3": true, "4": true, "5": true },
     "is_hazard": { "4": true }
   }
 }
