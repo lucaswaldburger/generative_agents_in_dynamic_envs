@@ -1,0 +1,1641 @@
+imported openai-cost-logger
+(Auto-Exec): STARTING THE EXPERIMENT
+(Auto-Exec): Origin: base_the_ville_isabella_maria_klaus
+(Auto-Exec): Target: test_1_run1
+(Auto-Exec): Total steps: 20
+(Auto-Exec): Checkpoint Freq: 200
+(Auto-Exec): MQTT Mode: Disabled
+(Auto-Exec): STAGE 0
+(Auto-Exec): Running experiment 'test_1_run1' from step '0' to '20'
+(reverie): Temp storage:  ../../environment/frontend_server/temp_storage
+Note: The agents in this simulation package are computational
+constructs powered by generative agents architecture and LLM. We
+clarify that these agents lack human-like agency, consciousness,
+and independent decision-making.
+---
+run 20
+Setting headless to False.
+Starting main loop at step 0
+(Auto-Exec): Opening the simulator home page
+Opening in existing browser session.
+GNS FUNCTION: <generate_wake_up_hour>
+Attempt 1
+Response:  ParsedChatCompletion[WakeUpHour](id='chatcmpl-CZ5fYvy46OynJGzzMXXtSoLBVnx9H', choices=[ParsedChoice[WakeUpHour](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[WakeUpHour](content='{"wake_up_hour":6}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=WakeUpHour(wake_up_hour=6), annotations=[]))], created=1762479308, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=7, prompt_tokens=275, total_tokens=282, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/wake_up_hour_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0.8, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': "Name: Isabella Rodriguez\nAge: 34\nInnate traits: friendly, outgoing, hospitable\nLearned traits: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.\nCurrently: Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.\nLifestyle: Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.\nDaily plan requirement: Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.\nCurrent Date: Monday February 13\n", 'persona_lifestyle': 'Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.', 'persona_firstname': 'Isabella'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Name: Isabella Rodriguez
+Age: 34
+Innate traits: friendly, outgoing, hospitable
+Learned traits: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.
+Currently: Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.
+Lifestyle: Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.
+Daily plan requirement: Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.
+Current Date: Monday February 13
+
+
+In general, Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.
+Isabella's wake up hour:
+
+
+~~~ processed output    ----------------------------------------------------
+6
+
+=== END ==========================================================
+
+
+-------- new_retrieve ----------
+Number of focal_points:  2
+
+-------- focal_pt:  Isabella Rodriguez's plan for Monday February 13.
+
+
+-------- focal_pt:  Important recent events for Isabella Rodriguez's life.
+
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, is there anything that Isabella Rodriguez should remember as they plan for *Monday February 13*? If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement)
+
+Write the response from Isabella Rodriguez's perspective.
+Response content: As I plan for Monday, February 13, I need to remember any important scheduling information or events that may be happening on that day. If there were specific meetings, deadlines, or appointments mentioned in the statements, I'll ensure I have those details noted down. 
+
+For example, if there was a meeting scheduled at 10 AM at the downtown office, I'll need to set my reminders accordingly. Additionally, if there’s a deadline for a project or submission that falls on that date, I’ll want to prioritize my tasks to ensure everything is completed on time. 
+
+If there’s anything else specific mentioned in those statements that pertains to that day, such as preparations I need to make or people I need to follow up with, those will be crucial for my success as well. 
+
+Overall, it's vital to keep my schedule organized and clear so that nothing falls through the cracks on Monday, February 13.
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, how might we summarize Isabella Rodriguez's feelings about their days up to now?
+
+Write the response from Isabella Rodriguez's perspective.
+Response content: Up until now, I've experienced a whirlwind of emotions on a daily basis. Some days feel overwhelmingly exhilarating, filled with moments of joy and excitement that make me feel alive. Other days, though, can be challenging and testing, leaving me feeling drained and reflective. I find myself navigating a mix of happiness, stress, and sometimes uncertainty about what’s to come. Overall, I’d say my feelings are a blend of hope and determination, as I strive to make the best of each day while embracing both the highs and lows of this journey.
+--- ChatGPT_single_request() ---
+Prompt: Isabella Rodriguez's status from Sunday February 12:
+Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.
+
+Isabella Rodriguez's thoughts at the end of Sunday February 12:
+As I plan for Monday, February 13, I need to remember any important scheduling information or events that may be happening on that day. If there were specific meetings, deadlines, or appointments mentioned in the statements, I'll ensure I have those details noted down. For example, if there was a meeting scheduled at 10 AM at the downtown office, I'll need to set my reminders accordingly. Additionally, if there’s a deadline for a project or submission that falls on that date, I’ll want to prioritize my tasks to ensure everything is completed on time. If there’s anything else specific mentioned in those statements that pertains to that day, such as preparations I need to make or people I need to follow up with, those will be crucial for my success as well. Overall, it's vital to keep my schedule organized and clear so that nothing falls through the cracks on Monday, February 13.Up until now, I've experienced a whirlwind of emotions on a daily basis. Some days feel overwhelmingly exhilarating, filled with moments of joy and excitement that make me feel alive. Other days, though, can be challenging and testing, leaving me feeling drained and reflective. I find myself navigating a mix of happiness, stress, and sometimes uncertainty about what’s to come. Overall, I’d say my feelings are a blend of hope and determination, as I strive to make the best of each day while embracing both the highs and lows of this journey.
+
+It is now Monday February 13. Given the above, write Isabella Rodriguez's status for Monday February 13 that reflects Isabella Rodriguez's thoughts at the end of Sunday February 12. Write this in third-person talking about Isabella Rodriguez.If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement).
+
+Follow this format below:
+Status: <new status>
+Response content: Status: Isabella Rodriguez is focusing on her preparations for the upcoming Valentine's Day party at Hobbs Cafe, scheduled for February 14th, 2023, from 5 PM to 7 PM. She is gathering essential party materials and reaching out to customers to remind them to join the celebration. As she starts her day on February 13, she is ensuring that her schedule is organized and that she notes any important events or tasks that need attention. There are no specific meetings or deadlines mentioned for today, but Isabella is committed to managing her time effectively and prioritizing her tasks to ensure everything is in place for the party tomorrow. She is embracing a blend of hope and determination, motivated to navigate the mixed emotions of joy and stress as she prepares for a successful event.
+--- ChatGPT_single_request() ---
+Prompt: Name: Isabella Rodriguez
+Age: 34
+Innate traits: friendly, outgoing, hospitable
+Learned traits: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.
+Currently: Status: Isabella Rodriguez is focusing on her preparations for the upcoming Valentine's Day party at Hobbs Cafe, scheduled for February 14th, 2023, from 5 PM to 7 PM. She is gathering essential party materials and reaching out to customers to remind them to join the celebration. As she starts her day on February 13, she is ensuring that her schedule is organized and that she notes any important events or tasks that need attention. There are no specific meetings or deadlines mentioned for today, but Isabella is committed to managing her time effectively and prioritizing her tasks to ensure everything is in place for the party tomorrow. She is embracing a blend of hope and determination, motivated to navigate the mixed emotions of joy and stress as she prepares for a successful event.
+Lifestyle: Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.
+Daily plan requirement: Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.
+Current Date: Monday February 13
+
+Today is Monday February 13. Here is Isabella Rodriguez's plan today in broad-strokes (with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).
+
+Follow this format (the list should have 4~6 items but no more):
+1. wake up and complete the morning routine at <time>, 2. ...
+Response content: 1. Wake up and complete the morning routine at 6:00 AM.  
+2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.  
+3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.  
+4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.  
+5. Spend time decorating the cafe for the party after closing at 8:00 PM.  
+6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.
+DEBUG new_daily_req: 1. Wake up and complete the morning routine at 6:00 AM.   2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.   3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.   4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.   5. Spend time decorating the cafe for the party after closing at 8:00 PM.   6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.
+GNS FUNCTION: <generate_first_daily_plan>
+Attempt 1
+Response:  ParsedChatCompletion[DailyPlan](id='chatcmpl-CZ5fnpVoL8FE9p85lVV0xxJhylR3f', choices=[ParsedChoice[DailyPlan](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[DailyPlan](content='{"daily_plan":["Wake up and complete the morning routine at 6:00 AM.","Finalize party preparations and make a list of essential materials needed for the Valentine\'s Day party at 7:00 AM.","Open Hobbs Cafe and greet customers from 8:00 AM to 8:00 PM, managing the counter and providing friendly service.","During slower hours throughout the day, reach out to customers via social media and in-person reminders about the Valentine\'s Day party.","Enjoy lunch at 12:00 PM, taking a brief moment to recharge before the busy afternoon.","Continue to serve customers and create a welcoming atmosphere until closing at 8:00 PM.","Spend time decorating Hobbs Cafe for the party after closing from 8:00 PM to 10:00 PM, ensuring everything looks festive and inviting.","Wind down and reflect on the day\'s progress, planning any last-minute tasks for the party at 10:00 PM."]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=DailyPlan(daily_plan=['Wake up and complete the morning routine at 6:00 AM.', "Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.", 'Open Hobbs Cafe and greet customers from 8:00 AM to 8:00 PM, managing the counter and providing friendly service.', "During slower hours throughout the day, reach out to customers via social media and in-person reminders about the Valentine's Day party.", 'Enjoy lunch at 12:00 PM, taking a brief moment to recharge before the busy afternoon.', 'Continue to serve customers and create a welcoming atmosphere until closing at 8:00 PM.', 'Spend time decorating Hobbs Cafe for the party after closing from 8:00 PM to 10:00 PM, ensuring everything looks festive and inviting.', "Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM."]), annotations=[]))], created=1762479323, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=188, prompt_tokens=551, total_tokens=739, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/daily_planning_v6.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 2000, 'temperature': 1, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': "Name: Isabella Rodriguez\nAge: 34\nInnate traits: friendly, outgoing, hospitable\nLearned traits: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.\nCurrently: Status: Isabella Rodriguez is focusing on her preparations for the upcoming Valentine's Day party at Hobbs Cafe, scheduled for February 14th, 2023, from 5 PM to 7 PM. She is gathering essential party materials and reaching out to customers to remind them to join the celebration. As she starts her day on February 13, she is ensuring that her schedule is organized and that she notes any important events or tasks that need attention. There are no specific meetings or deadlines mentioned for today, but Isabella is committed to managing her time effectively and prioritizing her tasks to ensure everything is in place for the party tomorrow. She is embracing a blend of hope and determination, motivated to navigate the mixed emotions of joy and stress as she prepares for a successful event.\nLifestyle: Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.\nDaily plan requirement: 1. Wake up and complete the morning routine at 6:00 AM.   2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.   3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.   4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.   5. Spend time decorating the cafe for the party after closing at 8:00 PM.   6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.\nCurrent Date: Monday February 13\n", 'lifestyle': 'Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.', 'curr_date': 'Monday February 13', 'persona_name': 'Isabella', 'wake_up_hour': '6:00', 'noncognitive': False}
+
+~~~ final prompt    ----------------------------------------------------
+
+  Name: Isabella Rodriguez
+Age: 34
+Innate traits: friendly, outgoing, hospitable
+Learned traits: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.
+Currently: Status: Isabella Rodriguez is focusing on her preparations for the upcoming Valentine's Day party at Hobbs Cafe, scheduled for February 14th, 2023, from 5 PM to 7 PM. She is gathering essential party materials and reaching out to customers to remind them to join the celebration. As she starts her day on February 13, she is ensuring that her schedule is organized and that she notes any important events or tasks that need attention. There are no specific meetings or deadlines mentioned for today, but Isabella is committed to managing her time effectively and prioritizing her tasks to ensure everything is in place for the party tomorrow. She is embracing a blend of hope and determination, motivated to navigate the mixed emotions of joy and stress as she prepares for a successful event.
+Lifestyle: Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.
+Daily plan requirement: 1. Wake up and complete the morning routine at 6:00 AM.   2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.   3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.   4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.   5. Spend time decorating the cafe for the party after closing at 8:00 PM.   6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.
+Current Date: Monday February 13
+
+
+  In general, Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.
+  Today is Monday February 13. Describe Isabella's plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at 6:00", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
+  
+
+~~~ processed output    ----------------------------------------------------
+['Wake up and complete the morning routine at 6:00 AM.', "Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.", 'Open Hobbs Cafe and greet customers from 8:00 AM to 8:00 PM, managing the counter and providing friendly service.', "During slower hours throughout the day, reach out to customers via social media and in-person reminders about the Valentine's Day party.", 'Enjoy lunch at 12:00 PM, taking a brief moment to recharge before the busy afternoon.', 'Continue to serve customers and create a welcoming atmosphere until closing at 8:00 PM.', 'Spend time decorating Hobbs Cafe for the party after closing from 8:00 PM to 10:00 PM, ensuring everything looks festive and inviting.', "Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM."]
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_hourly_schedule>
+Attempt 1
+Response:  ParsedChatCompletion[HourlySchedule](id='chatcmpl-CZ5fsKyzrxyGgzEJyTv2JxGTFExsM', choices=[ParsedChoice[HourlySchedule](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[HourlySchedule](content='{"hourly_schedule":[{"datetime":"Monday February 13, 00:00 AM","activity":"[Sleeping]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Sleeping]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Sleeping]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Sleeping]"},{"datetime":"Monday February 13, 04:00 AM","activity":"[Sleeping]"},{"datetime":"Monday February 13, 05:00 AM","activity":"[Sleeping]"},{"datetime":"Monday February 13, 06:00 AM","activity":"waking up and completing the morning routine"},{"datetime":"Monday February 13, 07:00 AM","activity":"finalizing party preparations and making a list of essential materials needed for the Valentine\'s Day party"},{"datetime":"Monday February 13, 08:00 AM","activity":"opening Hobbs Cafe and greeting customers, managing the counter and providing friendly service"},{"datetime":"Monday February 13, 09:00 AM","activity":"serving customers and creating a welcoming atmosphere"},{"datetime":"Monday February 13, 10:00 AM","activity":"reaching out to customers via social media and in-person reminders about the Valentine\'s Day party"},{"datetime":"Monday February 13, 11:00 AM","activity":"serving customers and creating a welcoming atmosphere"},{"datetime":"Monday February 13, 12:00 PM","activity":"enjoying lunch and taking a brief moment to recharge"},{"datetime":"Monday February 13, 01:00 PM","activity":"serving customers and creating a welcoming atmosphere"},{"datetime":"Monday February 13, 02:00 PM","activity":"reaching out to customers via social media and in-person reminders about the Valentine\'s Day party"},{"datetime":"Monday February 13, 03:00 PM","activity":"serving customers and creating a welcoming atmosphere"},{"datetime":"Monday February 13, 04:00 PM","activity":"reaching out to customers via social media and in-person reminders about the Valentine\'s Day party"},{"datetime":"Monday February 13, 05:00 PM","activity":"serving customers and creating a welcoming atmosphere"},{"datetime":"Monday February 13, 06:00 PM","activity":"reaching out to customers via social media and in-person reminders about the Valentine\'s Day party"},{"datetime":"Monday February 13, 07:00 PM","activity":"serving customers and creating a welcoming atmosphere"},{"datetime":"Monday February 13, 08:00 PM","activity":"closing Hobbs Cafe and ensuring everything is tidy"},{"datetime":"Monday February 13, 09:00 PM","activity":"spending time decorating Hobbs Cafe for the party"},{"datetime":"Monday February 13, 10:00 PM","activity":"winding down and reflecting on the day\'s progress, planning any last-minute tasks for the party"},{"datetime":"Monday February 13, 11:00 PM","activity":"[Preparing for bed]"}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=HourlySchedule(hourly_schedule=[Activity(datetime='Monday February 13, 00:00 AM', activity='[Sleeping]'), Activity(datetime='Monday February 13, 01:00 AM', activity='[Sleeping]'), Activity(datetime='Monday February 13, 02:00 AM', activity='[Sleeping]'), Activity(datetime='Monday February 13, 03:00 AM', activity='[Sleeping]'), Activity(datetime='Monday February 13, 04:00 AM', activity='[Sleeping]'), Activity(datetime='Monday February 13, 05:00 AM', activity='[Sleeping]'), Activity(datetime='Monday February 13, 06:00 AM', activity='waking up and completing the morning routine'), Activity(datetime='Monday February 13, 07:00 AM', activity="finalizing party preparations and making a list of essential materials needed for the Valentine's Day party"), Activity(datetime='Monday February 13, 08:00 AM', activity='opening Hobbs Cafe and greeting customers, managing the counter and providing friendly service'), Activity(datetime='Monday February 13, 09:00 AM', activity='serving customers and creating a welcoming atmosphere'), Activity(datetime='Monday February 13, 10:00 AM', activity="reaching out to customers via social media and in-person reminders about the Valentine's Day party"), Activity(datetime='Monday February 13, 11:00 AM', activity='serving customers and creating a welcoming atmosphere'), Activity(datetime='Monday February 13, 12:00 PM', activity='enjoying lunch and taking a brief moment to recharge'), Activity(datetime='Monday February 13, 01:00 PM', activity='serving customers and creating a welcoming atmosphere'), Activity(datetime='Monday February 13, 02:00 PM', activity="reaching out to customers via social media and in-person reminders about the Valentine's Day party"), Activity(datetime='Monday February 13, 03:00 PM', activity='serving customers and creating a welcoming atmosphere'), Activity(datetime='Monday February 13, 04:00 PM', activity="reaching out to customers via social media and in-person reminders about the Valentine's Day party"), Activity(datetime='Monday February 13, 05:00 PM', activity='serving customers and creating a welcoming atmosphere'), Activity(datetime='Monday February 13, 06:00 PM', activity="reaching out to customers via social media and in-person reminders about the Valentine's Day party"), Activity(datetime='Monday February 13, 07:00 PM', activity='serving customers and creating a welcoming atmosphere'), Activity(datetime='Monday February 13, 08:00 PM', activity='closing Hobbs Cafe and ensuring everything is tidy'), Activity(datetime='Monday February 13, 09:00 PM', activity='spending time decorating Hobbs Cafe for the party'), Activity(datetime='Monday February 13, 10:00 PM', activity="winding down and reflecting on the day's progress, planning any last-minute tasks for the party"), Activity(datetime='Monday February 13, 11:00 PM', activity='[Preparing for bed]')]), annotations=[]))], created=1762479328, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=618, prompt_tokens=890, total_tokens=1508, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_hourly_schedule_v2.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 5000, 'temperature': 0.5, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Isabella', 'schedule_format': '{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}', 'identity_stable_set': "Name: Isabella Rodriguez\nAge: 34\nInnate traits: friendly, outgoing, hospitable\nLearned traits: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.\nCurrently: Status: Isabella Rodriguez is focusing on her preparations for the upcoming Valentine's Day party at Hobbs Cafe, scheduled for February 14th, 2023, from 5 PM to 7 PM. She is gathering essential party materials and reaching out to customers to remind them to join the celebration. As she starts her day on February 13, she is ensuring that her schedule is organized and that she notes any important events or tasks that need attention. There are no specific meetings or deadlines mentioned for today, but Isabella is committed to managing her time effectively and prioritizing her tasks to ensure everything is in place for the party tomorrow. She is embracing a blend of hope and determination, motivated to navigate the mixed emotions of joy and stress as she prepares for a successful event.\nLifestyle: Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.\nDaily plan requirement: 1. Wake up and complete the morning routine at 6:00 AM.   2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.   3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.   4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.   5. Spend time decorating the cafe for the party after closing at 8:00 PM.   6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.\nCurrent Date: Monday February 13\n", 'instructions': 'Create an hourly schedule for the following person to fill out their whole day.', 'broad_daily_plan': "1) Wake up and complete the morning routine at 6:00 AM., 2) Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM., 3) Open Hobbs Cafe and greet customers from 8:00 AM to 8:00 PM, managing the counter and providing friendly service., 4) During slower hours throughout the day, reach out to customers via social media and in-person reminders about the Valentine's Day party., 5) Enjoy lunch at 12:00 PM, taking a brief moment to recharge before the busy afternoon., 6) Continue to serve customers and create a welcoming atmosphere until closing at 8:00 PM., 7) Spend time decorating Hobbs Cafe for the party after closing from 8:00 PM to 10:00 PM, ensuring everything looks festive and inviting., 8) Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.", 'existing_schedule': '', 'extra_instructions': '', 'prompt_ending': "Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):"}
+
+~~~ final prompt    ----------------------------------------------------
+
+Hourly schedule format:
+{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}
+===
+Name: Isabella Rodriguez
+Age: 34
+Innate traits: friendly, outgoing, hospitable
+Learned traits: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.
+Currently: Status: Isabella Rodriguez is focusing on her preparations for the upcoming Valentine's Day party at Hobbs Cafe, scheduled for February 14th, 2023, from 5 PM to 7 PM. She is gathering essential party materials and reaching out to customers to remind them to join the celebration. As she starts her day on February 13, she is ensuring that her schedule is organized and that she notes any important events or tasks that need attention. There are no specific meetings or deadlines mentioned for today, but Isabella is committed to managing her time effectively and prioritizing her tasks to ensure everything is in place for the party tomorrow. She is embracing a blend of hope and determination, motivated to navigate the mixed emotions of joy and stress as she prepares for a successful event.
+Lifestyle: Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.
+Daily plan requirement: 1. Wake up and complete the morning routine at 6:00 AM.   2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.   3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.   4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.   5. Spend time decorating the cafe for the party after closing at 8:00 PM.   6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.
+Current Date: Monday February 13
+
+Create an hourly schedule for the following person to fill out their whole day.
+Replace "[Fill in]" with the actual activity for each hour.
+Here is the originally intended hourly breakdown of Isabella's schedule today:
+1) Wake up and complete the morning routine at 6:00 AM., 2) Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM., 3) Open Hobbs Cafe and greet customers from 8:00 AM to 8:00 PM, managing the counter and providing friendly service., 4) During slower hours throughout the day, reach out to customers via social media and in-person reminders about the Valentine's Day party., 5) Enjoy lunch at 12:00 PM, taking a brief moment to recharge before the busy afternoon., 6) Continue to serve customers and create a welcoming atmosphere until closing at 8:00 PM., 7) Spend time decorating Hobbs Cafe for the party after closing from 8:00 PM to 10:00 PM, ensuring everything looks festive and inviting., 8) Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.
+
+
+Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):
+
+
+~~~ processed output    ----------------------------------------------------
+['Sleeping', 'Sleeping', 'Sleeping', 'Sleeping', 'Sleeping', 'Sleeping', 'waking up and completing the morning routine', "finalizing party preparations and making a list of essential materials needed for the Valentine's Day party", 'opening Hobbs Cafe and greeting customers, managing the counter and providing friendly service', 'serving customers and creating a welcoming atmosphere', "reaching out to customers via social media and in-person reminders about the Valentine's Day party", 'serving customers and creating a welcoming atmosphere', 'enjoying lunch and taking a brief moment to recharge', 'serving customers and creating a welcoming atmosphere', "reaching out to customers via social media and in-person reminders about the Valentine's Day party", 'serving customers and creating a welcoming atmosphere', "reaching out to customers via social media and in-person reminders about the Valentine's Day party", 'serving customers and creating a welcoming atmosphere', "reaching out to customers via social media and in-person reminders about the Valentine's Day party", 'serving customers and creating a welcoming atmosphere', 'closing Hobbs Cafe and ensuring everything is tidy', 'spending time decorating Hobbs Cafe for the party', "winding down and reflecting on the day's progress, planning any last-minute tasks for the party", 'Preparing for bed']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_task_decomp>
+Attempt 1
+Response:  ParsedChatCompletion[TaskDecomposition](id='chatcmpl-CZ5g6mE20P84myfbouazR9cfcjtTh', choices=[ParsedChoice[TaskDecomposition](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[TaskDecomposition](content='{"subtasks":[{"task":"sleeping","duration":5,"minutes_left":355},{"task":"sleeping","duration":5,"minutes_left":350},{"task":"sleeping","duration":5,"minutes_left":345},{"task":"sleeping","duration":5,"minutes_left":340},{"task":"sleeping","duration":5,"minutes_left":335},{"task":"sleeping","duration":5,"minutes_left":330},{"task":"sleeping","duration":5,"minutes_left":325},{"task":"sleeping","duration":5,"minutes_left":320},{"task":"sleeping","duration":5,"minutes_left":315},{"task":"sleeping","duration":5,"minutes_left":310},{"task":"sleeping","duration":5,"minutes_left":305},{"task":"sleeping","duration":5,"minutes_left":300},{"task":"sleeping","duration":5,"minutes_left":295},{"task":"sleeping","duration":5,"minutes_left":290},{"task":"sleeping","duration":5,"minutes_left":285},{"task":"sleeping","duration":5,"minutes_left":280},{"task":"sleeping","duration":5,"minutes_left":275},{"task":"sleeping","duration":5,"minutes_left":270},{"task":"sleeping","duration":5,"minutes_left":265},{"task":"sleeping","duration":5,"minutes_left":260},{"task":"sleeping","duration":5,"minutes_left":255},{"task":"sleeping","duration":5,"minutes_left":250},{"task":"sleeping","duration":5,"minutes_left":245},{"task":"sleeping","duration":5,"minutes_left":240},{"task":"sleeping","duration":5,"minutes_left":235},{"task":"sleeping","duration":5,"minutes_left":230},{"task":"sleeping","duration":5,"minutes_left":225},{"task":"sleeping","duration":5,"minutes_left":220},{"task":"sleeping","duration":5,"minutes_left":215},{"task":"sleeping","duration":5,"minutes_left":210},{"task":"sleeping","duration":5,"minutes_left":205},{"task":"sleeping","duration":5,"minutes_left":200},{"task":"sleeping","duration":5,"minutes_left":195},{"task":"sleeping","duration":5,"minutes_left":190},{"task":"sleeping","duration":5,"minutes_left":185},{"task":"sleeping","duration":5,"minutes_left":180},{"task":"sleeping","duration":5,"minutes_left":175},{"task":"sleeping","duration":5,"minutes_left":170},{"task":"sleeping","duration":5,"minutes_left":165},{"task":"sleeping","duration":5,"minutes_left":160},{"task":"sleeping","duration":5,"minutes_left":155},{"task":"sleeping","duration":5,"minutes_left":150},{"task":"sleeping","duration":5,"minutes_left":145},{"task":"sleeping","duration":5,"minutes_left":140},{"task":"sleeping","duration":5,"minutes_left":135},{"task":"sleeping","duration":5,"minutes_left":130},{"task":"sleeping","duration":5,"minutes_left":125},{"task":"sleeping","duration":5,"minutes_left":120},{"task":"sleeping","duration":5,"minutes_left":115},{"task":"sleeping","duration":5,"minutes_left":110},{"task":"sleeping","duration":5,"minutes_left":105},{"task":"sleeping","duration":5,"minutes_left":100},{"task":"sleeping","duration":5,"minutes_left":95},{"task":"sleeping","duration":5,"minutes_left":90},{"task":"sleeping","duration":5,"minutes_left":85},{"task":"sleeping","duration":5,"minutes_left":80},{"task":"sleeping","duration":5,"minutes_left":75},{"task":"sleeping","duration":5,"minutes_left":70},{"task":"sleeping","duration":5,"minutes_left":65},{"task":"sleeping","duration":5,"minutes_left":60},{"task":"sleeping","duration":5,"minutes_left":55},{"task":"sleeping","duration":5,"minutes_left":50},{"task":"sleeping","duration":5,"minutes_left":45},{"task":"sleeping","duration":5,"minutes_left":40},{"task":"sleeping","duration":5,"minutes_left":35},{"task":"sleeping","duration":5,"minutes_left":30},{"task":"sleeping","duration":5,"minutes_left":25},{"task":"sleeping","duration":5,"minutes_left":20},{"task":"sleeping","duration":5,"minutes_left":15},{"task":"sleeping","duration":5,"minutes_left":10},{"task":"sleeping","duration":5,"minutes_left":5},{"task":"sleeping","duration":5,"minutes_left":0}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=TaskDecomposition(subtasks=[Subtask(task='sleeping', duration=5, minutes_left=355), Subtask(task='sleeping', duration=5, minutes_left=350), Subtask(task='sleeping', duration=5, minutes_left=345), Subtask(task='sleeping', duration=5, minutes_left=340), Subtask(task='sleeping', duration=5, minutes_left=335), Subtask(task='sleeping', duration=5, minutes_left=330), Subtask(task='sleeping', duration=5, minutes_left=325), Subtask(task='sleeping', duration=5, minutes_left=320), Subtask(task='sleeping', duration=5, minutes_left=315), Subtask(task='sleeping', duration=5, minutes_left=310), Subtask(task='sleeping', duration=5, minutes_left=305), Subtask(task='sleeping', duration=5, minutes_left=300), Subtask(task='sleeping', duration=5, minutes_left=295), Subtask(task='sleeping', duration=5, minutes_left=290), Subtask(task='sleeping', duration=5, minutes_left=285), Subtask(task='sleeping', duration=5, minutes_left=280), Subtask(task='sleeping', duration=5, minutes_left=275), Subtask(task='sleeping', duration=5, minutes_left=270), Subtask(task='sleeping', duration=5, minutes_left=265), Subtask(task='sleeping', duration=5, minutes_left=260), Subtask(task='sleeping', duration=5, minutes_left=255), Subtask(task='sleeping', duration=5, minutes_left=250), Subtask(task='sleeping', duration=5, minutes_left=245), Subtask(task='sleeping', duration=5, minutes_left=240), Subtask(task='sleeping', duration=5, minutes_left=235), Subtask(task='sleeping', duration=5, minutes_left=230), Subtask(task='sleeping', duration=5, minutes_left=225), Subtask(task='sleeping', duration=5, minutes_left=220), Subtask(task='sleeping', duration=5, minutes_left=215), Subtask(task='sleeping', duration=5, minutes_left=210), Subtask(task='sleeping', duration=5, minutes_left=205), Subtask(task='sleeping', duration=5, minutes_left=200), Subtask(task='sleeping', duration=5, minutes_left=195), Subtask(task='sleeping', duration=5, minutes_left=190), Subtask(task='sleeping', duration=5, minutes_left=185), Subtask(task='sleeping', duration=5, minutes_left=180), Subtask(task='sleeping', duration=5, minutes_left=175), Subtask(task='sleeping', duration=5, minutes_left=170), Subtask(task='sleeping', duration=5, minutes_left=165), Subtask(task='sleeping', duration=5, minutes_left=160), Subtask(task='sleeping', duration=5, minutes_left=155), Subtask(task='sleeping', duration=5, minutes_left=150), Subtask(task='sleeping', duration=5, minutes_left=145), Subtask(task='sleeping', duration=5, minutes_left=140), Subtask(task='sleeping', duration=5, minutes_left=135), Subtask(task='sleeping', duration=5, minutes_left=130), Subtask(task='sleeping', duration=5, minutes_left=125), Subtask(task='sleeping', duration=5, minutes_left=120), Subtask(task='sleeping', duration=5, minutes_left=115), Subtask(task='sleeping', duration=5, minutes_left=110), Subtask(task='sleeping', duration=5, minutes_left=105), Subtask(task='sleeping', duration=5, minutes_left=100), Subtask(task='sleeping', duration=5, minutes_left=95), Subtask(task='sleeping', duration=5, minutes_left=90), Subtask(task='sleeping', duration=5, minutes_left=85), Subtask(task='sleeping', duration=5, minutes_left=80), Subtask(task='sleeping', duration=5, minutes_left=75), Subtask(task='sleeping', duration=5, minutes_left=70), Subtask(task='sleeping', duration=5, minutes_left=65), Subtask(task='sleeping', duration=5, minutes_left=60), Subtask(task='sleeping', duration=5, minutes_left=55), Subtask(task='sleeping', duration=5, minutes_left=50), Subtask(task='sleeping', duration=5, minutes_left=45), Subtask(task='sleeping', duration=5, minutes_left=40), Subtask(task='sleeping', duration=5, minutes_left=35), Subtask(task='sleeping', duration=5, minutes_left=30), Subtask(task='sleeping', duration=5, minutes_left=25), Subtask(task='sleeping', duration=5, minutes_left=20), Subtask(task='sleeping', duration=5, minutes_left=15), Subtask(task='sleeping', duration=5, minutes_left=10), Subtask(task='sleeping', duration=5, minutes_left=5), Subtask(task='sleeping', duration=5, minutes_left=0)]), annotations=[]))], created=1762479342, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=1014, prompt_tokens=1168, total_tokens=2182, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_task_decomp>
+Attempt 1
+Response:  ParsedChatCompletion[TaskDecomposition](id='chatcmpl-CZ5gTUG2CsaXOSwV9Ur37a80iVVP3', choices=[ParsedChoice[TaskDecomposition](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[TaskDecomposition](content='{"subtasks":[{"task":"waking up and turning off the alarm","duration":5,"minutes_left":55},{"task":"stretching and getting out of bed","duration":5,"minutes_left":50},{"task":"brushing teeth","duration":5,"minutes_left":45},{"task":"washing face","duration":5,"minutes_left":40},{"task":"taking a shower","duration":10,"minutes_left":30},{"task":"drying off and getting dressed","duration":10,"minutes_left":20},{"task":"combing hair and applying makeup","duration":10,"minutes_left":10},{"task":"preparing breakfast","duration":10,"minutes_left":0}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=TaskDecomposition(subtasks=[Subtask(task='waking up and turning off the alarm', duration=5, minutes_left=55), Subtask(task='stretching and getting out of bed', duration=5, minutes_left=50), Subtask(task='brushing teeth', duration=5, minutes_left=45), Subtask(task='washing face', duration=5, minutes_left=40), Subtask(task='taking a shower', duration=10, minutes_left=30), Subtask(task='drying off and getting dressed', duration=10, minutes_left=20), Subtask(task='combing hair and applying makeup', duration=10, minutes_left=10), Subtask(task='preparing breakfast', duration=10, minutes_left=0)]), annotations=[]))], created=1762479365, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=140, prompt_tokens=1174, total_tokens=1314, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+DEBUG here
+['Sleeping (sleeping)', 360]
+['waking up and completing the morning routine (waking up and turning off the alarm)', 5]
+['waking up and completing the morning routine (stretching and getting out of bed)', 5]
+['waking up and completing the morning routine (brushing teeth)', 5]
+['waking up and completing the morning routine (washing face)', 5]
+['waking up and completing the morning routine (taking a shower)', 10]
+['waking up and completing the morning routine (drying off and getting dressed)', 10]
+['waking up and completing the morning routine (combing hair and applying makeup)', 10]
+['waking up and completing the morning routine (preparing breakfast)', 10]
+["finalizing party preparations and making a list of essential materials needed for the Valentine's Day party", 60]
+['opening Hobbs Cafe and greeting customers, managing the counter and providing friendly service', 60]
+['serving customers and creating a welcoming atmosphere', 60]
+["reaching out to customers via social media and in-person reminders about the Valentine's Day party", 60]
+['serving customers and creating a welcoming atmosphere', 60]
+['enjoying lunch and taking a brief moment to recharge', 60]
+['serving customers and creating a welcoming atmosphere', 60]
+["reaching out to customers via social media and in-person reminders about the Valentine's Day party", 60]
+['serving customers and creating a welcoming atmosphere', 60]
+["reaching out to customers via social media and in-person reminders about the Valentine's Day party", 60]
+['serving customers and creating a welcoming atmosphere', 60]
+["reaching out to customers via social media and in-person reminders about the Valentine's Day party", 60]
+['serving customers and creating a welcoming atmosphere', 60]
+['closing Hobbs Cafe and ensuring everything is tidy', 60]
+['spending time decorating Hobbs Cafe for the party', 60]
+["winding down and reflecting on the day's progress, planning any last-minute tasks for the party", 60]
+['Preparing for bed', 60]
+0
+26
+Isabella Rodriguez
+------
+GNS FUNCTION: <generate_action_sector>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CZ5gWqnNR6C7Hvy3iOlUJ0qZQxuee', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Isabella Rodriguez\'s apartment"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area="Isabella Rodriguez's apartment"), annotations=[]))], created=1762479368, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=9, prompt_tokens=669, total_tokens=678, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_sector_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Isabella Rodriguez', 'living_sector': "Isabella Rodriguez's apartment", 'living_sector_arenas': 'main room', 'current_sector': "Isabella Rodriguez's apartment", 'current_sector_arenas': 'main room', 'daily_plan_requirement': "1. Wake up and complete the morning routine at 6:00 AM.   2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.   3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.   4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.   5. Spend time decorating the cafe for the party after closing at 8:00 PM.   6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.", 'available_sectors': "Hobbs Cafe, Isabella Rodriguez's apartment, The Rose and Crown Pub, Harvey Oak Supply Store, The Willows Market and Pharmacy, Dorm for Oak Hill College, Johnson Park, Ryan Park's apartment", 'broad_action': 'Sleeping', 'specific_action': 'sleeping'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task -- choose an appropriate area from the area options for a task at hand.
+
+Sam Kim lives in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Sam Kim is currently in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Area options: [Sam Kim's house, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For taking a walk, Sam Kim should go to the following area: Johnson Park
+---
+Jane Anderson lives in [Oak Hill College Student Dormatory] that has [Jane Anderson's room].
+Jane Anderson is currently in [Oak Hill College] that has [a classroom, library]
+Area options: [Oak Hill College Student Dormatory, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For eating dinner, Jane Anderson should go to the following area: Hobbs Cafe
+---
+Isabella Rodriguez lives in [Isabella Rodriguez's apartment] that has [main room].
+Isabella Rodriguez is currently in [Isabella Rodriguez's apartment] that has [main room]. 1. Wake up and complete the morning routine at 6:00 AM.   2. Finalize party preparations and make a list of essential materials needed for the Valentine's Day party at 7:00 AM.   3. Open Hobbs Cafe and greet customers, managing the counter from 8:00 AM to 8:00 PM.   4. Reach out to customers via social media and in-person reminders about the Valentine's Day party during slower hours throughout the day.   5. Spend time decorating the cafe for the party after closing at 8:00 PM.   6. Wind down and reflect on the day's progress, planning any last-minute tasks for the party at 10:00 PM.
+Area options: [Hobbs Cafe, Isabella Rodriguez's apartment, The Rose and Crown Pub, Harvey Oak Supply Store, The Willows Market and Pharmacy, Dorm for Oak Hill College, Johnson Park, Ryan Park's apartment].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+Isabella Rodriguez is Sleeping. For sleeping, Isabella Rodriguez should go to the following area:
+
+
+~~~ processed output    ----------------------------------------------------
+Isabella Rodriguez's apartment
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_arena>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CZ5gWLxdGMMmN7LVaHGElRvPTFCzy', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"main room"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area='main room'), annotations=[]))], created=1762479368, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=6, prompt_tokens=314, total_tokens=320, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_arena_vMar11.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Isabella Rodriguez', 'action_sector': "Isabella Rodriguez's apartment", 'accessible_arenas': 'main room', 'broad_action': 'Sleeping', 'specific_action': 'sleeping'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Jane Anderson is in kitchen in Jane Anderson's house.
+Jane Anderson is going to Jane Anderson's house that has the following areas: [kitchen, bedroom, bathroom]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For cooking, Jane Anderson should go to the following area in Jane Anderson's house:
+Answer: kitchen
+---
+Tom Watson is in common room in Tom Watson's apartment.
+Tom Watson is going to Hobbs Cafe that has the following areas: [cafe]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For getting coffee, Tom Watson should go to the following area in Hobbs Cafe:
+Answer: cafe
+---
+Isabella Rodriguez is going to Isabella Rodriguez's apartment that has the following areas: [main room]
+* Stay in the current area if the activity can be done there.
+* NEVER go into other people's rooms unless necessary.
+Isabella Rodriguez is Sleeping. For sleeping, Isabella Rodriguez should go to the following area in Isabella Rodriguez's apartment (MUST pick one of [main room]):
+Answer:
+  
+
+~~~ processed output    ----------------------------------------------------
+main room
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_game_object>
+Attempt 1
+Response:  ParsedChatCompletion[GameObject](id='chatcmpl-CZ5gXlkLq9IzifSfKsgRNJUx2gqLo', choices=[ParsedChoice[GameObject](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[GameObject](content='{"object":"bed"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=GameObject(object='bed'), annotations=[]))], created=1762479369, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=5, prompt_tokens=265, total_tokens=270, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_object_v2.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'activity': 'sleeping', 'available_objects': 'bed, desk, refrigerator, closet, shelf'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Current activity: sleep in bed
+Objects available: [bed, easel, closet, painting]
+Pick ONE most relevant object from the objects available: bed
+---
+Current activity: painting
+Objects available: [easel, closet, sink, microwave]
+Pick ONE most relevant object from the objects available: easel
+---
+Current activity: cooking
+Objects available: [stove, sink, fridge, counter]
+Pick ONE most relevant object from the objects available: stove
+---
+Current activity: watch TV
+Objects available: [couch, TV, remote, coffee table]
+Pick ONE most relevant object from the objects available: TV
+---
+Current activity: study
+Objects available: [desk, computer, chair, bookshelf]
+Pick ONE most relevant object from the objects available: desk
+---
+Current activity: talk on the phone
+Objects available: [phone, charger, bed, nightstand]
+Pick ONE most relevant object from the objects available: phone
+---
+Current activity: sleeping
+Objects available: [bed, desk, refrigerator, closet, shelf]
+Pick ONE most relevant object from the objects available:
+
+
+~~~ processed output    ----------------------------------------------------
+bed
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: sleeping
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: sleeping
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CZ5gXhInshGocVZXYDZcez92UiGAj', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"😴💤"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='😴💤'), annotations=[]))], created=1762479369, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=8, prompt_tokens=111, total_tokens=119, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CZ5gY2TPk0Wtc0VF6SUrALHHGHghS', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"Isabella Rodriguez","predicate":"is","object":"sleep"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='Isabella Rodriguez', predicate='is', object='sleep'), annotations=[]))], created=1762479370, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=15, prompt_tokens=214, total_tokens=229, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'Isabella Rodriguez', 'action': 'sleeping'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: Isabella Rodriguez is sleeping.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('Isabella Rodriguez', 'is', 'sleep')
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_act_obj_desc>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the bed.
+Step 1. Isabella Rodriguez is Sleeping (sleeping).
+Step 2. Describe the state of the bed: bed is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the bed.
+Step 1. Isabella Rodriguez is Sleeping (sleeping).
+Step 2. Describe the state of the bed: bed is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Response: ParsedChatCompletion[ObjDesc](id='chatcmpl-CZ5gZ41eFmC4wOzOZ6Sc8kAE2zE6I', choices=[ParsedChoice[ObjDesc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ObjDesc](content='{"description":"occupied and in use"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ObjDesc(description='occupied and in use'), annotations=[]))], created=1762479371, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=8, prompt_tokens=152, total_tokens=160, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: occupied and in use
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: occupied and in use
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CZ5ga7JmDEaV9t01macunk3KVzHgf', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"🚫🔒"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='🚫🔒'), annotations=[]))], created=1762479372, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=8, prompt_tokens=114, total_tokens=122, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_act_obj_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CZ5gb7x45viWB0p8FcvPyCWNh9WMi', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"bed","predicate":"is","object":"occupied and in use"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='bed', predicate='is', object='occupied and in use'), annotations=[]))], created=1762479373, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=16, prompt_tokens=216, total_tokens=232, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Isabella Rodriguez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'bed', 'action': 'occupied and in use'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: bed is occupied and in use.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('bed', 'is', 'occupied and in use')
+
+=== END ==========================================================
+
+
+the Ville:Isabella Rodriguez's apartment:main room:bed
+GNS FUNCTION: <generate_wake_up_hour>
+Attempt 1
+Response:  ParsedChatCompletion[WakeUpHour](id='chatcmpl-CZ5gpOx3q7SpGnQBiNCIiJx85DFd2', choices=[ParsedChoice[WakeUpHour](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[WakeUpHour](content='{"wake_up_hour":9}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=WakeUpHour(wake_up_hour=9), annotations=[]))], created=1762479387, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=7, prompt_tokens=258, total_tokens=265, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/wake_up_hour_v1.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0.8, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': "Name: Maria Lopez\nAge: 21\nInnate traits: energetic, enthusiastic, inquisitive\nLearned traits: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.\nCurrently: Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.\nLifestyle: Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.\nDaily plan requirement: Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.\nCurrent Date: Monday February 13\n", 'persona_lifestyle': "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.", 'persona_firstname': 'Maria'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Name: Maria Lopez
+Age: 21
+Innate traits: energetic, enthusiastic, inquisitive
+Learned traits: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.
+Currently: Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.
+Lifestyle: Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.
+Daily plan requirement: Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.
+Current Date: Monday February 13
+
+
+In general, Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.
+Maria's wake up hour:
+
+
+~~~ processed output    ----------------------------------------------------
+9
+
+=== END ==========================================================
+
+
+-------- new_retrieve ----------
+Number of focal_points:  2
+
+-------- focal_pt:  Maria Lopez's plan for Monday February 13.
+
+
+-------- focal_pt:  Important recent events for Maria Lopez's life.
+
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, is there anything that Maria Lopez should remember as they plan for *Monday February 13*? If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement)
+
+Write the response from Maria Lopez's perspective.
+Response content: As I plan for Monday, February 13, here are the key points I need to keep in mind:
+
+1. **Appointment Time**: I have a doctor's appointment scheduled for **February 13 at 10:00 AM**. It's important that I leave early enough to avoid any traffic, so I plan to leave by 9:00 AM.
+
+2. **Location**: The appointment is at **City Health Clinic, 123 Health Ave**. I need to make sure I have the address handy and check if I need to bring any paperwork or insurance information.
+
+3. **Follow-Up**: After the appointment, I might need to schedule a follow-up visit or pick up prescriptions. I should keep my afternoon free to handle that if necessary.
+
+4. **Lunch Plans**: I had mentioned grabbing lunch with Sarah after my appointment at **noon at Café Gourmet**. I need to confirm she’s still available.
+
+5. **Work Commitments**: I also have work deadlines approaching, so I should allocate some time in the afternoon to focus on that, particularly after my lunch with Sarah.
+
+Overall, staying organized and keeping track of my timings will be crucial for a smooth day on February 13.
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, how might we summarize Maria Lopez's feelings about their days up to now?
+
+Write the response from Maria Lopez's perspective.
+Response content: As Maria Lopez, I would say that my days up to now have been a mixed bag of emotions. There have been moments of joy and accomplishment, but also times of stress and uncertainty. I've felt a sense of hope for the future, even when challenges arise. I often find myself reflecting on the little things that bring me happiness, like spending time with loved ones or pursuing my passions. Despite the ups and downs, I strive to maintain a positive outlook and embrace each day with an open heart. Overall, my feelings are a blend of gratitude for the good moments and determination to navigate through the tough ones.
+--- ChatGPT_single_request() ---
+Prompt: Maria Lopez's status from Sunday February 12:
+Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.
+
+Maria Lopez's thoughts at the end of Sunday February 12:
+As I plan for Monday, February 13, here are the key points I need to keep in mind:1. **Appointment Time**: I have a doctor's appointment scheduled for **February 13 at 10:00 AM**. It's important that I leave early enough to avoid any traffic, so I plan to leave by 9:00 AM.2. **Location**: The appointment is at **City Health Clinic, 123 Health Ave**. I need to make sure I have the address handy and check if I need to bring any paperwork or insurance information.3. **Follow-Up**: After the appointment, I might need to schedule a follow-up visit or pick up prescriptions. I should keep my afternoon free to handle that if necessary.4. **Lunch Plans**: I had mentioned grabbing lunch with Sarah after my appointment at **noon at Café Gourmet**. I need to confirm she’s still available.5. **Work Commitments**: I also have work deadlines approaching, so I should allocate some time in the afternoon to focus on that, particularly after my lunch with Sarah.Overall, staying organized and keeping track of my timings will be crucial for a smooth day on February 13.As Maria Lopez, I would say that my days up to now have been a mixed bag of emotions. There have been moments of joy and accomplishment, but also times of stress and uncertainty. I've felt a sense of hope for the future, even when challenges arise. I often find myself reflecting on the little things that bring me happiness, like spending time with loved ones or pursuing my passions. Despite the ups and downs, I strive to maintain a positive outlook and embrace each day with an open heart. Overall, my feelings are a blend of gratitude for the good moments and determination to navigate through the tough ones.
+
+It is now Monday February 13. Given the above, write Maria Lopez's status for Monday February 13 that reflects Maria Lopez's thoughts at the end of Sunday February 12. Write this in third-person talking about Maria Lopez.If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement).
+
+Follow this format below:
+Status: <new status>
+Response content: Status: Maria Lopez is starting her day on Monday, February 13, with a busy schedule ahead. She has a doctor's appointment at the City Health Clinic, located at 123 Health Ave, scheduled for 10:00 AM. To ensure she arrives on time, she plans to leave by 9:00 AM to avoid traffic. After the appointment, Maria intends to keep her afternoon free to manage any potential follow-up visits or prescription pickups. She also has lunch plans with her friend Sarah at Café Gourmet at noon, which she will confirm later in the morning. In addition to her appointments, Maria needs to dedicate time to her work commitments in the afternoon, particularly after lunch. As she navigates through her day, Maria is focusing on staying organized and managing her time effectively. Despite the mixed emotions she has been feeling, Maria is determined to maintain her positive outlook and embrace whatever the day brings.
+--- ChatGPT_single_request() ---
+Prompt: Name: Maria Lopez
+Age: 21
+Innate traits: energetic, enthusiastic, inquisitive
+Learned traits: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.
+Currently: Status: Maria Lopez is starting her day on Monday, February 13, with a busy schedule ahead. She has a doctor's appointment at the City Health Clinic, located at 123 Health Ave, scheduled for 10:00 AM. To ensure she arrives on time, she plans to leave by 9:00 AM to avoid traffic. After the appointment, Maria intends to keep her afternoon free to manage any potential follow-up visits or prescription pickups. She also has lunch plans with her friend Sarah at Café Gourmet at noon, which she will confirm later in the morning. In addition to her appointments, Maria needs to dedicate time to her work commitments in the afternoon, particularly after lunch. As she navigates through her day, Maria is focusing on staying organized and managing her time effectively. Despite the mixed emotions she has been feeling, Maria is determined to maintain her positive outlook and embrace whatever the day brings.
+Lifestyle: Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.
+Daily plan requirement: Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.
+Current Date: Monday February 13
+
+Today is Monday February 13. Here is Maria Lopez's plan today in broad-strokes (with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).
+
+Follow this format (the list should have 4~6 items but no more):
+1. wake up and complete the morning routine at <time>, 2. ...
+Response content: 1. Wake up and complete the morning routine at 9:00 AM.  
+2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.  
+3. Attend the doctor's appointment at 10:00 AM.  
+4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.  
+5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.  
+6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.  
+DEBUG new_daily_req: 1. Wake up and complete the morning routine at 9:00 AM.   2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.   3. Attend the doctor's appointment at 10:00 AM.   4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.   5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.   6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.
+GNS FUNCTION: <generate_first_daily_plan>
+Attempt 1
+Response:  ParsedChatCompletion[DailyPlan](id='chatcmpl-CZ5h4OLS9GkoiQvQ6iQhMmwPN3vMu', choices=[ParsedChoice[DailyPlan](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[DailyPlan](content='{"daily_plan":["Wake up and complete the morning routine at 9:00 AM","Leave for the doctor\'s appointment at City Health Clinic by 9:00 AM","Attend the doctor\'s appointment at 10:00 AM","Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM","Dedicate time to work commitments and streaming from 1:30 PM to 4:30 PM","Relax and unwind until dinner at 6:00 PM","Have dinner and enjoy some leisure time from 6:00 PM to 8:00 PM","Spend the evening streaming or engaging with viewers on Twitch from 8:00 PM to 10:30 PM","Wind down and relax before heading to bed around 2:00 AM"]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=DailyPlan(daily_plan=['Wake up and complete the morning routine at 9:00 AM', "Leave for the doctor's appointment at City Health Clinic by 9:00 AM", "Attend the doctor's appointment at 10:00 AM", 'Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM', 'Dedicate time to work commitments and streaming from 1:30 PM to 4:30 PM', 'Relax and unwind until dinner at 6:00 PM', 'Have dinner and enjoy some leisure time from 6:00 PM to 8:00 PM', 'Spend the evening streaming or engaging with viewers on Twitch from 8:00 PM to 10:30 PM', 'Wind down and relax before heading to bed around 2:00 AM']), annotations=[]))], created=1762479402, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=155, prompt_tokens=586, total_tokens=741, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/daily_planning_v6.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 2000, 'temperature': 1, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': "Name: Maria Lopez\nAge: 21\nInnate traits: energetic, enthusiastic, inquisitive\nLearned traits: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.\nCurrently: Status: Maria Lopez is starting her day on Monday, February 13, with a busy schedule ahead. She has a doctor's appointment at the City Health Clinic, located at 123 Health Ave, scheduled for 10:00 AM. To ensure she arrives on time, she plans to leave by 9:00 AM to avoid traffic. After the appointment, Maria intends to keep her afternoon free to manage any potential follow-up visits or prescription pickups. She also has lunch plans with her friend Sarah at Café Gourmet at noon, which she will confirm later in the morning. In addition to her appointments, Maria needs to dedicate time to her work commitments in the afternoon, particularly after lunch. As she navigates through her day, Maria is focusing on staying organized and managing her time effectively. Despite the mixed emotions she has been feeling, Maria is determined to maintain her positive outlook and embrace whatever the day brings.\nLifestyle: Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.\nDaily plan requirement: 1. Wake up and complete the morning routine at 9:00 AM.   2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.   3. Attend the doctor's appointment at 10:00 AM.   4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.   5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.   6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.\nCurrent Date: Monday February 13\n", 'lifestyle': "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.", 'curr_date': 'Monday February 13', 'persona_name': 'Maria', 'wake_up_hour': '9:00', 'noncognitive': False}
+
+~~~ final prompt    ----------------------------------------------------
+
+  Name: Maria Lopez
+Age: 21
+Innate traits: energetic, enthusiastic, inquisitive
+Learned traits: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.
+Currently: Status: Maria Lopez is starting her day on Monday, February 13, with a busy schedule ahead. She has a doctor's appointment at the City Health Clinic, located at 123 Health Ave, scheduled for 10:00 AM. To ensure she arrives on time, she plans to leave by 9:00 AM to avoid traffic. After the appointment, Maria intends to keep her afternoon free to manage any potential follow-up visits or prescription pickups. She also has lunch plans with her friend Sarah at Café Gourmet at noon, which she will confirm later in the morning. In addition to her appointments, Maria needs to dedicate time to her work commitments in the afternoon, particularly after lunch. As she navigates through her day, Maria is focusing on staying organized and managing her time effectively. Despite the mixed emotions she has been feeling, Maria is determined to maintain her positive outlook and embrace whatever the day brings.
+Lifestyle: Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.
+Daily plan requirement: 1. Wake up and complete the morning routine at 9:00 AM.   2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.   3. Attend the doctor's appointment at 10:00 AM.   4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.   5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.   6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.
+Current Date: Monday February 13
+
+
+  In general, Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.
+  Today is Monday February 13. Describe Maria's plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at 9:00", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
+  
+
+~~~ processed output    ----------------------------------------------------
+['Wake up and complete the morning routine at 9:00 AM', "Leave for the doctor's appointment at City Health Clinic by 9:00 AM", "Attend the doctor's appointment at 10:00 AM", 'Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM', 'Dedicate time to work commitments and streaming from 1:30 PM to 4:30 PM', 'Relax and unwind until dinner at 6:00 PM', 'Have dinner and enjoy some leisure time from 6:00 PM to 8:00 PM', 'Spend the evening streaming or engaging with viewers on Twitch from 8:00 PM to 10:30 PM', 'Wind down and relax before heading to bed around 2:00 AM']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_hourly_schedule>
+Attempt 1
+Response:  ParsedChatCompletion[HourlySchedule](id='chatcmpl-CZ5h7816luegZNQ86fXtpJ74N9ICr', choices=[ParsedChoice[HourlySchedule](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[HourlySchedule](content='{"hourly_schedule":[{"datetime":"Monday February 13, 00:00 AM","activity":"winding down and relaxing"},{"datetime":"Monday February 13, 01:00 AM","activity":"winding down and relaxing"},{"datetime":"Monday February 13, 02:00 AM","activity":"going to bed"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 04:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 05:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 06:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 07:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 08:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 09:00 AM","activity":"waking up and completing the morning routine"},{"datetime":"Monday February 13, 10:00 AM","activity":"attending the doctor\'s appointment at City Health Clinic"},{"datetime":"Monday February 13, 11:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 12:00 PM","activity":"confirming lunch plans with Sarah and having lunch at Café Gourmet"},{"datetime":"Monday February 13, 01:00 PM","activity":"dedicating time to work commitments and streaming"},{"datetime":"Monday February 13, 02:00 PM","activity":"dedicating time to work commitments and streaming"},{"datetime":"Monday February 13, 03:00 PM","activity":"dedicating time to work commitments and streaming"},{"datetime":"Monday February 13, 04:00 PM","activity":"dedicating time to work commitments and streaming"},{"datetime":"Monday February 13, 05:00 PM","activity":"[Fill in]"},{"datetime":"Monday February 13, 06:00 PM","activity":"having dinner and enjoying some leisure time"},{"datetime":"Monday February 13, 07:00 PM","activity":"having dinner and enjoying some leisure time"},{"datetime":"Monday February 13, 08:00 PM","activity":"spending the evening streaming or engaging with viewers on Twitch"},{"datetime":"Monday February 13, 09:00 PM","activity":"spending the evening streaming or engaging with viewers on Twitch"},{"datetime":"Monday February 13, 10:00 PM","activity":"spending the evening streaming or engaging with viewers on Twitch"},{"datetime":"Monday February 13, 11:00 PM","activity":"winding down and relaxing"}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=HourlySchedule(hourly_schedule=[Activity(datetime='Monday February 13, 00:00 AM', activity='winding down and relaxing'), Activity(datetime='Monday February 13, 01:00 AM', activity='winding down and relaxing'), Activity(datetime='Monday February 13, 02:00 AM', activity='going to bed'), Activity(datetime='Monday February 13, 03:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 04:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 05:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 06:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 07:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 08:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 09:00 AM', activity='waking up and completing the morning routine'), Activity(datetime='Monday February 13, 10:00 AM', activity="attending the doctor's appointment at City Health Clinic"), Activity(datetime='Monday February 13, 11:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 12:00 PM', activity='confirming lunch plans with Sarah and having lunch at Café Gourmet'), Activity(datetime='Monday February 13, 01:00 PM', activity='dedicating time to work commitments and streaming'), Activity(datetime='Monday February 13, 02:00 PM', activity='dedicating time to work commitments and streaming'), Activity(datetime='Monday February 13, 03:00 PM', activity='dedicating time to work commitments and streaming'), Activity(datetime='Monday February 13, 04:00 PM', activity='dedicating time to work commitments and streaming'), Activity(datetime='Monday February 13, 05:00 PM', activity='[Fill in]'), Activity(datetime='Monday February 13, 06:00 PM', activity='having dinner and enjoying some leisure time'), Activity(datetime='Monday February 13, 07:00 PM', activity='having dinner and enjoying some leisure time'), Activity(datetime='Monday February 13, 08:00 PM', activity='spending the evening streaming or engaging with viewers on Twitch'), Activity(datetime='Monday February 13, 09:00 PM', activity='spending the evening streaming or engaging with viewers on Twitch'), Activity(datetime='Monday February 13, 10:00 PM', activity='spending the evening streaming or engaging with viewers on Twitch'), Activity(datetime='Monday February 13, 11:00 PM', activity='winding down and relaxing')]), annotations=[]))], created=1762479405, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=549, prompt_tokens=872, total_tokens=1421, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_hourly_schedule_v2.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 5000, 'temperature': 0.5, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Maria', 'schedule_format': '{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}', 'identity_stable_set': "Name: Maria Lopez\nAge: 21\nInnate traits: energetic, enthusiastic, inquisitive\nLearned traits: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.\nCurrently: Status: Maria Lopez is starting her day on Monday, February 13, with a busy schedule ahead. She has a doctor's appointment at the City Health Clinic, located at 123 Health Ave, scheduled for 10:00 AM. To ensure she arrives on time, she plans to leave by 9:00 AM to avoid traffic. After the appointment, Maria intends to keep her afternoon free to manage any potential follow-up visits or prescription pickups. She also has lunch plans with her friend Sarah at Café Gourmet at noon, which she will confirm later in the morning. In addition to her appointments, Maria needs to dedicate time to her work commitments in the afternoon, particularly after lunch. As she navigates through her day, Maria is focusing on staying organized and managing her time effectively. Despite the mixed emotions she has been feeling, Maria is determined to maintain her positive outlook and embrace whatever the day brings.\nLifestyle: Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.\nDaily plan requirement: 1. Wake up and complete the morning routine at 9:00 AM.   2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.   3. Attend the doctor's appointment at 10:00 AM.   4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.   5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.   6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.\nCurrent Date: Monday February 13\n", 'instructions': 'Create an hourly schedule for the following person to fill out their whole day.', 'broad_daily_plan': "1) Wake up and complete the morning routine at 9:00 AM, 2) Leave for the doctor's appointment at City Health Clinic by 9:00 AM, 3) Attend the doctor's appointment at 10:00 AM, 4) Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM, 5) Dedicate time to work commitments and streaming from 1:30 PM to 4:30 PM, 6) Relax and unwind until dinner at 6:00 PM, 7) Have dinner and enjoy some leisure time from 6:00 PM to 8:00 PM, 8) Spend the evening streaming or engaging with viewers on Twitch from 8:00 PM to 10:30 PM, 9) Wind down and relax before heading to bed around 2:00 AM", 'existing_schedule': '', 'extra_instructions': '', 'prompt_ending': "Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):"}
+
+~~~ final prompt    ----------------------------------------------------
+
+Hourly schedule format:
+{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}
+===
+Name: Maria Lopez
+Age: 21
+Innate traits: energetic, enthusiastic, inquisitive
+Learned traits: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.
+Currently: Status: Maria Lopez is starting her day on Monday, February 13, with a busy schedule ahead. She has a doctor's appointment at the City Health Clinic, located at 123 Health Ave, scheduled for 10:00 AM. To ensure she arrives on time, she plans to leave by 9:00 AM to avoid traffic. After the appointment, Maria intends to keep her afternoon free to manage any potential follow-up visits or prescription pickups. She also has lunch plans with her friend Sarah at Café Gourmet at noon, which she will confirm later in the morning. In addition to her appointments, Maria needs to dedicate time to her work commitments in the afternoon, particularly after lunch. As she navigates through her day, Maria is focusing on staying organized and managing her time effectively. Despite the mixed emotions she has been feeling, Maria is determined to maintain her positive outlook and embrace whatever the day brings.
+Lifestyle: Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.
+Daily plan requirement: 1. Wake up and complete the morning routine at 9:00 AM.   2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.   3. Attend the doctor's appointment at 10:00 AM.   4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.   5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.   6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.
+Current Date: Monday February 13
+
+Create an hourly schedule for the following person to fill out their whole day.
+Replace "[Fill in]" with the actual activity for each hour.
+Here is the originally intended hourly breakdown of Maria's schedule today:
+1) Wake up and complete the morning routine at 9:00 AM, 2) Leave for the doctor's appointment at City Health Clinic by 9:00 AM, 3) Attend the doctor's appointment at 10:00 AM, 4) Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM, 5) Dedicate time to work commitments and streaming from 1:30 PM to 4:30 PM, 6) Relax and unwind until dinner at 6:00 PM, 7) Have dinner and enjoy some leisure time from 6:00 PM to 8:00 PM, 8) Spend the evening streaming or engaging with viewers on Twitch from 8:00 PM to 10:30 PM, 9) Wind down and relax before heading to bed around 2:00 AM
+
+
+Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):
+
+
+~~~ processed output    ----------------------------------------------------
+['winding down and relaxing', 'winding down and relaxing', 'going to bed', 'Fill in', 'Fill in', 'Fill in', 'Fill in', 'Fill in', 'Fill in', 'waking up and completing the morning routine', "attending the doctor's appointment at City Health Clinic", 'Fill in', 'confirming lunch plans with Sarah and having lunch at Café Gourmet', 'dedicating time to work commitments and streaming', 'dedicating time to work commitments and streaming', 'dedicating time to work commitments and streaming', 'dedicating time to work commitments and streaming', 'Fill in', 'having dinner and enjoying some leisure time', 'having dinner and enjoying some leisure time', 'spending the evening streaming or engaging with viewers on Twitch', 'spending the evening streaming or engaging with viewers on Twitch', 'spending the evening streaming or engaging with viewers on Twitch', 'winding down and relaxing']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_task_decomp>
+Attempt 1
+Response:  ParsedChatCompletion[TaskDecomposition](id='chatcmpl-CZ5hJDijKpoc574zRoZWXd2v5TPPx', choices=[ParsedChoice[TaskDecomposition](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[TaskDecomposition](content='{"subtasks":[{"task":"turning off the computer and putting it away","duration":5,"minutes_left":115},{"task":"preparing a cup of herbal tea","duration":5,"minutes_left":110},{"task":"finding a comfortable spot on the couch","duration":5,"minutes_left":105},{"task":"sipping the herbal tea and relaxing","duration":10,"minutes_left":95},{"task":"putting on a cozy blanket","duration":5,"minutes_left":90},{"task":"reading a book or magazine","duration":15,"minutes_left":75},{"task":"listening to calming music","duration":10,"minutes_left":65},{"task":"doing some light stretching exercises","duration":10,"minutes_left":55},{"task":"writing in a journal about the day","duration":15,"minutes_left":40},{"task":"practicing deep breathing exercises","duration":10,"minutes_left":30},{"task":"watching a short episode of a favorite show","duration":15,"minutes_left":15},{"task":"turning off the TV and lights","duration":5,"minutes_left":10},{"task":"getting ready for bed (brushing teeth, washing face)","duration":10,"minutes_left":0}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=TaskDecomposition(subtasks=[Subtask(task='turning off the computer and putting it away', duration=5, minutes_left=115), Subtask(task='preparing a cup of herbal tea', duration=5, minutes_left=110), Subtask(task='finding a comfortable spot on the couch', duration=5, minutes_left=105), Subtask(task='sipping the herbal tea and relaxing', duration=10, minutes_left=95), Subtask(task='putting on a cozy blanket', duration=5, minutes_left=90), Subtask(task='reading a book or magazine', duration=15, minutes_left=75), Subtask(task='listening to calming music', duration=10, minutes_left=65), Subtask(task='doing some light stretching exercises', duration=10, minutes_left=55), Subtask(task='writing in a journal about the day', duration=15, minutes_left=40), Subtask(task='practicing deep breathing exercises', duration=10, minutes_left=30), Subtask(task='watching a short episode of a favorite show', duration=15, minutes_left=15), Subtask(task='turning off the TV and lights', duration=5, minutes_left=10), Subtask(task='getting ready for bed (brushing teeth, washing face)', duration=10, minutes_left=0)]), annotations=[]))], created=1762479417, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=254, prompt_tokens=1167, total_tokens=1421, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+DEBUG here
+['winding down and relaxing (turning off the computer and putting it away)', 5]
+['winding down and relaxing (preparing a cup of herbal tea)', 5]
+['winding down and relaxing (finding a comfortable spot on the couch)', 5]
+['winding down and relaxing (sipping the herbal tea and relaxing)', 10]
+['winding down and relaxing (putting on a cozy blanket)', 5]
+['winding down and relaxing (reading a book or magazine)', 15]
+['winding down and relaxing (listening to calming music)', 10]
+['winding down and relaxing (doing some light stretching exercises)', 10]
+['winding down and relaxing (writing in a journal about the day)', 15]
+['winding down and relaxing (practicing deep breathing exercises)', 10]
+['winding down and relaxing (watching a short episode of a favorite show)', 15]
+['winding down and relaxing (turning off the TV and lights)', 5]
+['winding down and relaxing (getting ready for bed (brushing teeth, washing face))', 10]
+['going to bed', 60]
+['Fill in', 360]
+['waking up and completing the morning routine', 60]
+["attending the doctor's appointment at City Health Clinic", 60]
+['Fill in', 60]
+['confirming lunch plans with Sarah and having lunch at Café Gourmet', 60]
+['dedicating time to work commitments and streaming', 240]
+['Fill in', 60]
+['having dinner and enjoying some leisure time', 120]
+['spending the evening streaming or engaging with viewers on Twitch', 180]
+['winding down and relaxing', 60]
+0
+24
+Maria Lopez
+------
+GNS FUNCTION: <generate_action_sector>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CZ5hOO7WccJBmJ96avsLJK2JIS9Cq', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Dorm for Oak Hill College"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area='Dorm for Oak Hill College'), annotations=[]))], created=1762479422, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=9, prompt_tokens=684, total_tokens=693, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_sector_v1.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Maria Lopez', 'living_sector': 'Dorm for Oak Hill College', 'living_sector_arenas': "garden, Maria Lopez's room, woman's bathroom, common room, man's bathroom, Ayesha Khan's room, kitchen", 'current_sector': 'Dorm for Oak Hill College', 'current_sector_arenas': "garden, Maria Lopez's room, woman's bathroom, common room, man's bathroom, Ayesha Khan's room, kitchen", 'daily_plan_requirement': "1. Wake up and complete the morning routine at 9:00 AM.   2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.   3. Attend the doctor's appointment at 10:00 AM.   4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.   5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.   6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.", 'available_sectors': 'Oak Hill College, Dorm for Oak Hill College, The Willows Market and Pharmacy, Harvey Oak Supply Store, Johnson Park, The Rose and Crown Pub, Hobbs Cafe', 'broad_action': 'winding down and relaxing', 'specific_action': 'turning off the computer and putting it away'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task -- choose an appropriate area from the area options for a task at hand.
+
+Sam Kim lives in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Sam Kim is currently in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Area options: [Sam Kim's house, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For taking a walk, Sam Kim should go to the following area: Johnson Park
+---
+Jane Anderson lives in [Oak Hill College Student Dormatory] that has [Jane Anderson's room].
+Jane Anderson is currently in [Oak Hill College] that has [a classroom, library]
+Area options: [Oak Hill College Student Dormatory, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For eating dinner, Jane Anderson should go to the following area: Hobbs Cafe
+---
+Maria Lopez lives in [Dorm for Oak Hill College] that has [garden, Maria Lopez's room, woman's bathroom, common room, man's bathroom, Ayesha Khan's room, kitchen].
+Maria Lopez is currently in [Dorm for Oak Hill College] that has [garden, Maria Lopez's room, woman's bathroom, common room, man's bathroom, Ayesha Khan's room, kitchen]. 1. Wake up and complete the morning routine at 9:00 AM.   2. Leave for the doctor's appointment at City Health Clinic by 9:00 AM.   3. Attend the doctor's appointment at 10:00 AM.   4. Confirm lunch plans with Sarah and have lunch at Café Gourmet at 12:00 PM.   5. Dedicate afternoons to work commitments and streaming from 1:30 PM to 4:30 PM.   6. Evenings free for dinner and relaxation, winding down before bed around 2:00 AM.
+Area options: [Oak Hill College, Dorm for Oak Hill College, The Willows Market and Pharmacy, Harvey Oak Supply Store, Johnson Park, The Rose and Crown Pub, Hobbs Cafe].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+Maria Lopez is winding down and relaxing. For turning off the computer and putting it away, Maria Lopez should go to the following area:
+
+
+~~~ processed output    ----------------------------------------------------
+Dorm for Oak Hill College
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_arena>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CZ5hQMkzuzmBjnSD7rLcpPgu81bfa', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Maria Lopez\'s room"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area="Maria Lopez's room"), annotations=[]))], created=1762479424, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=8, prompt_tokens=354, total_tokens=362, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_arena_vMar11.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Maria Lopez', 'action_sector': 'Dorm for Oak Hill College', 'accessible_arenas': "garden, Maria Lopez's room, woman's bathroom, common room, man's bathroom, kitchen", 'broad_action': 'winding down and relaxing', 'specific_action': 'turning off the computer and putting it away'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Jane Anderson is in kitchen in Jane Anderson's house.
+Jane Anderson is going to Jane Anderson's house that has the following areas: [kitchen, bedroom, bathroom]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For cooking, Jane Anderson should go to the following area in Jane Anderson's house:
+Answer: kitchen
+---
+Tom Watson is in common room in Tom Watson's apartment.
+Tom Watson is going to Hobbs Cafe that has the following areas: [cafe]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For getting coffee, Tom Watson should go to the following area in Hobbs Cafe:
+Answer: cafe
+---
+Maria Lopez is going to Dorm for Oak Hill College that has the following areas: [garden, Maria Lopez's room, woman's bathroom, common room, man's bathroom, kitchen]
+* Stay in the current area if the activity can be done there.
+* NEVER go into other people's rooms unless necessary.
+Maria Lopez is winding down and relaxing. For turning off the computer and putting it away, Maria Lopez should go to the following area in Dorm for Oak Hill College (MUST pick one of [garden, Maria Lopez's room, woman's bathroom, common room, man's bathroom, kitchen]):
+Answer:
+  
+
+~~~ processed output    ----------------------------------------------------
+Maria Lopez's room
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_game_object>
+Attempt 1
+Response:  ParsedChatCompletion[GameObject](id='chatcmpl-CZ5hRpLYW2tnTEdVctHO3IqJ4QPod', choices=[ParsedChoice[GameObject](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[GameObject](content='{"object":"computer"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=GameObject(object='computer'), annotations=[]))], created=1762479425, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=5, prompt_tokens=274, total_tokens=279, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_object_v2.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'activity': 'turning off the computer and putting it away', 'available_objects': 'closet, desk, bed, computer, blackboard'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Current activity: sleep in bed
+Objects available: [bed, easel, closet, painting]
+Pick ONE most relevant object from the objects available: bed
+---
+Current activity: painting
+Objects available: [easel, closet, sink, microwave]
+Pick ONE most relevant object from the objects available: easel
+---
+Current activity: cooking
+Objects available: [stove, sink, fridge, counter]
+Pick ONE most relevant object from the objects available: stove
+---
+Current activity: watch TV
+Objects available: [couch, TV, remote, coffee table]
+Pick ONE most relevant object from the objects available: TV
+---
+Current activity: study
+Objects available: [desk, computer, chair, bookshelf]
+Pick ONE most relevant object from the objects available: desk
+---
+Current activity: talk on the phone
+Objects available: [phone, charger, bed, nightstand]
+Pick ONE most relevant object from the objects available: phone
+---
+Current activity: turning off the computer and putting it away
+Objects available: [closet, desk, bed, computer, blackboard]
+Pick ONE most relevant object from the objects available:
+
+
+~~~ processed output    ----------------------------------------------------
+computer
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: turning off the computer and putting it away
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: turning off the computer and putting it away
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CZ5hRKV8Qiydm37qCcI7iTm1b52A8', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"💻➡️🛏️"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='💻➡️🛏️'), annotations=[]))], created=1762479425, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=12, prompt_tokens=118, total_tokens=130, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CZ5hSQHF0xQ96tflFn7LbAminMAr6', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"Maria Lopez","predicate":"turn off and put away","object":"computer"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='Maria Lopez', predicate='turn off and put away', object='computer'), annotations=[]))], created=1762479426, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=18, prompt_tokens=221, total_tokens=239, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'Maria Lopez', 'action': 'turning off the computer and putting it away'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: Maria Lopez is turning off the computer and putting it away.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('Maria Lopez', 'turn off and put away', 'computer')
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_act_obj_desc>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the computer.
+Step 1. Maria Lopez is winding down and relaxing (turning off the computer and putting it away).
+Step 2. Describe the state of the computer: computer is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the computer.
+Step 1. Maria Lopez is winding down and relaxing (turning off the computer and putting it away).
+Step 2. Describe the state of the computer: computer is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Response: ParsedChatCompletion[ObjDesc](id='chatcmpl-CZ5hTBKiaQeDZ4jWPKjylFWdIKxMx', choices=[ParsedChoice[ObjDesc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ObjDesc](content='{"description":"turned off and stored away"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ObjDesc(description='turned off and stored away'), annotations=[]))], created=1762479427, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=9, prompt_tokens=162, total_tokens=171, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: turned off and stored away
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: turned off and stored away
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CZ5hTaiOubbyc1wx8uNuHDusVPLA8', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"🔌📦"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='🔌📦'), annotations=[]))], created=1762479427, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=8, prompt_tokens=115, total_tokens=123, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_act_obj_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CZ5hU08oztxjZXP15Ff7khvNecKgl', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"computer","predicate":"turn off","object":"stored away"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='computer', predicate='turn off', object='stored away'), annotations=[]))], created=1762479428, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=15, prompt_tokens=217, total_tokens=232, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Maria Lopez
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'computer', 'action': 'turned off and stored away'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: computer is turned off and stored away.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('computer', 'turn off', 'stored away')
+
+=== END ==========================================================
+
+
+the Ville:Dorm for Oak Hill College:Maria Lopez's room:computer
+GNS FUNCTION: <generate_wake_up_hour>
+Attempt 1
+Response:  ParsedChatCompletion[WakeUpHour](id='chatcmpl-CZ5hftzgeKWOrMUEABMH8kbUu6ufS', choices=[ParsedChoice[WakeUpHour](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[WakeUpHour](content='{"wake_up_hour":7}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=WakeUpHour(wake_up_hour=7), annotations=[]))], created=1762479439, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=7, prompt_tokens=222, total_tokens=229, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/wake_up_hour_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0.8, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': 'Name: Klaus Mueller\nAge: 20\nInnate traits: kind, inquisitive, passionate\nLearned traits: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.\nCurrently: Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.\nLifestyle: Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.\nDaily plan requirement: Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.\nCurrent Date: Monday February 13\n', 'persona_lifestyle': 'Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.', 'persona_firstname': 'Klaus'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Name: Klaus Mueller
+Age: 20
+Innate traits: kind, inquisitive, passionate
+Learned traits: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.
+Currently: Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.
+Lifestyle: Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.
+Daily plan requirement: Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.
+Current Date: Monday February 13
+
+
+In general, Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.
+Klaus's wake up hour:
+
+
+~~~ processed output    ----------------------------------------------------
+7
+
+=== END ==========================================================
+
+
+-------- new_retrieve ----------
+Number of focal_points:  2
+
+-------- focal_pt:  Klaus Mueller's plan for Monday February 13.
+
+
+-------- focal_pt:  Important recent events for Klaus Mueller's life.
+
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, is there anything that Klaus Mueller should remember as they plan for *Monday February 13*? If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement)
+
+Write the response from Klaus Mueller's perspective.
+Response content: As I plan for Monday, February 13, I need to keep in mind any scheduling details mentioned in the statements. Unfortunately, the statements don't provide specific times or locations, so I will need to check my calendar or any relevant notes for details regarding meetings or appointments on that day.
+
+I also want to ensure I'm prepared for anything special or important that may be happening that day. If there are any deadlines or deliverables due on February 13, I should prioritize them in my planning. Overall, I should stay organized and ensure I have everything I need ready for the day ahead.
+--- ChatGPT_single_request() ---
+Prompt: [Statements]
+
+Given the statements above, how might we summarize Klaus Mueller's feelings about their days up to now?
+
+Write the response from Klaus Mueller's perspective.
+Response content: As Klaus Mueller, I would say that my feelings about my days up to now are a mixture of gratitude and introspection. I've navigated a range of experiences that have shaped my perspective on life. There have been moments of joy and fulfillment, but also challenges that have prompted me to reflect deeply on my choices and aspirations. Overall, I embrace the journey I’ve been on, recognizing that each day brings new lessons and opportunities for growth. I'm hopeful about what lies ahead, eager to continue evolving and making meaningful connections with others.
+--- ChatGPT_single_request() ---
+Prompt: Klaus Mueller's status from Sunday February 12:
+Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.
+
+Klaus Mueller's thoughts at the end of Sunday February 12:
+As I plan for Monday, February 13, I need to keep in mind any scheduling details mentioned in the statements. Unfortunately, the statements don't provide specific times or locations, so I will need to check my calendar or any relevant notes for details regarding meetings or appointments on that day.I also want to ensure I'm prepared for anything special or important that may be happening that day. If there are any deadlines or deliverables due on February 13, I should prioritize them in my planning. Overall, I should stay organized and ensure I have everything I need ready for the day ahead.As Klaus Mueller, I would say that my feelings about my days up to now are a mixture of gratitude and introspection. I've navigated a range of experiences that have shaped my perspective on life. There have been moments of joy and fulfillment, but also challenges that have prompted me to reflect deeply on my choices and aspirations. Overall, I embrace the journey I’ve been on, recognizing that each day brings new lessons and opportunities for growth. I'm hopeful about what lies ahead, eager to continue evolving and making meaningful connections with others.
+
+It is now Monday February 13. Given the above, write Klaus Mueller's status for Monday February 13 that reflects Klaus Mueller's thoughts at the end of Sunday February 12. Write this in third-person talking about Klaus Mueller.If there is any scheduling information, be as specific as possible (include date, time, and location if stated in the statement).
+
+Follow this format below:
+Status: <new status>
+Response content: Status: Klaus Mueller is embarking on Monday, February 13, with a focus on preparing for his research paper on the effects of gentrification in low-income communities. He is taking a moment to check his calendar for any meetings or appointments, ensuring he is organized and ready for the day ahead. Klaus plans to prioritize any deadlines or deliverables due today, remaining aware of the importance of staying on track. Reflecting on his journey thus far, he feels a mix of gratitude and introspection, ready to embrace the new lessons and opportunities that come his way. As he moves through the day, he is hopeful and eager to make meaningful connections with others.
+--- ChatGPT_single_request() ---
+Prompt: Name: Klaus Mueller
+Age: 20
+Innate traits: kind, inquisitive, passionate
+Learned traits: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.
+Currently: Status: Klaus Mueller is embarking on Monday, February 13, with a focus on preparing for his research paper on the effects of gentrification in low-income communities. He is taking a moment to check his calendar for any meetings or appointments, ensuring he is organized and ready for the day ahead. Klaus plans to prioritize any deadlines or deliverables due today, remaining aware of the importance of staying on track. Reflecting on his journey thus far, he feels a mix of gratitude and introspection, ready to embrace the new lessons and opportunities that come his way. As he moves through the day, he is hopeful and eager to make meaningful connections with others.
+Lifestyle: Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.
+Daily plan requirement: Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.
+Current Date: Monday February 13
+
+Today is Monday February 13. Here is Klaus Mueller's plan today in broad-strokes (with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).
+
+Follow this format (the list should have 4~6 items but no more):
+1. wake up and complete the morning routine at <time>, 2. ...
+Response content: 1. wake up and complete the morning routine at 7:00 am  
+2. have breakfast and prepare for the day at 8:00 am  
+3. head to the library at Oak Hill College by 9:00 am  
+4. spend the morning writing and researching for the gentrification paper until 12:00 pm  
+5. have lunch at Hobbs Cafe at 12:30 pm  
+6. continue working on the research paper in the library from 1:00 pm to 4:00 pm  
+DEBUG new_daily_req: 1. wake up and complete the morning routine at 7:00 am   2. have breakfast and prepare for the day at 8:00 am   3. head to the library at Oak Hill College by 9:00 am   4. spend the morning writing and researching for the gentrification paper until 12:00 pm   5. have lunch at Hobbs Cafe at 12:30 pm   6. continue working on the research paper in the library from 1:00 pm to 4:00 pm
+GNS FUNCTION: <generate_first_daily_plan>
+Attempt 1
+Response:  ParsedChatCompletion[DailyPlan](id='chatcmpl-CZ5hrWIZRpbrMwRH5wWXec6ZZ1nxJ', choices=[ParsedChoice[DailyPlan](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[DailyPlan](content='{"daily_plan":["wake up and complete morning routine at 7:00 am","have breakfast and prepare for the day at 8:00 am","head to the library at Oak Hill College by 9:00 am","spend the morning writing and researching for the gentrification paper until 12:00 pm","have lunch at Hobbs Cafe at 12:30 pm","continue working on the research paper in the library from 1:00 pm to 4:00 pm","head back to his dorm to rest and reflect on the day\'s progress at 4:30 pm","have dinner around 5:00 pm","review notes and findings from the research paper in the evening at 6:30 pm","connect with classmates or friends for a study session at 7:30 pm","wind down and prepare for bed at 10:30 pm","go to sleep around 11:00 pm"]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=DailyPlan(daily_plan=['wake up and complete morning routine at 7:00 am', 'have breakfast and prepare for the day at 8:00 am', 'head to the library at Oak Hill College by 9:00 am', 'spend the morning writing and researching for the gentrification paper until 12:00 pm', 'have lunch at Hobbs Cafe at 12:30 pm', 'continue working on the research paper in the library from 1:00 pm to 4:00 pm', "head back to his dorm to rest and reflect on the day's progress at 4:30 pm", 'have dinner around 5:00 pm', 'review notes and findings from the research paper in the evening at 6:30 pm', 'connect with classmates or friends for a study session at 7:30 pm', 'wind down and prepare for bed at 10:30 pm', 'go to sleep around 11:00 pm']), annotations=[]))], created=1762479451, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=188, prompt_tokens=494, total_tokens=682, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/daily_planning_v6.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 2000, 'temperature': 1, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'identity_stable_set': 'Name: Klaus Mueller\nAge: 20\nInnate traits: kind, inquisitive, passionate\nLearned traits: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.\nCurrently: Status: Klaus Mueller is embarking on Monday, February 13, with a focus on preparing for his research paper on the effects of gentrification in low-income communities. He is taking a moment to check his calendar for any meetings or appointments, ensuring he is organized and ready for the day ahead. Klaus plans to prioritize any deadlines or deliverables due today, remaining aware of the importance of staying on track. Reflecting on his journey thus far, he feels a mix of gratitude and introspection, ready to embrace the new lessons and opportunities that come his way. As he moves through the day, he is hopeful and eager to make meaningful connections with others.\nLifestyle: Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.\nDaily plan requirement: 1. wake up and complete the morning routine at 7:00 am   2. have breakfast and prepare for the day at 8:00 am   3. head to the library at Oak Hill College by 9:00 am   4. spend the morning writing and researching for the gentrification paper until 12:00 pm   5. have lunch at Hobbs Cafe at 12:30 pm   6. continue working on the research paper in the library from 1:00 pm to 4:00 pm\nCurrent Date: Monday February 13\n', 'lifestyle': 'Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.', 'curr_date': 'Monday February 13', 'persona_name': 'Klaus', 'wake_up_hour': '7:00', 'noncognitive': False}
+
+~~~ final prompt    ----------------------------------------------------
+
+  Name: Klaus Mueller
+Age: 20
+Innate traits: kind, inquisitive, passionate
+Learned traits: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.
+Currently: Status: Klaus Mueller is embarking on Monday, February 13, with a focus on preparing for his research paper on the effects of gentrification in low-income communities. He is taking a moment to check his calendar for any meetings or appointments, ensuring he is organized and ready for the day ahead. Klaus plans to prioritize any deadlines or deliverables due today, remaining aware of the importance of staying on track. Reflecting on his journey thus far, he feels a mix of gratitude and introspection, ready to embrace the new lessons and opportunities that come his way. As he moves through the day, he is hopeful and eager to make meaningful connections with others.
+Lifestyle: Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.
+Daily plan requirement: 1. wake up and complete the morning routine at 7:00 am   2. have breakfast and prepare for the day at 8:00 am   3. head to the library at Oak Hill College by 9:00 am   4. spend the morning writing and researching for the gentrification paper until 12:00 pm   5. have lunch at Hobbs Cafe at 12:30 pm   6. continue working on the research paper in the library from 1:00 pm to 4:00 pm
+Current Date: Monday February 13
+
+
+  In general, Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.
+  Today is Monday February 13. Describe Klaus's plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at 7:00", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
+  
+
+~~~ processed output    ----------------------------------------------------
+['wake up and complete morning routine at 7:00 am', 'have breakfast and prepare for the day at 8:00 am', 'head to the library at Oak Hill College by 9:00 am', 'spend the morning writing and researching for the gentrification paper until 12:00 pm', 'have lunch at Hobbs Cafe at 12:30 pm', 'continue working on the research paper in the library from 1:00 pm to 4:00 pm', "head back to his dorm to rest and reflect on the day's progress at 4:30 pm", 'have dinner around 5:00 pm', 'review notes and findings from the research paper in the evening at 6:30 pm', 'connect with classmates or friends for a study session at 7:30 pm', 'wind down and prepare for bed at 10:30 pm', 'go to sleep around 11:00 pm']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_hourly_schedule>
+Attempt 1
+Response:  ParsedChatCompletion[HourlySchedule](id='chatcmpl-CZ5huzzmaXi9D1qgkYy8Kwl6aJCdt', choices=[ParsedChoice[HourlySchedule](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[HourlySchedule](content='{"hourly_schedule":[{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 04:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 05:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 06:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 07:00 AM","activity":"waking up and completing the morning routine"},{"datetime":"Monday February 13, 08:00 AM","activity":"having breakfast and preparing for the day"},{"datetime":"Monday February 13, 09:00 AM","activity":"heading to the library at Oak Hill College"},{"datetime":"Monday February 13, 10:00 AM","activity":"writing and researching for the gentrification paper"},{"datetime":"Monday February 13, 11:00 AM","activity":"writing and researching for the gentrification paper"},{"datetime":"Monday February 13, 12:00 PM","activity":"writing and researching for the gentrification paper"},{"datetime":"Monday February 13, 12:30 PM","activity":"having lunch at Hobbs Cafe"},{"datetime":"Monday February 13, 01:00 PM","activity":"continuing to work on the research paper in the library"},{"datetime":"Monday February 13, 02:00 PM","activity":"continuing to work on the research paper in the library"},{"datetime":"Monday February 13, 03:00 PM","activity":"continuing to work on the research paper in the library"},{"datetime":"Monday February 13, 04:00 PM","activity":"continuing to work on the research paper in the library"},{"datetime":"Monday February 13, 04:30 PM","activity":"heading back to his dorm to rest and reflect on the day\'s progress"},{"datetime":"Monday February 13, 05:00 PM","activity":"having dinner"},{"datetime":"Monday February 13, 06:00 PM","activity":"[Fill in]"},{"datetime":"Monday February 13, 06:30 PM","activity":"reviewing notes and findings from the research paper"},{"datetime":"Monday February 13, 07:00 PM","activity":"[Fill in]"},{"datetime":"Monday February 13, 07:30 PM","activity":"connecting with classmates or friends for a study session"},{"datetime":"Monday February 13, 08:00 PM","activity":"[Fill in]"},{"datetime":"Monday February 13, 09:00 PM","activity":"[Fill in]"},{"datetime":"Monday February 13, 10:00 PM","activity":"[Fill in]"},{"datetime":"Monday February 13, 10:30 PM","activity":"winding down and preparing for bed"},{"datetime":"Monday February 13, 11:00 PM","activity":"going to sleep"}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=HourlySchedule(hourly_schedule=[Activity(datetime='Monday February 13, 00:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 01:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 02:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 03:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 04:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 05:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 06:00 AM', activity='[Fill in]'), Activity(datetime='Monday February 13, 07:00 AM', activity='waking up and completing the morning routine'), Activity(datetime='Monday February 13, 08:00 AM', activity='having breakfast and preparing for the day'), Activity(datetime='Monday February 13, 09:00 AM', activity='heading to the library at Oak Hill College'), Activity(datetime='Monday February 13, 10:00 AM', activity='writing and researching for the gentrification paper'), Activity(datetime='Monday February 13, 11:00 AM', activity='writing and researching for the gentrification paper'), Activity(datetime='Monday February 13, 12:00 PM', activity='writing and researching for the gentrification paper'), Activity(datetime='Monday February 13, 12:30 PM', activity='having lunch at Hobbs Cafe'), Activity(datetime='Monday February 13, 01:00 PM', activity='continuing to work on the research paper in the library'), Activity(datetime='Monday February 13, 02:00 PM', activity='continuing to work on the research paper in the library'), Activity(datetime='Monday February 13, 03:00 PM', activity='continuing to work on the research paper in the library'), Activity(datetime='Monday February 13, 04:00 PM', activity='continuing to work on the research paper in the library'), Activity(datetime='Monday February 13, 04:30 PM', activity="heading back to his dorm to rest and reflect on the day's progress"), Activity(datetime='Monday February 13, 05:00 PM', activity='having dinner'), Activity(datetime='Monday February 13, 06:00 PM', activity='[Fill in]'), Activity(datetime='Monday February 13, 06:30 PM', activity='reviewing notes and findings from the research paper'), Activity(datetime='Monday February 13, 07:00 PM', activity='[Fill in]'), Activity(datetime='Monday February 13, 07:30 PM', activity='connecting with classmates or friends for a study session'), Activity(datetime='Monday February 13, 08:00 PM', activity='[Fill in]'), Activity(datetime='Monday February 13, 09:00 PM', activity='[Fill in]'), Activity(datetime='Monday February 13, 10:00 PM', activity='[Fill in]'), Activity(datetime='Monday February 13, 10:30 PM', activity='winding down and preparing for bed'), Activity(datetime='Monday February 13, 11:00 PM', activity='going to sleep')]), annotations=[]))], created=1762479454, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=662, prompt_tokens=837, total_tokens=1499, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_hourly_schedule_v2.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 5000, 'temperature': 0.5, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Klaus', 'schedule_format': '{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}', 'identity_stable_set': 'Name: Klaus Mueller\nAge: 20\nInnate traits: kind, inquisitive, passionate\nLearned traits: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.\nCurrently: Status: Klaus Mueller is embarking on Monday, February 13, with a focus on preparing for his research paper on the effects of gentrification in low-income communities. He is taking a moment to check his calendar for any meetings or appointments, ensuring he is organized and ready for the day ahead. Klaus plans to prioritize any deadlines or deliverables due today, remaining aware of the importance of staying on track. Reflecting on his journey thus far, he feels a mix of gratitude and introspection, ready to embrace the new lessons and opportunities that come his way. As he moves through the day, he is hopeful and eager to make meaningful connections with others.\nLifestyle: Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.\nDaily plan requirement: 1. wake up and complete the morning routine at 7:00 am   2. have breakfast and prepare for the day at 8:00 am   3. head to the library at Oak Hill College by 9:00 am   4. spend the morning writing and researching for the gentrification paper until 12:00 pm   5. have lunch at Hobbs Cafe at 12:30 pm   6. continue working on the research paper in the library from 1:00 pm to 4:00 pm\nCurrent Date: Monday February 13\n', 'instructions': 'Create an hourly schedule for the following person to fill out their whole day.', 'broad_daily_plan': "1) wake up and complete morning routine at 7:00 am, 2) have breakfast and prepare for the day at 8:00 am, 3) head to the library at Oak Hill College by 9:00 am, 4) spend the morning writing and researching for the gentrification paper until 12:00 pm, 5) have lunch at Hobbs Cafe at 12:30 pm, 6) continue working on the research paper in the library from 1:00 pm to 4:00 pm, 7) head back to his dorm to rest and reflect on the day's progress at 4:30 pm, 8) have dinner around 5:00 pm, 9) review notes and findings from the research paper in the evening at 6:30 pm, 10) connect with classmates or friends for a study session at 7:30 pm, 11) wind down and prepare for bed at 10:30 pm, 12) go to sleep around 11:00 pm", 'existing_schedule': '', 'extra_instructions': '', 'prompt_ending': "Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):"}
+
+~~~ final prompt    ----------------------------------------------------
+
+Hourly schedule format:
+{"hourly_schedule": [{"datetime":"Monday February 13, 00:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 01:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 02:00 AM","activity":"[Fill in]"},{"datetime":"Monday February 13, 03:00 AM","activity":"[Fill in]"}, ... continue ... , {"datetime":"Monday February 13, 11:00 PM"}","activity":"[Fill in]"}]}
+===
+Name: Klaus Mueller
+Age: 20
+Innate traits: kind, inquisitive, passionate
+Learned traits: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.
+Currently: Status: Klaus Mueller is embarking on Monday, February 13, with a focus on preparing for his research paper on the effects of gentrification in low-income communities. He is taking a moment to check his calendar for any meetings or appointments, ensuring he is organized and ready for the day ahead. Klaus plans to prioritize any deadlines or deliverables due today, remaining aware of the importance of staying on track. Reflecting on his journey thus far, he feels a mix of gratitude and introspection, ready to embrace the new lessons and opportunities that come his way. As he moves through the day, he is hopeful and eager to make meaningful connections with others.
+Lifestyle: Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.
+Daily plan requirement: 1. wake up and complete the morning routine at 7:00 am   2. have breakfast and prepare for the day at 8:00 am   3. head to the library at Oak Hill College by 9:00 am   4. spend the morning writing and researching for the gentrification paper until 12:00 pm   5. have lunch at Hobbs Cafe at 12:30 pm   6. continue working on the research paper in the library from 1:00 pm to 4:00 pm
+Current Date: Monday February 13
+
+Create an hourly schedule for the following person to fill out their whole day.
+Replace "[Fill in]" with the actual activity for each hour.
+Here is the originally intended hourly breakdown of Klaus's schedule today:
+1) wake up and complete morning routine at 7:00 am, 2) have breakfast and prepare for the day at 8:00 am, 3) head to the library at Oak Hill College by 9:00 am, 4) spend the morning writing and researching for the gentrification paper until 12:00 pm, 5) have lunch at Hobbs Cafe at 12:30 pm, 6) continue working on the research paper in the library from 1:00 pm to 4:00 pm, 7) head back to his dorm to rest and reflect on the day's progress at 4:30 pm, 8) have dinner around 5:00 pm, 9) review notes and findings from the research paper in the evening at 6:30 pm, 10) connect with classmates or friends for a study session at 7:30 pm, 11) wind down and prepare for bed at 10:30 pm, 12) go to sleep around 11:00 pm
+
+
+Hourly schedule for the whole day (use present progressive tense, e.g. 'waking up and completing the morning routine'):
+
+
+~~~ processed output    ----------------------------------------------------
+['Fill in', 'Fill in', 'Fill in', 'Fill in', 'Fill in', 'Fill in', 'Fill in', 'waking up and completing the morning routine', 'having breakfast and preparing for the day', 'heading to the library at Oak Hill College', 'writing and researching for the gentrification paper', 'writing and researching for the gentrification paper', 'writing and researching for the gentrification paper', 'having lunch at Hobbs Cafe', 'continuing to work on the research paper in the library', 'continuing to work on the research paper in the library', 'continuing to work on the research paper in the library', 'continuing to work on the research paper in the library', "heading back to his dorm to rest and reflect on the day's progress", 'having dinner', 'Fill in', 'reviewing notes and findings from the research paper', 'Fill in', 'connecting with classmates or friends for a study session', 'Fill in', 'Fill in', 'Fill in', 'winding down and preparing for bed', 'going to sleep']
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_task_decomp>
+Attempt 1
+Response:  ParsedChatCompletion[TaskDecomposition](id='chatcmpl-CZ5i7ZF6zPGR7vGMLgTyTSut1SJvo', choices=[ParsedChoice[TaskDecomposition](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[TaskDecomposition](content='{"subtasks":[{"task":"waking up and turning off the alarm","duration":5,"minutes_left":415},{"task":"stretching and getting out of bed","duration":5,"minutes_left":410},{"task":"brushing teeth","duration":5,"minutes_left":405},{"task":"washing face","duration":5,"minutes_left":400},{"task":"taking a shower","duration":10,"minutes_left":390},{"task":"drying off and getting dressed","duration":10,"minutes_left":380},{"task":"combing hair","duration":5,"minutes_left":375},{"task":"putting on shoes","duration":5,"minutes_left":370},{"task":"preparing breakfast","duration":10,"minutes_left":360},{"task":"cooking eggs and toast","duration":10,"minutes_left":350},{"task":"setting the table for breakfast","duration":5,"minutes_left":345},{"task":"eating breakfast","duration":15,"minutes_left":330},{"task":"cleaning up the breakfast dishes","duration":10,"minutes_left":320},{"task":"packing the backpack with books and supplies","duration":10,"minutes_left":310},{"task":"checking the calendar for appointments","duration":5,"minutes_left":305},{"task":"reviewing the day\'s tasks and priorities","duration":10,"minutes_left":295},{"task":"putting on a jacket and grabbing keys","duration":5,"minutes_left":290},{"task":"heading out the door","duration":5,"minutes_left":285},{"task":"walking to the library","duration":15,"minutes_left":270}]}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=TaskDecomposition(subtasks=[Subtask(task='waking up and turning off the alarm', duration=5, minutes_left=415), Subtask(task='stretching and getting out of bed', duration=5, minutes_left=410), Subtask(task='brushing teeth', duration=5, minutes_left=405), Subtask(task='washing face', duration=5, minutes_left=400), Subtask(task='taking a shower', duration=10, minutes_left=390), Subtask(task='drying off and getting dressed', duration=10, minutes_left=380), Subtask(task='combing hair', duration=5, minutes_left=375), Subtask(task='putting on shoes', duration=5, minutes_left=370), Subtask(task='preparing breakfast', duration=10, minutes_left=360), Subtask(task='cooking eggs and toast', duration=10, minutes_left=350), Subtask(task='setting the table for breakfast', duration=5, minutes_left=345), Subtask(task='eating breakfast', duration=15, minutes_left=330), Subtask(task='cleaning up the breakfast dishes', duration=10, minutes_left=320), Subtask(task='packing the backpack with books and supplies', duration=10, minutes_left=310), Subtask(task='checking the calendar for appointments', duration=5, minutes_left=305), Subtask(task="reviewing the day's tasks and priorities", duration=10, minutes_left=295), Subtask(task='putting on a jacket and grabbing keys', duration=5, minutes_left=290), Subtask(task='heading out the door', duration=5, minutes_left=285), Subtask(task='walking to the library', duration=15, minutes_left=270)]), annotations=[]))], created=1762479467, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=327, prompt_tokens=1096, total_tokens=1423, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+DEBUG here
+['Fill in (waking up and turning off the alarm)', 5]
+['Fill in (stretching and getting out of bed)', 5]
+['Fill in (brushing teeth)', 5]
+['Fill in (washing face)', 5]
+['Fill in (taking a shower)', 10]
+['Fill in (drying off and getting dressed)', 10]
+['Fill in (combing hair)', 5]
+['Fill in (putting on shoes)', 5]
+['Fill in (preparing breakfast)', 10]
+['Fill in (cooking eggs and toast)', 10]
+['Fill in (setting the table for breakfast)', 5]
+['Fill in (eating breakfast)', 15]
+['Fill in (cleaning up the breakfast dishes)', 10]
+['Fill in (packing the backpack with books and supplies)', 10]
+['Fill in (checking the calendar for appointments)', 5]
+["Fill in (reviewing the day's tasks and priorities)", 10]
+['Fill in (putting on a jacket and grabbing keys)', 5]
+['Fill in (heading out the door)', 5]
+['Fill in (walking to the library)', 285]
+['waking up and completing the morning routine', 60]
+['having breakfast and preparing for the day', 60]
+['heading to the library at Oak Hill College', 60]
+['writing and researching for the gentrification paper', 180]
+['having lunch at Hobbs Cafe', 60]
+['continuing to work on the research paper in the library', 240]
+["heading back to his dorm to rest and reflect on the day's progress", 60]
+['having dinner', 60]
+['Fill in', 60]
+['reviewing notes and findings from the research paper', 60]
+['Fill in', 60]
+['connecting with classmates or friends for a study session', 60]
+['Fill in', 180]
+['winding down and preparing for bed', 60]
+['going to sleep', 60]
+0
+34
+Klaus Mueller
+------
+GNS FUNCTION: <generate_action_sector>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CZ5iElyfSOmn0UNc1RVsxH4ceXdni', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Dorm for Oak Hill College"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area='Dorm for Oak Hill College'), annotations=[]))], created=1762479474, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=9, prompt_tokens=675, total_tokens=684, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_sector_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Klaus Mueller', 'living_sector': 'Dorm for Oak Hill College', 'living_sector_arenas': "garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom, kitchen, Maria Lopez's room", 'current_sector': 'Dorm for Oak Hill College', 'current_sector_arenas': "garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom, kitchen, Maria Lopez's room", 'daily_plan_requirement': '1. wake up and complete the morning routine at 7:00 am   2. have breakfast and prepare for the day at 8:00 am   3. head to the library at Oak Hill College by 9:00 am   4. spend the morning writing and researching for the gentrification paper until 12:00 pm   5. have lunch at Hobbs Cafe at 12:30 pm   6. continue working on the research paper in the library from 1:00 pm to 4:00 pm', 'available_sectors': 'Oak Hill College, Dorm for Oak Hill College, The Willows Market and Pharmacy, Harvey Oak Supply Store, Johnson Park, The Rose and Crown Pub, Hobbs Cafe', 'broad_action': 'Fill in', 'specific_action': 'waking up and turning off the alarm'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task -- choose an appropriate area from the area options for a task at hand.
+
+Sam Kim lives in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Sam Kim is currently in [Sam Kim's house] that has [Sam Kim's room, bathroom, kitchen].
+Area options: [Sam Kim's house, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For taking a walk, Sam Kim should go to the following area: Johnson Park
+---
+Jane Anderson lives in [Oak Hill College Student Dormatory] that has [Jane Anderson's room].
+Jane Anderson is currently in [Oak Hill College] that has [a classroom, library]
+Area options: [Oak Hill College Student Dormatory, The Rose and Crown Pub, Hobbs Cafe, Oak Hill College, Johnson Park, Harvey Oak Supply Store, The Willows Market and Pharmacy].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+For eating dinner, Jane Anderson should go to the following area: Hobbs Cafe
+---
+Klaus Mueller lives in [Dorm for Oak Hill College] that has [garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom, kitchen, Maria Lopez's room].
+Klaus Mueller is currently in [Dorm for Oak Hill College] that has [garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom, kitchen, Maria Lopez's room]. 1. wake up and complete the morning routine at 7:00 am   2. have breakfast and prepare for the day at 8:00 am   3. head to the library at Oak Hill College by 9:00 am   4. spend the morning writing and researching for the gentrification paper until 12:00 pm   5. have lunch at Hobbs Cafe at 12:30 pm   6. continue working on the research paper in the library from 1:00 pm to 4:00 pm
+Area options: [Oak Hill College, Dorm for Oak Hill College, The Willows Market and Pharmacy, Harvey Oak Supply Store, Johnson Park, The Rose and Crown Pub, Hobbs Cafe].
+* Stay in the current area if the activity can be done there. Only go out if the activity needs to take place in another place.
+* Must be one of the "Area options," verbatim.
+Klaus Mueller is Fill in. For waking up and turning off the alarm, Klaus Mueller should go to the following area:
+
+
+~~~ processed output    ----------------------------------------------------
+Dorm for Oak Hill College
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_arena>
+Attempt 1
+Response:  ParsedChatCompletion[ActionLoc](id='chatcmpl-CZ5iF9xcqZ87ocnJQJ3BDdoVROH4m', choices=[ParsedChoice[ActionLoc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ActionLoc](content='{"area":"Klaus Mueller\'s room"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ActionLoc(area="Klaus Mueller's room"), annotations=[]))], created=1762479475, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_51db84afab', usage=CompletionUsage(completion_tokens=9, prompt_tokens=353, total_tokens=362, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_location_arena_vMar11.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'persona_name': 'Klaus Mueller', 'action_sector': 'Dorm for Oak Hill College', 'accessible_arenas': "garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom, kitchen", 'broad_action': 'Fill in', 'specific_action': 'waking up and turning off the alarm'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Jane Anderson is in kitchen in Jane Anderson's house.
+Jane Anderson is going to Jane Anderson's house that has the following areas: [kitchen, bedroom, bathroom]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For cooking, Jane Anderson should go to the following area in Jane Anderson's house:
+Answer: kitchen
+---
+Tom Watson is in common room in Tom Watson's apartment.
+Tom Watson is going to Hobbs Cafe that has the following areas: [cafe]
+Stay in the current area if the activity can be done there. Never go into other people's rooms unless necessary.
+For getting coffee, Tom Watson should go to the following area in Hobbs Cafe:
+Answer: cafe
+---
+Klaus Mueller is going to Dorm for Oak Hill College that has the following areas: [garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom, kitchen]
+* Stay in the current area if the activity can be done there.
+* NEVER go into other people's rooms unless necessary.
+Klaus Mueller is Fill in. For waking up and turning off the alarm, Klaus Mueller should go to the following area in Dorm for Oak Hill College (MUST pick one of [garden, Klaus Mueller's room, woman's bathroom, common room, man's bathroom, kitchen]):
+Answer:
+  
+
+~~~ processed output    ----------------------------------------------------
+Klaus Mueller's room
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_game_object>
+Attempt 1
+Response:  ParsedChatCompletion[GameObject](id='chatcmpl-CZ5iFXqzNdBUUCrZ52KoQwvkqTj4k', choices=[ParsedChoice[GameObject](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[GameObject](content='{"object":"bed"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=GameObject(object='bed'), annotations=[]))], created=1762479475, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=5, prompt_tokens=270, total_tokens=275, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v1/action_object_v2.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 100, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': None}
+
+~~~ prompt_input    ----------------------------------------------
+{'activity': 'waking up and turning off the alarm', 'available_objects': 'bed, game console, closet, desk'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Current activity: sleep in bed
+Objects available: [bed, easel, closet, painting]
+Pick ONE most relevant object from the objects available: bed
+---
+Current activity: painting
+Objects available: [easel, closet, sink, microwave]
+Pick ONE most relevant object from the objects available: easel
+---
+Current activity: cooking
+Objects available: [stove, sink, fridge, counter]
+Pick ONE most relevant object from the objects available: stove
+---
+Current activity: watch TV
+Objects available: [couch, TV, remote, coffee table]
+Pick ONE most relevant object from the objects available: TV
+---
+Current activity: study
+Objects available: [desk, computer, chair, bookshelf]
+Pick ONE most relevant object from the objects available: desk
+---
+Current activity: talk on the phone
+Objects available: [phone, charger, bed, nightstand]
+Pick ONE most relevant object from the objects available: phone
+---
+Current activity: waking up and turning off the alarm
+Objects available: [bed, game console, closet, desk]
+Pick ONE most relevant object from the objects available:
+
+
+~~~ processed output    ----------------------------------------------------
+bed
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: waking up and turning off the alarm
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: waking up and turning off the alarm
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CZ5iGKVSK1gBq6ywYuf7VOkZXbk85', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"⏰🛌"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='⏰🛌'), annotations=[]))], created=1762479476, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=10, prompt_tokens=117, total_tokens=127, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CZ5iHYJkOqYGBKiIm8JC0XiGalk1k', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"Klaus Mueller","predicate":"wake up and turn off","object":"the alarm"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='Klaus Mueller', predicate='wake up and turn off', object='the alarm'), annotations=[]))], created=1762479477, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=20, prompt_tokens=220, total_tokens=240, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'Klaus Mueller', 'action': 'waking up and turning off the alarm'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: Klaus Mueller is waking up and turning off the alarm.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('Klaus Mueller', 'wake up and turn off', 'the alarm')
+
+=== END ==========================================================
+
+
+GNS FUNCTION: <generate_act_obj_desc>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the bed.
+Step 1. Klaus Mueller is Fill in (waking up and turning off the alarm).
+Step 2. Describe the state of the bed: bed is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Task: We want to understand the state of an object that is being used by someone.
+
+Let's think step by step.
+We want to know about the state of the bed.
+Step 1. Klaus Mueller is Fill in (waking up and turning off the alarm).
+Step 2. Describe the state of the bed: bed is <fill in>
+
+"""
+Output the response to the prompt above in json. The output should ONLY contain the phrase that should go in <fill in>. It should be 15 tokens or less.
+Example output json:
+being fixed
+Response: ParsedChatCompletion[ObjDesc](id='chatcmpl-CZ5iIWJeQBEbVFUzyx2Ncw1wifN5O', choices=[ParsedChoice[ObjDesc](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[ObjDesc](content='{"description":"partly made with sheets slightly rumpled"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=ObjDesc(description='partly made with sheets slightly rumpled'), annotations=[]))], created=1762479478, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=12, prompt_tokens=159, total_tokens=171, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_action_pronunciatio>
+--- ChatGPT_safe_generate_structured_response() ---
+LLM PROMPT
+"""
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: partly made with sheets slightly rumpled
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Attempt 1
+--- ChatGPT_structured_request() ---
+Prompt: """
+
+Convert an action description to an emoji (important: use two or fewer emojis).
+
+Action description: partly made with sheets slightly rumpled
+Emoji:
+
+"""
+Output the response to the prompt above in json. The value for the output must ONLY contain the emojis.
+Example output json:
+🛁🧖‍♀️
+Response: ParsedChatCompletion[Pronunciatio](id='chatcmpl-CZ5iJfYpwFnRuzBTjn2bugWFZc169', choices=[ParsedChoice[Pronunciatio](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[Pronunciatio](content='{"emoji":"🗞️🛏️"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=Pronunciatio(emoji='🗞️🛏️'), annotations=[]))], created=1762479479, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=12, prompt_tokens=117, total_tokens=129, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+GNS FUNCTION: <generate_act_obj_event_triple>
+Attempt 1
+Response:  ParsedChatCompletion[EventTriple](id='chatcmpl-CZ5iJFLyaVQ9ljRXAbJlB6W2msaah', choices=[ParsedChoice[EventTriple](finish_reason='stop', index=0, logprobs=None, message=ParsedChatCompletionMessage[EventTriple](content='{"subject":"bed","predicate":"is made","object":"sheets slightly rumpled"}', refusal=None, role='assistant', function_call=None, tool_calls=[], parsed=EventTriple(subject='bed', predicate='is made', object='sheets slightly rumpled'), annotations=[]))], created=1762479479, model='gpt-4o-mini-2024-07-18', object='chat.completion', service_tier='default', system_fingerprint='fp_560af6e559', usage=CompletionUsage(completion_tokens=18, prompt_tokens=219, total_tokens=237, prompt_tokens_details={'cached_tokens': 0, 'audio_tokens': 0}, completion_tokens_details={'reasoning_tokens': 0, 'audio_tokens': 0, 'accepted_prediction_tokens': 0, 'rejected_prediction_tokens': 0}))
+
+
+=== File: backend_server/persona/prompt_template/v2/generate_event_triple_v1.py
+~~~ persona    ---------------------------------------------------
+Klaus Mueller
+
+~~~ gpt_param ----------------------------------------------------
+{'engine': 'gpt-4o-mini', 'max_tokens': 200, 'temperature': 0, 'top_p': 1, 'stream': False, 'frequency_penalty': 0, 'presence_penalty': 0, 'stop': ['\n']}
+
+~~~ prompt_input    ----------------------------------------------
+{'name': 'bed', 'action': 'partly made with sheets slightly rumpled'}
+
+~~~ final prompt    ----------------------------------------------------
+
+Task: Turn the input into (subject, predicate, object).
+
+Input: Sam Johnson is eating breakfast.
+Output: (Sam Johnson, eat, breakfast)
+---
+Input: Joon Park is brewing coffee.
+Output: (Joon Park, brew, coffee)
+---
+Input: Jane Cook is sleeping.
+Output: (Jane Cook, is, sleep)
+---
+Input: Michael Bernstein is writing email on a computer.
+Output: (Michael Bernstein, write, email)
+---
+Input: Percy Liang is teaching students in a classroom.
+Output: (Percy Liang, teach, students)
+---
+Input: Merrie Morris is running on a treadmill.
+Output: (Merrie Morris, run, treadmill)
+---
+Input: bed is partly made with sheets slightly rumpled.
+Output:
+
+
+~~~ processed output    ----------------------------------------------------
+('bed', 'is made', 'sheets slightly rumpled')
+
+=== END ==========================================================
+
+

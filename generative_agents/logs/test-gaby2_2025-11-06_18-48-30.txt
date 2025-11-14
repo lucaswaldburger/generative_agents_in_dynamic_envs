@@ -1,0 +1,10 @@
+imported openai-cost-logger
+Enter the name of the forked simulation (leave blank for base_the_ville_isabella_maria_klaus): base_the_ville_isabella_maria_klaus
+Enter the name of the new simulation (last was test_1_run1-s-0-0-20): Would you like to use MQTT for communication? (y/N): MQTT mode enabled
+(reverie): Temp storage:  ../../environment/frontend_server/temp_storage
+Traceback (most recent call last):
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/reverie.py", line 868, in <module>
+    rs = ReverieServer(origin, target, use_mqtt=use_mqtt)
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/reverie.py", line 168, in __init__
+    broker_host=mqtt_host,
+NameError: name 'mqtt_host' is not defined

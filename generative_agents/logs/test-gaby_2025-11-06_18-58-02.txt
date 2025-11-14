@@ -1,0 +1,52 @@
+imported openai-cost-logger
+(Auto-Exec): STARTING THE EXPERIMENT
+(Auto-Exec): Origin: base_the_ville_isabella_maria_klaus
+(Auto-Exec): Target: test-gaby
+(Auto-Exec): Total steps: 8640
+(Auto-Exec): Checkpoint Freq: 200
+(Auto-Exec): MQTT Mode: Enabled
+(Auto-Exec): STAGE 0
+(Auto-Exec): Running experiment 'test-gaby' from step '0' to '200'
+Traceback (most recent call last):
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/automatic_execution.py", line 225, in <module>
+    rs = reverie.ReverieServer(origin, target, use_mqtt=use_mqtt)
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/reverie.py", line 78, in __init__
+    copyanything(fork_folder, sim_folder)
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/global_methods.py", line 224, in copyanything
+    shutil.copytree(src, dst)
+  File "/home/gaby/anaconda3/envs/simulacra/lib/python3.9/shutil.py", line 566, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+  File "/home/gaby/anaconda3/envs/simulacra/lib/python3.9/shutil.py", line 467, in _copytree
+    os.makedirs(dst, exist_ok=dirs_exist_ok)
+  File "/home/gaby/anaconda3/envs/simulacra/lib/python3.9/os.py", line 225, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: '../../environment/frontend_server/storage/test-gaby-s-0-0-200'
+(reverie): Temp storage:  ../../environment/frontend_server/temp_storage
+Traceback (most recent call last):
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/automatic_execution.py", line 225, in <module>
+    rs = reverie.ReverieServer(origin, target, use_mqtt=use_mqtt)
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/reverie.py", line 78, in __init__
+    copyanything(fork_folder, sim_folder)
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/global_methods.py", line 224, in copyanything
+    shutil.copytree(src, dst)
+  File "/home/gaby/anaconda3/envs/simulacra/lib/python3.9/shutil.py", line 566, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+  File "/home/gaby/anaconda3/envs/simulacra/lib/python3.9/shutil.py", line 467, in _copytree
+    os.makedirs(dst, exist_ok=dirs_exist_ok)
+  File "/home/gaby/anaconda3/envs/simulacra/lib/python3.9/os.py", line 225, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: '../../environment/frontend_server/storage/test-gaby-s-0-0-200'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/automatic_execution.py", line 260, in <module>
+    if step > 0:
+TypeError: '>' not supported between instances of 'str' and 'int'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/gaby/Documents/UCB/HumanModel/cs294_286_final_project/generative_agents/reverie/backend_server/automatic_execution.py", line 270, in <module>
+    if th and th.is_alive():
+NameError: name 'th' is not defined
