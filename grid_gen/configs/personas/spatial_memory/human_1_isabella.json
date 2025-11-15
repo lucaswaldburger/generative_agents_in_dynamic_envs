@@ -1,0 +1,102 @@
+{
+  "urbanWorld": {
+    "Home A": {
+      "main room": [
+        "sofa",
+        "coffee table",
+        "bookshelf",
+        "small dining table",
+        "coat rack",
+        "cat bed"
+      ],
+      "kitchen": [
+        "kitchen counter",
+        "stove",
+        "refrigerator",
+        "kitchen sink",
+        "cupboard",
+        "cat food bowl",
+        "cat water bowl"
+      ],
+      "bedroom": [
+        "bed",
+        "nightstand",
+        "dresser",
+        "closet",
+        "bedside lamp",
+        "laundry basket"
+      ],
+      "bathroom": [
+        "toilet",
+        "shower",
+        "bathroom sink",
+        "bathroom mirror",
+        "towel rack"
+      ],
+      "balcony or entry": [
+        "apartment door",
+        "shoe rack",
+        "umbrella stand"
+      ]
+    },
+
+    "Park": {
+      "park": [
+        "park grass",
+        "park garden",
+        "park bench",
+        "playground area",
+        "big shady tree",
+        "walking path"
+      ]
+    },
+
+    "Workplace A": {
+      "front counter": [
+        "service counter",
+        "cash register",
+        "tip jar",
+        "display shelf",
+        "order pickup area"
+      ],
+      "customer area": [
+        "customer table seating",
+        "window seating",
+        "trash bin"
+      ],
+      "back room": [
+        "storage shelves",
+        "cleaning supplies",
+        "extra inventory boxes"
+      ]
+    },
+
+    "Streets and Blocks": {
+      "north blocks": [
+        "intersection near B1",
+        "intersection near B2",
+        "intersection near B3",
+        "intersection near B4"
+      ],
+      "central blocks": [
+        "intersection near B5",
+        "intersection near Park",
+        "intersection near Workplace A"
+      ],
+      "south blocks": [
+        "intersection near B9",
+        "intersection near B10",
+        "intersection near B11",
+        "intersection near B12"
+      ]
+    },
+
+    "Fire": {
+      "fire zone": [
+        "burning buildings",
+        "dense smoke plume",
+        "glowing horizon"
+      ]
+    }
+  }
+}

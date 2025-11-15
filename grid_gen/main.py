@@ -75,6 +75,7 @@ def run(cfg: DictConfig):
     map_path = to_absolute_path(cfg.map.file)
     personas_path = to_absolute_path(cfg.personas.file)
     map_spec = load_map(map_path)
+    print("Unique access codes in grid:", np.unique(map_spec.access_grid))
     agent_configs = load_agent_configs(personas_path)
 
     env = MultiHumanGridEnv(
@@ -97,6 +98,7 @@ def run(cfg: DictConfig):
 
         # this will go to plannner eventially
         # FOR NOW WE have two agents only so this hardcoding works but eventually change to env.agent_ids
+        
         start0, goal0 = high_level_planner(env, agent_id=0, command="go to work")
         start1, goal1 = high_level_planner(env, agent_id=1, command="go to park")
         full_path0 = astar(env, start0, goal0)
@@ -109,6 +111,7 @@ def run(cfg: DictConfig):
         path1 = full_path1[:fov1]
 
         for step in range(max(len(path0), len(path1))):
+
             a0 = path0[step] if step < len(path0) else Action.STAY
             a1 = path1[step] if step < len(path1) else Action.STAY
 
@@ -118,6 +121,7 @@ def run(cfg: DictConfig):
             print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
             for agent_id in range(env.num_agents):
                 desc = describe_perception(env, agent_id)
+                agent = env.agents[agent_id]
                 log_agent_step(
                     log_file=agent_logs[agent_id],
                     agent_id=agent_id,
@@ -127,11 +131,31 @@ def run(cfg: DictConfig):
                     action=int(action[agent_id]),
                     desc=desc,
                 )
+                # testing the spatial memoery
+                sm = agent.config.spatial_memory
+                if not sm:
+                    continue
+
+                x, y = int(agent.x), int(agent.y)
+
+                info = sm.elements_at_position(env, x, y)
+                contents = info["contents"]
+
+                if contents:
+                    rooms_here = list(contents.keys())
+                    print(
+                        f"[SM] Agent {agent_id} at ({x}, {y}) -> "
+                        f"cell='{info['cell_name']}', lookup_key='{info.get('lookup_key')}', rooms={rooms_here}")
+
+                else:
+                    print(
+                        f"[SM] Agent {agent_id} at ({x}, {y}) -> "
+                        f"cell='{info['cell_name']}'")
 
                 print(f"[Agent {agent_id}] {desc}")
 
-            env.render()
-            time.sleep(0.5)
+                env.render()
+                time.sleep(0.5)
 
             if terminated or truncated:
                 break

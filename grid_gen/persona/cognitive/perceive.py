@@ -27,6 +27,7 @@ def blocks_vision(env, x: int, y: int, agent_id: int) -> bool:
     default_block = bool(block_table.get(str(code), True))
 
     # Look at any regions covering this tile
+    ## this needs to be changd to grid cells with the name 
     regs = regions_containing_point(env, x, y)
 
     for r in regs:

@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Optional
+from persona.memory.spatial_memory import SpatialMemory
 
 
 class Action(IntEnum):
@@ -39,7 +40,7 @@ class AgentConfig:
     color: str
     fov: FOVConfig
     name: str
-    # you can later add cognitive references here if needed
+    spatial_memory: Optional[SpatialMemory] = None
 
 
 DEFAULT_MAX_STEPS = 200

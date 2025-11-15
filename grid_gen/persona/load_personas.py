@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import yaml
 
 from env.constants import AgentConfig, FOVConfig
-
+from persona.memory.spatial_memory import SpatialMemory
 
 def load_agent_configs(persona_path: str | Path) -> List[AgentConfig]:
     path = Path(persona_path)
@@ -19,6 +19,15 @@ def load_agent_configs(persona_path: str | Path) -> List[AgentConfig]:
     for key, cfg in data.items():
         start = cfg["start"]
         fov_cfg = cfg["fov"]
+
+        spatial_mem = None
+        sm_file = cfg.get("spatial_memory_file")
+        if sm_file:
+            sm_path = Path(sm_file)
+            if not sm_path.is_absolute():
+                sm_path = path.parent / sm_file
+            spatial_mem = SpatialMemory.from_file(sm_path)
+
         agent = AgentConfig(
             id=cfg["id"],
             kind=cfg["kind"],
@@ -32,6 +41,7 @@ def load_agent_configs(persona_path: str | Path) -> List[AgentConfig]:
                 shade_color=str(fov_cfg["shade_color"]),
             ),
             name=cfg.get("name", key),
+            spatial_memory=spatial_mem
         )
         agents.append(agent)
 
