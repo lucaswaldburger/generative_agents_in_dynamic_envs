@@ -6,7 +6,7 @@ import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]  # cs294_286_final_project-1/
+ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "grid_gen" / "persona" / "prompt" / "evacuation_data"
 OUT_PATH = ROOT / "grid_gen" / "persona" / "memory" / "route_choice_priors.json"
 
@@ -14,7 +14,7 @@ def main():
     resp = pd.read_csv("grid_gen/persona/memory/evacuation_data/responses.csv")
     parts = pd.read_csv("grid_gen/persona/memory/evacuation_data/participants.csv")
 
-    # left/right corridor code)
+    # Extract left/right codes
     pat = re.compile(r".*L-([^_]+)_R-([^_]+)")
     def extract_codes(tid):
         m = pat.match(str(tid))
@@ -26,28 +26,32 @@ def main():
         lambda x: pd.Series(extract_codes(x))
     )
 
-    # width (W/N/E) & visibility (0/1)
+    # Extract width & transition cue (stairs) from taskId components
     resp['left_width']  = resp['left'].str[0]
     resp['right_width'] = resp['right'].str[0]
-    resp['left_vis']    = resp['left'].str[-1]
-    resp['right_vis']   = resp['right'].str[-1]
+
+    # last digit: 0/1 → interpreted as transition cue
+    resp['left_transition']  = resp['left'].str[-1]
+    resp['right_transition'] = resp['right'].str[-1]
 
     # demographics
     resp = resp.merge(parts[['userId','yearOfBirth','gender']], on='userId', how='left')
-    resp['age'] = 2020 - resp['yearOfBirth']  # 실험 연도 근사
+    resp['age'] = 2020 - resp['yearOfBirth']
 
     bins = [0, 24, 34, 49, 120]
     labels = ['<25','25-34','35-49','50+']
     resp['age_group'] = pd.cut(resp['age'], bins=bins, labels=labels)
 
-    # only left/right decisions
+    # Only corridor choices
     resp = resp[resp['AOI'].isin(['corridor_left','corridor_right'])]
     resp['choice'] = resp['AOI'].map({'corridor_left':'L', 'corridor_right':'R'})
 
-    # WIDTH PREFERENCE
+
+    # 1) WIDTH PREFERENCE
     rank_width = {'W':3, 'N':2, 'E':1}
     resp['left_rank']  = resp['left_width'].map(rank_width)
     resp['right_rank'] = resp['right_width'].map(rank_width)
+
     resp['wider_side'] = np.where(
         resp['left_rank'] > resp['right_rank'], 'L',
         np.where(resp['left_rank'] < resp['right_rank'], 'R', 'equal')
@@ -62,47 +66,52 @@ def main():
         .reset_index()
     )
 
-    # ---------- VISIBILITY PREFERENCE ----------
-    # 가정: vis '0' = better, '1' = worse
-    rank_vis = {'0': 2, '1': 1}
-    resp['left_vis_rank']  = resp['left_vis'].map(rank_vis)
-    resp['right_vis_rank'] = resp['right_vis'].map(rank_vis)
 
-    resp['more_visible_side'] = np.where(
-        resp['left_vis_rank'] > resp['right_vis_rank'], 'L',
-        np.where(resp['left_vis_rank'] < resp['right_vis_rank'], 'R', 'equal')
+    # 2) TRANSITION CUE PREFERENCE
+    # transition cue: '1' = present, '0' = absent
+    rank_transition = {'0': 1, '1': 2}
+
+    resp['left_transition_rank']  = resp['left_transition'].map(rank_transition)
+    resp['right_transition_rank'] = resp['right_transition'].map(rank_transition)
+
+    resp['transition_side'] = np.where(
+        resp['left_transition_rank'] > resp['right_transition_rank'], 'L',
+        np.where(resp['left_transition_rank'] < resp['right_transition_rank'], 'R', 'equal')
     )
 
-    align_v = resp[resp['more_visible_side'] != 'equal'].copy()
-    align_v['aligned_vis'] = (align_v['choice'] == align_v['more_visible_side'])
+    align_t = resp[resp['transition_side'] != 'equal'].copy()
+    align_t['aligned_transition'] = (align_t['choice'] == align_t['transition_side'])
 
-    vis_pref = (
-        align_v.groupby(['age_group','gender'])['aligned_vis']
+    transition_pref = (
+        align_t.groupby(['age_group','gender'])['aligned_transition']
         .mean()
         .reset_index()
     )
 
-    # trad-offs (width vs visibility) 
+
+    # 3) TRADE-OFF: Width vs Transition
     trade = resp[
         (resp['wider_side'] != 'equal') &
-        (resp['more_visible_side'] != 'equal') &
-        (resp['wider_side'] != resp['more_visible_side'])
+        (resp['transition_side'] != 'equal') &
+        (resp['wider_side'] != resp['transition_side'])
     ].copy()
 
     trade['follow_width'] = (trade['choice'] == trade['wider_side'])
-    trade['follow_vis']   = (trade['choice'] == trade['more_visible_side'])
+    trade['follow_transition'] = (trade['choice'] == trade['transition_side'])
 
     trade_pref = (
         trade.groupby(['age_group','gender'])
         .agg(
             follow_width=('follow_width','mean'),
-            follow_visibility=('follow_vis','mean'),
+            follow_transition=('follow_transition','mean'),
             n=('userId','size')
         )
         .reset_index()
     )
 
-    # generate json
+    # ==========================
+    # JSON OUTPUT
+    # ==========================
     def get_val(df, age, gender, col):
         row = df[(df['age_group'] == age) & (df['gender'] == gender)]
         if row.empty or pd.isna(row.iloc[0][col]):
@@ -115,23 +124,22 @@ def main():
     priors = {
         "route_choice_priors": {
             "width_preference": {
-                "description": "Probability of choosing the wider corridor when left and right widths differ.",
+                "description": "Probability of choosing the wider corridor when width differs.",
                 "by_demographics": {}
             },
-            "visibility_preference": {
-                "description": "Probability of choosing the more visible corridor when visibility differs.",
+            "transition_cue_preference": {
+                "description": "Probability of choosing the corridor containing a transition cue (stairs → generalized transition element).",
                 "by_demographics": {}
             },
-            "conflict_resolution": {
-                "description": "When width and visibility cues conflict, probability of following each cue.",
+            "conflict_width_vs_transition": {
+                "description": "When width and transition cues conflict, probability of following each cue.",
                 "by_demographics": {}
             },
             "meta": {
                 "notes": [
-                    "Width is the dominant cue for younger adults across genders.",
-                    "Visibility influence increases with age, especially for 50+ men.",
-                    "Women over 35 exhibit lower width sensitivity.",
-                    "Use these values as priors, not hard rules."
+                    "Transition cue is a generalized signal representing spatial transitions (e.g., stairs, ramps, entrances).",
+                    "Use these values as soft priors for behavioral models.",
+                    "Derived from empirical evacuation dataset."
                 ],
                 "source": "evacuation_data/*.csv",
                 "missing_value": "null"
@@ -140,21 +148,21 @@ def main():
     }
 
     wp = priors["route_choice_priors"]["width_preference"]["by_demographics"]
-    vp = priors["route_choice_priors"]["visibility_preference"]["by_demographics"]
-    cp = priors["route_choice_priors"]["conflict_resolution"]["by_demographics"]
+    tp = priors["route_choice_priors"]["transition_cue_preference"]["by_demographics"]
+    cp = priors["route_choice_priors"]["conflict_width_vs_transition"]["by_demographics"]
 
     for age in age_groups:
         wp[age] = {}
-        vp[age] = {}
+        tp[age] = {}
         cp[age] = {}
         for g in genders:
             wp[age][g] = get_val(width_pref, age, g, "aligned_width")
-            vp[age][g] = get_val(vis_pref, age, g, "aligned_vis")
+            tp[age][g] = get_val(transition_pref, age, g, "aligned_transition")
             fw = get_val(trade_pref, age, g, "follow_width")
-            fv = get_val(trade_pref, age, g, "follow_visibility")
+            ft = get_val(trade_pref, age, g, "follow_transition")
             cp[age][g] = {
                 "follow_width": fw,
-                "follow_visibility": fv
+                "follow_transition": ft
             }
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
