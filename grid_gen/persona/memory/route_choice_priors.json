@@ -26,8 +26,8 @@
         }
       },
   
-      "visibility_preference": {
-        "description": "Probability of choosing the more visible corridor when visibility differs.",
+      "transition_cue_preference": {
+        "description": "Probability of choosing the corridor that contains a transition cue (e.g., stairs or other spatial transition element) when only one side has it.",
         "by_demographics": {
           "<25": {
             "man": 0.087,
@@ -52,28 +52,28 @@
         }
       },
   
-      "conflict_resolution": {
-        "description": "When width and visibility cues point to different directions, probability of following each.",
+      "conflict_width_vs_transition_cue": {
+        "description": "When width and transition cues point to different directions, probability of following each cue.",
         "by_demographics": {
           "<25": {
-            "man":   { "follow_width": 0.953, "follow_visibility": 0.047 },
-            "woman": { "follow_width": 0.935, "follow_visibility": 0.065 },
-            "x":     { "follow_width": 1.000, "follow_visibility": 0.000 }
+            "man":   { "follow_width": 0.953, "follow_transition_cue": 0.047 },
+            "woman": { "follow_width": 0.935, "follow_transition_cue": 0.065 },
+            "x":     { "follow_width": 1.000, "follow_transition_cue": 0.000 }
           },
           "25-34": {
-            "man":   { "follow_width": 0.974, "follow_visibility": 0.026 },
-            "woman": { "follow_width": 0.917, "follow_visibility": 0.083 },
-            "x":     { "follow_width": null,  "follow_visibility": null }
+            "man":   { "follow_width": 0.974, "follow_transition_cue": 0.026 },
+            "woman": { "follow_width": 0.917, "follow_transition_cue": 0.083 },
+            "x":     { "follow_width": null,  "follow_transition_cue": null }
           },
           "35-49": {
-            "man":   { "follow_width": 0.894, "follow_visibility": 0.106 },
-            "woman": { "follow_width": 0.844, "follow_visibility": 0.156 },
-            "x":     { "follow_width": 1.000, "follow_visibility": 0.000 }
+            "man":   { "follow_width": 0.894, "follow_transition_cue": 0.106 },
+            "woman": { "follow_width": 0.844, "follow_transition_cue": 0.156 },
+            "x":     { "follow_width": 1.000, "follow_transition_cue": 0.000 }
           },
           "50+": {
-            "man":   { "follow_width": 0.673, "follow_visibility": 0.327 },
-            "woman": { "follow_width": 0.759, "follow_visibility": 0.241 },
-            "x":     { "follow_width": null,  "follow_visibility": null }
+            "man":   { "follow_width": 0.673, "follow_transition_cue": 0.327 },
+            "woman": { "follow_width": 0.759, "follow_transition_cue": 0.241 },
+            "x":     { "follow_width": null,  "follow_transition_cue": null }
           }
         }
       },
@@ -81,10 +81,10 @@
       "meta": {
         "notes": [
           "Width is the dominant cue for younger adults across genders.",
-          "Visibility influence increases significantly with age.",
+          "Transition cue influence increases significantly with age.",
           "Women over 35 exhibit lower width sensitivity than men in the same age group.",
-          "Older men (>50) show the highest visibility sensitivity (up to ~33%).",
-          "These values should be treated as priors; agents may override them based on context (fire, smoke, memory, goals)."
+          "Older men (>50) show the highest transition cue sensitivity (up to ~33%).",
+          "These values should be treated as behavioral priors over route choice; agents may override them based on context (fire, smoke, memory, goals, urban fabric)."
         ],
         "source": "Empirical evacuation dataset (responses.csv, participants.csv)",
         "missing_value": "null"
