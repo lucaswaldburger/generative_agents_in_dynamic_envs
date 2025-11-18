@@ -109,9 +109,7 @@ def main():
         .reset_index()
     )
 
-    # ==========================
     # JSON OUTPUT
-    # ==========================
     def get_val(df, age, gender, col):
         row = df[(df['age_group'] == age) & (df['gender'] == gender)]
         if row.empty or pd.isna(row.iloc[0][col]):
