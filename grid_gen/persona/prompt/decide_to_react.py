@@ -189,21 +189,20 @@ def decide_to_react(
 ) -> Dict[str, Any]:
     """
     Ask the LLM:
-    - what action to take (move_exit, move_away, help_neighbor, wait)
-    - what high-level goal text to use next (go to home/work/park)
+    - how to treat the current baseline A* route
+      (follow it as is, or reroute away from fire)
     - how to update memory
 
     It only returns a decision dict.
 
     main.py should:
     - call this function,
-    - read the "action" and "next_plan_text",
-    - call get_next_plan_and_waypoint(...) from plan.py,
-    - step the env with that action list,
+    - read the "action" (route mode),
+    - pass this route mode into the A* planner as a cost-bias flag,
     - update MemorySummary with "memory_update".
     """
 
-# get real-world route choice data analysis as a part of prior memory
+    # get real-world route choice data analysis as a part of prior memory
     if empirical_hint is None:
         hint_block = "No empirical evacuation hint is available."
     else:
@@ -214,8 +213,8 @@ def decide_to_react(
     # directly from the LLM. The environment uses A* to plan on the grid.
     # The LLM only decides:
     #   (1) how to treat the baseline A* route (follow / reroute),
-    #   (2) which high-level destination to head toward (home / work / park),
-    #   (3) optionally, which part of the city (blocks / directions) to prefer.
+    #   (2) optionally how strongly to consider empirical priors
+    #       (depending on age, gender, etc.).
 
     prompt = f"""
 You are simulating {demo.name}'s behavior in a small urban world
@@ -258,23 +257,15 @@ Use it only as a soft prior, not a hard rule:
 You do NOT choose low-level grid moves directly.
 The environment will use A* to actually move the agent.
 
-Your job is to decide:
+Your job is to decide ONE route decision mode (returned as "action"):
 
-1) A ROUTE DECISION MODE (returned as "action"):
-   - "follow_baseline"
-       → follow the baseline A* route as it is.
-   - "reroute_away_from_fire"
-       → choose another route that increases distance from the fire,
-         even if it is longer. Here, you might refer to {hint_block} condering your {demo.age} and {demo.gender}
+- "follow_baseline"
+    → follow the baseline A* route as it is.
 
-
-   After that, you MAY optionally add a short description of the
-   preferred route through the city, for example:
-   - "go to work via the central-west blocks, avoiding the north-east fire area"
-   - "go to park using the south blocks and staying away from the fire region"
-
-For example, if the situation is clearly dangerous, it is often safer to reroute away from the fire 
-instead of following the original baseline path.
+- "reroute_away_from_fire"
+    → choose another route that increases distance from the fire,
+      even if it is longer. You may refer to the empirical hint above,
+      considering this person's age ({demo.age}) and gender ({demo.gender}).
 
 Also decide whether this moment should be written into memory as a
 salient fire-related event, and how important it is.
@@ -282,7 +273,7 @@ salient fire-related event, and how important it is.
 Return ONLY valid JSON with the following structure:
 
 {{
-  "action": "follow_baseline" | "reroute_away_from_fire" | "reroute_to_park",
+  "action": "follow_baseline" | "reroute_away_from_fire",
   "reason": "short explanation referencing the city layout, the current state, and the empirical hint if useful",
   "memory_update": {{
     "store_fire_event": true or false,
@@ -293,8 +284,7 @@ Return ONLY valid JSON with the following structure:
 """.strip()
 
     schema: Dict[str, Any] = {
-        "action": (str, ...),          # "follow_baseline" / "reroute_away_from_fire" / "reroute_to_park"
-        "next_plan_text": (str, ...),  # must start with "go to home/work/park"
+        "action": (str, ...),          # "follow_baseline" / "reroute_away_from_fire"
         "reason": (str, ...),
         "memory_update": (
             {
