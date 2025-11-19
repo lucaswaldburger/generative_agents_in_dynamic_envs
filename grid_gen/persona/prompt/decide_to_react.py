@@ -80,6 +80,7 @@ class Perception:
     distance_to_fire: float
     see_fire: bool
     official_order_level: int
+    ############## we might include see_smoke boolean and visibility_to_smore float
 
 
 @dataclass
@@ -359,12 +360,4 @@ Return ONLY valid JSON with the following structure:
 #         obs, reward, term, trunc, info = env.step(action)
 #         # render, step count, etc.
 #
-#     # update simple location label
-#     lg = next_plan_text.lower()
-#     if "home" in lg:
-#         current_location_text = "home"
-#     elif "work" in lg:
-#         current_location_text = "work"
-#     elif "park" in lg:
-#         current_location_text = "park"
 #
