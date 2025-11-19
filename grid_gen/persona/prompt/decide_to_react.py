@@ -245,8 +245,10 @@ The world is a small city made of rectangular blocks:
 The baseline A* planner, ignoring fire risk, would follow this route:
 - {memory.current_goal_summary}
 
-You may treat this as the "normal" shortest path in this city
-if there were no hazards.
+You may treat this as the "normal" shortest path in the city
+if there were no hazards or only minimal hazards.
+For this simulation, “minimal hazards” can be interpreted based on the agent’s demographic factors (age: {demo.age}, gender: {demo.gender})
+and spatial cues derived from the empirical route-choice data. # need to tresfer the dimensions of corridors to spatial cues
 
 [EMPIRICAL HINT]
 This text summarizes empirical route-choice or evacuation behavior.
