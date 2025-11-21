@@ -25,7 +25,7 @@ from env.constants import Action
 from persona.cognitive.plan import high_level_planner, astar
 from env.constants import SemanticMap
 from persona.cognitive.perceive import describe_perception
-from persona.prompt.gpt_structure import test_chat_completion
+from persona.prompt.gpt_structure import test_chat_completion, ask_llm
 
 import os
 import datetime
@@ -100,6 +100,7 @@ def run(cfg: DictConfig):
         print("[OpenAI] Response:", reply)
     except Exception as e:
         print("[OpenAI] Error while testing API:", e)
+    
 
     run_dir = setup_sim_output_dir()
     agent_logs = create_agent_logs(run_dir, env)
@@ -121,6 +122,21 @@ def run(cfg: DictConfig):
         fov1 = env.agents[1].config.fov.range_cells
         path0 = full_path0[:fov0]
         path1 = full_path1[:fov1]
+
+        reply = ask_llm(
+            cfg,
+            f"""You are given the following agent configs (Python repr):
+
+        {agent_configs}
+
+        For each agent, describe their personal characteristics:
+        - name
+        - id
+        - starting position (start_x, start_y)
+        - FOV range_cells
+        Return a short paragraph per agent."""
+        )
+        print("[LLM OUTPUT - INITIALIZING]\n", reply)
 
         for step in range(max(len(path0), len(path1))):
 
