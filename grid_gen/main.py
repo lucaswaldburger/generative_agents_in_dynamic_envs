@@ -9,6 +9,7 @@ from hydra.utils import to_absolute_path
 
 
 
+
 from pathlib import Path
 from typing import Dict, Any
 
@@ -24,6 +25,7 @@ from env.constants import Action
 from persona.cognitive.plan import high_level_planner, astar
 from env.constants import SemanticMap
 from persona.cognitive.perceive import describe_perception
+from persona.prompt.gpt_structure import test_chat_completion
 
 import os
 import datetime
@@ -89,6 +91,16 @@ def run(cfg: DictConfig):
     obs, info = env.reset()
     print("Initial state:")
     env.render()
+
+    try:
+        reply = test_chat_completion(
+            cfg,
+            "Say: 'OpenAI test successful for Gaby.'"
+        )
+        print("[OpenAI] Response:", reply)
+    except Exception as e:
+        print("[OpenAI] Error while testing API:", e)
+
     run_dir = setup_sim_output_dir()
     agent_logs = create_agent_logs(run_dir, env)
 

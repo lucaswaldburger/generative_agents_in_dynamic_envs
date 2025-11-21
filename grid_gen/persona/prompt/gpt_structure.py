@@ -1,9 +1,48 @@
 # gpt_structure.py
 
-import json
+from typing import Any
 from openai import OpenAI
+from omegaconf import DictConfig
 
-client = OpenAI()
+_client_cache = None
+
+def get_openai_client(api_key: str) -> OpenAI:
+    """
+    Return a cached OpenAI client instance.
+    """
+    global _client_cache
+    if _client_cache is None:
+        _client_cache = OpenAI(api_key=api_key)
+    return _client_cache
+
+
+
+def test_chat_completion(cfg: DictConfig, user_text: str) -> str:
+    """
+    Use cfg.openai.* to call the LLM with a simple test message.
+    """
+    api_key = cfg.openai.openai_api_key
+    client = get_openai_client(api_key)
+
+    # simple test chat
+    resp = client.chat.completions.create(
+        model="gpt-4.1-mini",   # good, cheap test model
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    f"You are a helpful assistant. "
+                    f"The key owner is {cfg.openai.key_owner}."
+                ),
+            },
+            {"role": "user", "content": user_text},
+        ],
+        max_tokens=64,
+    )
+
+    return resp.choices[0].message.content.strip()
+
+
 
 
 def safe_generate_structured_response(prompt: str, schema: dict):

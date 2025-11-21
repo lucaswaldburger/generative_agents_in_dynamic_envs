@@ -3,3 +3,5 @@ minigrid>=2.3.0
 pygame
 hydra-core>=1.3
 omegaconf>=2.3
+pandas
+openai
