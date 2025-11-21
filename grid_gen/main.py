@@ -3,6 +3,7 @@ import hydra
 import sys
 import numpy as np
 import time
+import json
 
 from omegaconf import DictConfig
 from hydra.utils import to_absolute_path
@@ -25,7 +26,7 @@ from env.constants import Action
 from persona.cognitive.plan import high_level_planner, astar
 from env.constants import SemanticMap
 from persona.cognitive.perceive import describe_perception
-from persona.prompt.gpt_structure import test_chat_completion, ask_llm
+from persona.prompt.gpt_structure import test_chat_completion, LLMConversation
 
 import os
 import datetime
@@ -76,9 +77,17 @@ def run(cfg: DictConfig):
     """
     map_path = to_absolute_path(cfg.map.file)
     personas_path = to_absolute_path(cfg.personas.file)
+    priors_path = to_absolute_path(cfg.memory.route_choice_priors_file)
+
+    agent_configs = load_agent_configs(personas_path, cfg.personas.personas_in_sim)
     map_spec = load_map(map_path)
-    print("Unique access codes in grid:", np.unique(map_spec.access_grid))
-    agent_configs = load_agent_configs(personas_path)
+    # print("Unique access codes in grid:", np.unique(map_spec.access_grid))
+
+    with open(priors_path, "r") as f:
+        route_choice_priors = json.load(f)
+        # let's add a try in case the json is not there
+
+
 
     env = MultiHumanGridEnv(
         map_spec=map_spec,
@@ -92,15 +101,62 @@ def run(cfg: DictConfig):
     print("Initial state:")
     env.render()
 
+    # testing connecting
     try:
         reply = test_chat_completion(
             cfg,
-            "Say: 'OpenAI test successful for Gaby.'"
+            "Say: 'OpenAI comms successful.'"
         )
         print("[OpenAI] Response:", reply)
     except Exception as e:
         print("[OpenAI] Error while testing API:", e)
-    
+
+    # Create ONE conversation for this simulation
+    conv = LLMConversation(
+        cfg,
+        system_prompt=(
+            "You are the cognitive model for humans in a fire evacuation simulation. "
+            "You must combine empirical route-choice priors with each agent's persona "
+            "and demographics to decide how they move."
+        ),
+    )
+
+    persona_summary = [
+        {
+            "id": a.id,
+            "name": a.name,
+            "age": getattr(a, "age", None),
+            "innate": getattr(a, "innate", None),
+            "lifestyle": getattr(a, "lifestyle", None),
+            "currently": getattr(a, "currently", None),
+            "fov_range": a.fov.range_cells,
+        }
+        for a in agent_configs
+    ]
+
+    # Give priors + personas to LLM ONCE at the start
+    # NOTE !!!!!!!!!! delete the last paragrpah i am testing this right now
+    init_reply = conv.ask_llm(
+        f"""
+        Here are demographic-based route choice priors (JSON):
+
+        {json.dumps(route_choice_priors['route_choice_priors'], indent=2)}
+
+        Here are the agent personas (JSON):
+
+        {json.dumps(persona_summary, indent=2)}
+
+        Use these priors as soft behavioral rules for these personas in this simulation.
+        Age buckets in the priors are: "<25", "25-34", "35-49", "50+".
+        If an agent age falls between two buckets, choose the closest one.
+        Missing values (null) mean the data is unknown and you should fall back to general reasoning.
+
+        Let's assume these two agents are in an intersection and they must decide whhich way to go: see two 
+        paths left or right if they see smoke in the right road but not crowded and no smoke on the left road 
+        but very crowded. Which way would each agent go based on their persona and the priors provided?
+        """
+            )
+    print("[LLM INIT SUMMARY]\n", init_reply)
 
     run_dir = setup_sim_output_dir()
     agent_logs = create_agent_logs(run_dir, env)
@@ -123,20 +179,6 @@ def run(cfg: DictConfig):
         path0 = full_path0[:fov0]
         path1 = full_path1[:fov1]
 
-        reply = ask_llm(
-            cfg,
-            f"""You are given the following agent configs (Python repr):
-
-        {agent_configs}
-
-        For each agent, describe their personal characteristics:
-        - name
-        - id
-        - starting position (start_x, start_y)
-        - FOV range_cells
-        Return a short paragraph per agent."""
-        )
-        print("[LLM OUTPUT - INITIALIZING]\n", reply)
 
         for step in range(max(len(path0), len(path1))):
 

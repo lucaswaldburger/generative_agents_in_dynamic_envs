@@ -42,23 +42,25 @@ def test_chat_completion(cfg: DictConfig, user_text: str) -> str:
 
     return resp.choices[0].message.content.strip()
 
-def ask_llm(cfg: DictConfig, user_text: str, model: str = "gpt-4.1-mini") -> str:
-    """
-    Sends text to the OpenAI model and returns the response as plain string.
-    """
+class LLMConversation:
+    def __init__(self, cfg: DictConfig, system_prompt: str):
+        self.client = get_openai_client(cfg.openai.openai_api_key)
+        self.messages = [
+            {"role": "system", "content": system_prompt}
+        ]
 
-    client = get_openai_client(cfg.openai.openai_api_key)
+    def ask_llm(self, user_text: str, model: str = "gpt-4.1-mini") -> str:
+        self.messages.append({"role": "user", "content": user_text})
 
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": "You are predicting human decision making during disasters."},
-            {"role": "user", "content": user_text},
-        ],
-        max_tokens=200,
-    )
+        resp = self.client.chat.completions.create(
+            model=model,
+            messages=self.messages,
+            max_tokens=1000,
+        )
+        answer = resp.choices[0].message.content.strip()
 
-    return response.choices[0].message.content.strip()
+        self.messages.append({"role": "assistant", "content": answer})
+        return answer
 
 
 

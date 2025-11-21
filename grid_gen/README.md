@@ -45,3 +45,7 @@ cs294_286_final_project/
 ```
 
 ###  Create and activate a virtual environment
+
+## let's make this pretty for instructions
+
+step 1: if there is not route_choice_priors.json inside persona/memory/route_choice_priors.json then run python3 persona/memory/empirical_analysis.py
