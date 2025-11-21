@@ -126,6 +126,7 @@ def run(cfg: DictConfig):
             "id": a.id,
             "name": a.name,
             "age": getattr(a, "age", None),
+            "gender": getattr(a, "gender", None),
             "innate": getattr(a, "innate", None),
             "lifestyle": getattr(a, "lifestyle", None),
             "currently": getattr(a, "currently", None),
@@ -153,7 +154,8 @@ def run(cfg: DictConfig):
 
         Let's assume these two agents are in an intersection and they must decide whhich way to go: see two 
         paths left or right if they see smoke in the right road but not crowded and no smoke on the left road 
-        but very crowded. Which way would each agent go based on their persona and the priors provided?
+        but very crowded. Which way would each agent go based on their persona and the priors provided? 
+        Just give me a brief explanation for each agent's choice.
         """
             )
     print("[LLM INIT SUMMARY]\n", init_reply)

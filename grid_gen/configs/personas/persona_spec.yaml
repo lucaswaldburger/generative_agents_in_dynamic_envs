@@ -2,6 +2,7 @@
 human_1:
   id: "human_1"
   kind: "human"
+  gender: "female"
   start: {x: 5, y: 16}
   heading_deg: 0
   fov: {range_cells: 9, angle_deg: 90, shade_color: "fov"} # field of view MUST BE ODD
@@ -38,6 +39,7 @@ human_1:
 human_2:
   id: "human_2"
   kind: "human"
+  gender: "male"
   start: {x: 5, y: 19}
   heading_deg: 315
   color: "blue"

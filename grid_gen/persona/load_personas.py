@@ -25,6 +25,7 @@ class AgentConfig:
     first_name: str
     last_name: str
     age: int
+    gender: str
     innate: str
     learned: str
     currently: str
@@ -102,6 +103,7 @@ def load_agent_configs(
             heading_deg=p["heading_deg"],
             color=p["color"],
             fov=fov_cfg,
+            gender=p["gender"],
             name=p["name"],
             first_name=p["first_name"],
             last_name=p["last_name"],
