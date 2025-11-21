@@ -1,0 +1,124 @@
+{
+  "route_choice_priors": {
+    "width_preference": {
+      "description": "Probability of choosing the wider corridor when width differs.",
+      "by_demographics": {
+        "<25": {
+          "man": 0.6746143057503506,
+          "woman": 0.6570188133140377,
+          "x": 0.8387096774193549
+        },
+        "25-34": {
+          "man": 0.697986577181208,
+          "woman": 0.6696696696696697,
+          "x": null
+        },
+        "35-49": {
+          "man": 0.6745762711864407,
+          "woman": 0.5283842794759825,
+          "x": 0.9090909090909091
+        },
+        "50+": {
+          "man": 0.6,
+          "woman": 0.5202312138728323,
+          "x": null
+        }
+      }
+    },
+    "transition_cue_preference": {
+      "description": "Probability of choosing the corridor containing a transition cue (stairs \u2192 generalized transition element).",
+      "by_demographics": {
+        "<25": {
+          "man": 0.9134078212290503,
+          "woman": 0.8885542168674698,
+          "x": 0.75
+        },
+        "25-34": {
+          "man": 0.9186813186813186,
+          "woman": 0.9125364431486881,
+          "x": null
+        },
+        "35-49": {
+          "man": 0.8300653594771242,
+          "woman": 0.8660714285714286,
+          "x": 0.625
+        },
+        "50+": {
+          "man": 0.5899280575539568,
+          "woman": 0.7660818713450293,
+          "x": null
+        }
+      }
+    },
+    "conflict_width_vs_transition": {
+      "description": "When width and transition cues conflict, probability of following each cue.",
+      "by_demographics": {
+        "<25": {
+          "man": {
+            "follow_width": 0.1650943396226415,
+            "follow_transition": 0.8349056603773585
+          },
+          "woman": {
+            "follow_width": 0.19095477386934673,
+            "follow_transition": 0.8090452261306532
+          },
+          "x": {
+            "follow_width": 0.7,
+            "follow_transition": 0.3
+          }
+        },
+        "25-34": {
+          "man": {
+            "follow_width": 0.17692307692307693,
+            "follow_transition": 0.823076923076923
+          },
+          "woman": {
+            "follow_width": 0.11702127659574468,
+            "follow_transition": 0.8829787234042553
+          },
+          "x": {
+            "follow_width": null,
+            "follow_transition": null
+          }
+        },
+        "35-49": {
+          "man": {
+            "follow_width": 0.2608695652173913,
+            "follow_transition": 0.7391304347826086
+          },
+          "woman": {
+            "follow_width": 0.10606060606060606,
+            "follow_transition": 0.8939393939393939
+          },
+          "x": {
+            "follow_width": 0.6666666666666666,
+            "follow_transition": 0.3333333333333333
+          }
+        },
+        "50+": {
+          "man": {
+            "follow_width": 0.5121951219512195,
+            "follow_transition": 0.4878048780487805
+          },
+          "woman": {
+            "follow_width": 0.19642857142857142,
+            "follow_transition": 0.8035714285714286
+          },
+          "x": {
+            "follow_width": null,
+            "follow_transition": null
+          }
+        }
+      }
+    },
+    "meta": {
+      "notes": [
+        "Transition cue is a generalized signal representing spatial transitions (e.g., stairs, ramps, entrances).",
+        "Use these values as soft priors for behavioral models.",
+        "Derived from empirical evacuation dataset."
+      ],
+      "source": "evacuation_data/*.csv",
+      "missing_value": "null"
+    }
+  }
+}

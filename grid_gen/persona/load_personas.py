@@ -34,6 +34,10 @@ class AgentConfig:
     likelihood_to_help_others: str
     chatting_likelihood: str
 
+    friends_with: list[str]
+    dependents: list[dict]
+    daily_plan: list[dict]
+
     # memory
     spatial_memory: SpatialMemory
 
@@ -132,6 +136,9 @@ def load_agent_configs(
             importance_trigger_curr=p["importance_trigger_curr"],
             importance_ele_n=p["importance_ele_n"],
             thought_count=p["thought_count"],
+            friends_with = p.get("friends_with", []),
+            dependents = p.get("dependents", []),
+            daily_plan = p.get("daily_plan", [])
         )
 
         agent_configs.append(cfg)

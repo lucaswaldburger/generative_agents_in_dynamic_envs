@@ -1,17 +1,19 @@
 
-class AssociativeMemory: 
-  def __init__(self, f_saved): 
-    self.id_to_node = dict()
 
-    self.seq_event = []
-    self.seq_thought = []
-    self.seq_chat = []
+def seed_static_memory(agent):
+    cfg = agent.config
+    static_facts = [
+        f"My name is {cfg.name}.",
+        f"I am {cfg.age} years old and {cfg.gender}.",
+        f"My friends are: {', '.join(cfg.friends_with) if cfg.friends_with else 'none listed'}.",
+    ]
 
-    self.kw_to_event = dict()
-    self.kw_to_thought = dict()
-    self.kw_to_chat = dict()
+    for dep in cfg.dependents:
+        static_facts.append(f"I have a dependent: {dep}.")
 
-    self.kw_strength_event = dict()
-    self.kw_strength_thought = dict()
-
-
+    for fact in static_facts:
+        agent.assoc_mem.add_fact(
+            text=fact,
+            importance=10,   # max/near-max
+            tags=["identity", "social", "dependents"],
+        )

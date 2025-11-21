@@ -7,6 +7,29 @@ from env.constants import SemanticMap, Coord, Action, DIR_TO_VEC
 
 
 
+
+
+## daily planner
+
+def get_plan_for_time(agent_cfg, time_str="09:15"):
+    """
+    Very simple: return the first plan item whose time range includes time_str.
+    You can make this smarter later.
+    """
+    for item in agent_cfg.daily_plan:
+        t = item["time"]
+        if "-" not in t and t == time_str:
+            return item
+        if "-" in t:
+            start, end = t.split("-")
+            if start <= time_str <= end:
+                return item
+    return None
+
+
+
+
+
 ### High level planner
 
 def find_object_from_command(env, place_token: str) -> Coord:
