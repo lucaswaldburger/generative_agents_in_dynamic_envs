@@ -1,80 +1,67 @@
+from __future__ import annotations
+
 import json
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, Any, List
+
+import numpy as np
 
 
-def _iter_rect_cells(x, y, w, h):
-    for cx in range(x, x + w):
-        for cy in range(y, y + h):
-            yield cx, cy
-
-def load_map(json_path):
-    """
-    Returns:
-      elements: list of (obj_type, rgba_tuple, color_name, (x,y))
-      size: (W, H)
-    """
-    with open(json_path, "r") as f:
-        data = json.load(f)
-
-    palette = data.get("colors") or data.get("palette") or {}
-    wall_c = tuple(palette.get("wall",  (110,130,140)))
-    fire_c = tuple(palette.get("fire",  (255,165,0)))      # can be RGBA
-    goal_c = tuple(palette.get("goal",  (0,220,0)))
-    park_c = tuple(palette.get("park",  goal_c))
-    home_c = tuple(palette.get("home",  (230,0,230)))
-    work_c = tuple(palette.get("work",  (0,0,255)))
-
-    elements = []
-
-    for w in data.get("walls", []) or data.get("streets_as_walls", []):
-        if w.get("shape") == "rect":
-            for x, y in _iter_rect_cells(w["x"], w["y"], w["w"], w["h"]):
-                elements.append(("wall", wall_c, "grey", (x, y)))
-
-    for l in data.get("lava", []):
-        elements.append(("lava", fire_c, "red", (l["x"], l["y"])))
-
-    for g in data.get("goal", []):
-        elements.append(("goal", goal_c, "green", (g["x"], g["y"])))
+@dataclass
+class MapSpec:
+    width: int
+    height: int
+    access_grid: np.ndarray
+    semantics: Dict[str, Any]
+    regions: List[Dict[str, Any]]
+    raw: Dict[str, Any]
+    cell_names: np.ndarray
 
 
-    def region_to_tile(rtype):
-        if rtype == "block":
-            return ("wall",  wall_c, "grey")
-        if rtype == "park":
-            return ("floor", park_c, "green")
-        if rtype == "home":
-            return ("floor", home_c, "purple")
-        if rtype == "work":
-            return ("floor", work_c, "blue")
-        if rtype == "fire":
-            return ("lava",  fire_c, "red")
-        # default
-        return ("floor", goal_c, "yellow")
+def load_map(map_path: str | Path) -> MapSpec:
+    path = Path(map_path)
+    with path.open("r") as f:
+        cfg = json.load(f)
 
-    for r in data.get("regions", []):
-        if r.get("shape") != "rect":
-            continue
-        obj_type, rgba, color_name = region_to_tile(r.get("type", "block"))
-        sem_name = r.get("type", "unknown")
-        for x, y in _iter_rect_cells(r["x"], r["y"], r["w"], r["h"]):
-            elements.append((obj_type, rgba, color_name, sem_name, (x, y)))
+    width = int(cfg["width"])
+    height = int(cfg["height"])
+    regions = cfg["regions"]
+    access_codes = cfg["access_codes"]
+    semantics = cfg.get("semantics", {})
 
+    bg_code = int(cfg.get("background_access", 1))
 
-    agents = []
-    for a in data.get("agents", []):
-        agents.append({
-            "id": a.get("id", ""),
-            "kind": a.get("kind", "human"),
-            "shape": a.get("shape", "triangle"),
-            "color": a.get("color", "human"),
-            "start": {
-                "x": int(a.get("start", {}).get("x", 0)),
-                "y": int(a.get("start", {}).get("y", 0)),
-            },
+    # 1) start with uniform background
+    access_grid = np.full((height, width), bg_code, dtype=np.int32)
 
-            "heading_deg": int(a.get("heading_deg", a.get("heading", 0))),
-            "fov": a.get("fov", {}),
-        })
+    # 2) initialize cell_names from the access codes
+    cell_names = np.empty_like(access_grid, dtype=object)
+    code_to_name = {v: k for k, v in access_codes.items()}
+    for y in range(height):
+        for x in range(width):
+            code = int(access_grid[y, x])
+            cell_names[y, x] = code_to_name.get(code, "unknown")
 
-    width, height = int(data["width"]), int(data["height"])
-    return elements, (width, height), agents
+    # 3) apply each region: set BOTH access_grid and cell_names
+    for r in regions:
+        name = r["name"]
+        x0, y0 = r["x"], r["y"]
+        w, h = r["w"], r["h"]
+
+        # if a region has an access_code, write it into the grid
+        code = int(r.get("access_code", bg_code))
+        access_grid[y0:y0 + h, x0:x0 + w] = code
+
+        # give these cells the region name (for spatial memory)
+        cell_names[y0:y0 + h, x0:x0 + w] = name
+
+    return MapSpec(
+        width=width,
+        height=height,
+        access_grid=access_grid,
+        semantics=semantics,
+        regions=regions,
+        raw=cfg,
+        cell_names=cell_names,
+    )

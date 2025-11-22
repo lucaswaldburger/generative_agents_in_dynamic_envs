@@ -1,9 +1,22 @@
 sim:
   steps: 100
   seed: 0
-  agent_view_size: 7
   render_mode: "human" 
+  start_time: "08:00"          # clock time at t = 0
+  seconds_per_step: 60         # 1 step = 1 minute 
+
+personas:
+  file: "configs/personas/persona_spec.yaml"
+  personas_in_sim: ["human_1", "human_2"]
 
 
 map:
   file: "configs/maps/urbanWorld.json"
+
+memory:
+  route_choice_priors_file: "persona/memory/route_choice_priors.json"
+
+openai:
+
+  openai_api_key: "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"
+  key_owner: "Gaby"

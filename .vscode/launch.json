@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run main.py (cwd=grid_gen)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/grid_gen/main.py",
+      "cwd": "${workspaceFolder}/grid_gen",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "env": {
+        "HYDRA_FULL_ERROR": "1",
+        "PYTHONPATH": "${workspaceFolder}/grid_gen"
+      },
+      "args": []
+    }
+  ]
+}

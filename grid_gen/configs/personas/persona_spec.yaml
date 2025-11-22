@@ -1,0 +1,127 @@
+
+human_1:
+  id: "human_1"
+  kind: "human"
+  gender: "female"
+  start: {x: 23, y: 9}
+  heading_deg: 0
+  fov: {range_cells: 9, angle_deg: 90, shade_color: "fov"} # field of view MUST BE ODD
+  color: "red"
+  att_bandwidth: 8
+  retention: 8
+  name: "Isabella Rodriguez"
+  first_name: "Isabella"
+  last_name: "Rodriguez"
+  spatial_memory_file: "spatial_memory/human_1_isabella.json"
+  age: 34
+  innate: "friendly, outgoing, hospitable, risk-prone, low trust in local alarm systems"
+  learned: "Isabella Rodriguez is the owner of Workplace A ..."
+  lifestyle: "Isabella normally walks to work ..."
+  living_area: "Isabella Rodriguez's apartment: Home A"
+  living_area_detail: "1-bedroom apartment with a small kitchen and living room, rents it"
+
+  friends_with: ["human_2"]          
+
+  dependents:
+    - type: "pet"
+      name: "Michi"
+      species: "cat"
+      age: 2
+      notes: "Isabella adores Michi and takes great care of her."
+
+
+  daily_plan:
+    - time: "08:00"
+      activity: "walk to Workplace A"
+      location: "Workplace A"
+      activity: "work shift"
+    - time: "15:30"
+      activity: "shift ends go home"
+      location: "Home A"
+    - time: "16:00"
+      activity: "go home and rest"
+      location: "Home A"
+
+  likelihood_to_help_others: "Lower toward strangers."
+  chatting_likelihood: "only if needed"
+  concept_forget: 100
+  daily_reflection_time: 180
+  daily_reflection_size: 5
+  overlap_reflect_th: 4
+  kw_strg_event_reflect_th: 10
+  kw_strg_thought_reflect_th: 9
+  recency_w: 1
+  relevance_w: 1
+  importance_w: 1
+  recency_decay: 0.995
+  importance_trigger_max: 150
+  importance_trigger_curr: 142
+  importance_ele_n: 8
+  thought_count: 5
+
+human_2:
+  id: "human_2"
+  kind: "human"
+  gender: "male"
+  start: {x: 5, y: 19}
+  heading_deg: 315
+  color: "blue"
+  fov: {range_cells: 7, angle_deg: 80, shade_color: "fov"}
+  vision_r: 5
+  att_bandwidth: 8
+  retention: 8
+  name: "Klaus Mueller"
+  first_name: "Klaus"
+  last_name: "Mueller"
+  spatial_memory_file: "spatial_memory/human_2_klaus.json"
+  age: 44
+  innate: "friendly, serious, risk-averse, strong trust in local alarm systems"
+  learned: "Klaus is a father with an 8-year-old son..."
+  lifestyle: "He lives in a large home with his family. Home B"
+  living_area: "Klaus Mueller's house: Home B"
+  living_area_detail: "two stories, 4 bedrooms, a large kitchen, and a garden, owns it"
+
+  friends_with: ["human_1"]
+  dependents:
+    - type: "child"
+      name: "Leo"
+      age: 8
+      notes: "Klaus is very protective"
+    - type: "spouse"
+      name: "Ana"
+      age: 41
+    - type: "mother in law"
+      name: "Rita"
+      age: 80
+      notes: "she is in a wheelchair"
+
+  daily_plan:
+    - time: "07:30"
+      activity: "breakfast with family"
+      location: "Home B"
+    - time: "08:30"
+      activity: "help Leo with homework"
+      location: "Home B"
+    - time: "10:00"
+      activity: "work from home"
+      location: "Home B"
+    - time: "17:00"
+      activity: "walk to Park with family"
+      location: "Park"
+
+  likelihood_to_help_others: "High for his family, medium for others."
+  chatting_likelihood: "high"
+  concept_forget: 100
+  daily_reflection_time: 180
+  daily_reflection_size: 5
+  overlap_reflect_th: 4
+  kw_strg_event_reflect_th: 10
+  kw_strg_thought_reflect_th: 9
+  recency_w: 1
+  relevance_w: 1
+  importance_w: 1
+  recency_decay: 0.995
+  importance_trigger_max: 150
+  importance_trigger_curr: 142
+  importance_ele_n: 8
+  thought_count: 5

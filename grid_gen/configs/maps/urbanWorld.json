@@ -58,44 +58,43 @@
       "shape": "rect", "x": 9, "y": 9, "w": 5, "h": 5
     },
 
-    { "name": "Home A", "group_ids": ["row_bot","col_west"], "type": "home", "access_code": 3, "render": "home",
-      "shape": "rect", "x": 4, "y": 15, "w": 3, "h": 2
+    { 
+      "name": "Home A",
+      "group_ids": ["row_bot","col_west"],
+      "type": "home",
+      "access_code": 3,
+      "render": "home",
+      "shape": "rect",
+      "x": 4,
+      "y": 15,
+      "w": 3,
+      "h": 2,
+      "residents": ["human_1"]
     },
-    { "name": "Home B", "group_ids": ["row_bot","col_west"], "type": "home", "access_code": 3, "render": "home",
-      "shape": "rect", "x": 4, "y": 18, "w": 3, "h": 2
+    { 
+      "name": "Home B",
+      "group_ids": ["row_bot","col_west"],
+      "type": "home",
+      "access_code": 3,
+      "render": "home",
+      "shape": "rect",
+      "x": 4,
+      "y": 18,
+      "w": 3,
+      "h": 2,
+      "residents": ["human_2"]
     },
     { "name": "Workplace A", "group_ids": ["row_bot","col_west"], "type": "work", "access_code": 3, "render": "work",
       "shape": "rect", "x": 23, "y": 9, "w": 3, "h": 2
     },
    
     { "name": "Fire", "group_ids": [], "type": "fire", "access_code": 4, "render": "fire",
-      "shape": "rect", "x": 27, "y": 0, "w": 4, "h": 4
+      "shape": "rect", "x": 27, "y": 0, "w": 1, "h": 1
     }
   ],
 
   "background_access": 1,   
   "block_fill": true,      
-
-  "agents": [
-    {
-      "id": "human_1",
-      "kind": "human",
-      "shape": "triangle",
-      "color": "human",
-      "start": { "x": 5, "y": 13 },
-      "heading_deg": 0,                
-      "fov": { "range_cells": 6, "angle_deg": 90, "shade_color": "fov" }
-    },
-    {
-      "id": "human_2",
-      "kind": "human",
-      "shape": "triangle",
-      "color": "human",
-      "start": { "x": 0, "y": 0},
-      "heading_deg": 315,               
-      "fov": { "range_cells": 7, "angle_deg": 80, "shade_color": "fov" }
-    }
-  ],
 
   "rendering": {
     "draw_fov": true,            
@@ -108,6 +107,7 @@
     "can_enter": {
       "0": false, "1": true, "2": true, "3": true, "4": false
     },
+    "blocks_vision": { "0": true, "1": false, "2": false, "3": true, "4": true, "5": true },
     "is_hazard": { "4": true }
   }
 }
