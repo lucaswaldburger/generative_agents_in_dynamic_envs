@@ -10,7 +10,6 @@ from objects import FireObstacle, TrafficObstacle, SmokeObstacle
 # class BaseEnv(MiniGridEnv):
 #     def __init__(self, size=16, max_steps=100, **kwargs):
 #         self.size = size
-#         base_view_size = kwargs.pop('agent_view_size', 7) 
 
 #         mission_space = MissionSpace(
 #             mission_func=lambda: "get to the green goal without touching the fire"
@@ -25,8 +24,6 @@ from objects import FireObstacle, TrafficObstacle, SmokeObstacle
 #             render_mode=render_mode,
 #             **kwargs
 #         )
-#         self._last_view_size = base_view_size
-#         self.goal_pos = None 
 
 #     def _get_dynamic_view_size(self, min_dist):
 #         if min_dist >= 4:
@@ -35,59 +32,7 @@ from objects import FireObstacle, TrafficObstacle, SmokeObstacle
 #             return 5
 #         else:
 #             return 3 
-        
-#     def _smart_action_choice(self):
-#         ax, ay = self.agent_pos
-#         gx, gy = self.goal_pos
-        
-#         best_score = float('inf')
-#         best_action = self.actions.forward
-        
-#         for action in [self.actions.left, self.actions.right, self.actions.forward]:
-            
-#             current_score = float('inf')
-            
-#             if action == self.actions.forward:
-#                 dx = [1, 0, -1, 0][self.agent_dir]
-#                 dy = [0, 1, 0, -1][self.agent_dir]
-#                 next_pos = (ax + dx, ay + dy)
-                
-#                 in_bounds = (next_pos[0] >= 0 and next_pos[0] < self.width and 
-#                             next_pos[1] >= 0 and next_pos[1] < self.height)
-
-#                 if in_bounds:
-#                     cell = self.grid.get(*next_pos)
-                    
-#                     if isinstance(cell, FireObstacle):
-#                         current_score = float('inf') 
-#                     elif cell is not None and not cell.can_overlap():
-#                         current_score = float('inf') 
-#                     else:
-#                         current_score = abs(next_pos[0] - gx) + abs(next_pos[1] - gy)
-#                 else:
-#                     current_score = float('inf') 
-
-#             elif action in [self.actions.left, self.actions.right]:                
-#                 new_dir = (self.agent_dir + (1 if action == self.actions.right else -1)) % 4
-                
-#                 dx = [1, 0, -1, 0][new_dir]
-#                 dy = [0, 1, 0, -1][new_dir]
-#                 simulated_fwd_pos = (ax + dx, ay + dy)
-                
-#                 dist_after_turn_and_move = abs(simulated_fwd_pos[0] - gx) + abs(simulated_fwd_pos[1] - gy)
-                
-#                 current_score = dist_after_turn_and_move + 1
-            
-#             if current_score < best_score:
-#                 best_score = current_score
-#                 best_action = action
-
-#         return best_action
-        
-#     def reset(self, *, seed=None, options=None):
-#         obs, info = super().reset(seed=seed, options=options) 
-#         info['view_size'] = self._last_view_size
-#         return obs, info
+    
         
 # class FireEnv(BaseEnv):
 #     def __init__(self, size=16, max_steps=100, spread_rate=0.05, **kwargs):
@@ -380,7 +325,8 @@ class TrafficSimEnv(MiniGridEnv):
                  concentration_span=None, **kwargs):
         self.traffic_objects = []
         self.traffic_lane_configs = []
-        
+        base_view_size = kwargs.pop('agent_view_size', 7) 
+
         self.static_disappearing_mode = static_disappearing_mode
         self.disappear_prob = disappear_prob 
         self.traffic_concentration_pct = traffic_concentration_pct 
@@ -401,14 +347,24 @@ class TrafficSimEnv(MiniGridEnv):
             max_steps=max_steps,
             **kwargs
         )
+        self._last_view_size = base_view_size
+        self.goal_pos = None 
 
     def _gen_grid(self, width, height):
         self.grid = Grid(width, height)
         self.grid.wall_rect(0, 0, width, height)
         self.put_obj(Goal(), width - 2, 1)
+        for i, j in itertools.product(range(width), range(height)):
+            cell = self.grid.get(i, j)
+            if isinstance(cell, Goal):
+                self.goal_pos = (i, j)
+                break
         self._add_traffic(row=4, color='red', initial_dir=1)
         self._add_traffic(row=6, color='red', initial_dir=-1)
         self._add_traffic(row=8, color='red', initial_dir=1)
+        self._add_traffic(row=2, color='red', initial_dir=1)
+        self._add_traffic(row=9, color='red', initial_dir=1)
+
         if self.agent_start_pos is not None:
             self.agent_pos = self.agent_start_pos
             self.agent_dir = self.agent_start_dir
@@ -551,3 +507,56 @@ class TrafficSimEnv(MiniGridEnv):
             reward = 0.0
         
         return obs, reward, terminated, truncated, info
+    
+    def _smart_action_choice(self):
+        ax, ay = self.agent_pos
+        gx, gy = self.goal_pos
+        
+        best_score = float('inf')
+        best_action = self.actions.forward
+        
+        for action in [self.actions.left, self.actions.right, self.actions.forward]:
+            
+            current_score = float('inf')
+            
+            if action == self.actions.forward:
+                dx = [1, 0, -1, 0][self.agent_dir]
+                dy = [0, 1, 0, -1][self.agent_dir]
+                next_pos = (ax + dx, ay + dy)
+                
+                in_bounds = (next_pos[0] >= 0 and next_pos[0] < self.width and 
+                            next_pos[1] >= 0 and next_pos[1] < self.height)
+
+                if in_bounds:
+                    cell = self.grid.get(*next_pos)
+                    
+                    if isinstance(cell, TrafficObstacle):
+                        current_score = float('inf') 
+                    elif cell is not None and not cell.can_overlap():
+                        current_score = float('inf') 
+                    else:
+                        current_score = abs(next_pos[0] - gx) + abs(next_pos[1] - gy)
+                else:
+                    current_score = float('inf') 
+
+            elif action in [self.actions.left, self.actions.right]:                
+                new_dir = (self.agent_dir + (1 if action == self.actions.right else -1)) % 4
+                
+                dx = [1, 0, -1, 0][new_dir]
+                dy = [0, 1, 0, -1][new_dir]
+                simulated_fwd_pos = (ax + dx, ay + dy)
+                
+                dist_after_turn_and_move = abs(simulated_fwd_pos[0] - gx) + abs(simulated_fwd_pos[1] - gy)
+                
+                current_score = dist_after_turn_and_move + 1
+            
+            if current_score < best_score:
+                best_score = current_score
+                best_action = action
+
+        return best_action
+        
+    def reset(self, *, seed=None, options=None):
+        obs, info = super().reset(seed=seed, options=options) 
+        info['view_size'] = self._last_view_size
+        return obs, info

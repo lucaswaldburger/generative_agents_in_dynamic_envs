@@ -1,0 +1,7 @@
+sim:
+  steps: 100
+  seed: 0
+  agent_view_size: 7
+  render_mode: human
+map:
+  file: configs/maps/urbanWorld.json

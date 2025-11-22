@@ -53,6 +53,8 @@ def run(cfg: DictConfig):
         ## we should model each step in the grid because we need to record the observations
         # (2) perceive
         for action in path: # we want to move this to a per step action but for not just testing
+            print(action)
+
             obs, reward, term, trunc, info = env.step(action)
             print(obs.keys())
             vis = get_obs(env, include_world_coords=True, include_street=False)
