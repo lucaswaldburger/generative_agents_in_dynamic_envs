@@ -1,124 +1,94 @@
 {
-  "route_choice_priors": {
-    "width_preference": {
-      "description": "Probability of choosing the wider corridor when width differs.",
-      "by_demographics": {
-        "<25": {
-          "man": 0.6746143057503506,
-          "woman": 0.6570188133140377,
-          "x": 0.8387096774193549
-        },
-        "25-34": {
-          "man": 0.697986577181208,
-          "woman": 0.6696696696696697,
-          "x": null
-        },
-        "35-49": {
-          "man": 0.6745762711864407,
-          "woman": 0.5283842794759825,
-          "x": 0.9090909090909091
-        },
-        "50+": {
-          "man": 0.6,
-          "woman": 0.5202312138728323,
-          "x": null
-        }
-      }
-    },
-    "transition_cue_preference": {
-      "description": "Probability of choosing the corridor containing a transition cue (stairs \u2192 generalized transition element).",
-      "by_demographics": {
-        "<25": {
-          "man": 0.9134078212290503,
-          "woman": 0.8885542168674698,
-          "x": 0.75
-        },
-        "25-34": {
-          "man": 0.9186813186813186,
-          "woman": 0.9125364431486881,
-          "x": null
-        },
-        "35-49": {
-          "man": 0.8300653594771242,
-          "woman": 0.8660714285714286,
-          "x": 0.625
-        },
-        "50+": {
-          "man": 0.5899280575539568,
-          "woman": 0.7660818713450293,
-          "x": null
-        }
-      }
-    },
-    "conflict_width_vs_transition": {
-      "description": "When width and transition cues conflict, probability of following each cue.",
-      "by_demographics": {
-        "<25": {
-          "man": {
-            "follow_width": 0.1650943396226415,
-            "follow_transition": 0.8349056603773585
+    "route_choice_priors": {
+      "width_preference": {
+        "description": "Probability of choosing the wider corridor when left and right widths differ.",
+        "by_demographics": {
+          "<25": {
+            "man": 0.675,
+            "woman": 0.657,
+            "x": 0.839
           },
-          "woman": {
-            "follow_width": 0.19095477386934673,
-            "follow_transition": 0.8090452261306532
+          "25-34": {
+            "man": 0.698,
+            "woman": 0.670,
+            "x": null
           },
-          "x": {
-            "follow_width": 0.7,
-            "follow_transition": 0.3
-          }
-        },
-        "25-34": {
-          "man": {
-            "follow_width": 0.17692307692307693,
-            "follow_transition": 0.823076923076923
+          "35-49": {
+            "man": 0.675,
+            "woman": 0.528,
+            "x": 0.909
           },
-          "woman": {
-            "follow_width": 0.11702127659574468,
-            "follow_transition": 0.8829787234042553
-          },
-          "x": {
-            "follow_width": null,
-            "follow_transition": null
-          }
-        },
-        "35-49": {
-          "man": {
-            "follow_width": 0.2608695652173913,
-            "follow_transition": 0.7391304347826086
-          },
-          "woman": {
-            "follow_width": 0.10606060606060606,
-            "follow_transition": 0.8939393939393939
-          },
-          "x": {
-            "follow_width": 0.6666666666666666,
-            "follow_transition": 0.3333333333333333
-          }
-        },
-        "50+": {
-          "man": {
-            "follow_width": 0.5121951219512195,
-            "follow_transition": 0.4878048780487805
-          },
-          "woman": {
-            "follow_width": 0.19642857142857142,
-            "follow_transition": 0.8035714285714286
-          },
-          "x": {
-            "follow_width": null,
-            "follow_transition": null
+          "50+": {
+            "man": 0.600,
+            "woman": 0.520,
+            "x": null
           }
         }
+      },
+  
+      "transition_cue_preference": {
+        "description": "Probability of choosing the corridor that contains a transition cue (e.g., stairs or other spatial transition element) when only one side has it.",
+        "by_demographics": {
+          "<25": {
+            "man": 0.087,
+            "woman": 0.111,
+            "x": 0.250
+          },
+          "25-34": {
+            "man": 0.081,
+            "woman": 0.087,
+            "x": null
+          },
+          "35-49": {
+            "man": 0.170,
+            "woman": 0.134,
+            "x": 0.375
+          },
+          "50+": {
+            "man": 0.410,
+            "woman": 0.234,
+            "x": null
+          }
+        }
+      },
+  
+      "conflict_width_vs_transition_cue": {
+        "description": "When width and transition cues point to different directions, probability of following each cue.",
+        "by_demographics": {
+          "<25": {
+            "man":   { "follow_width": 0.953, "follow_transition_cue": 0.047 },
+            "woman": { "follow_width": 0.935, "follow_transition_cue": 0.065 },
+            "x":     { "follow_width": 1.000, "follow_transition_cue": 0.000 }
+          },
+          "25-34": {
+            "man":   { "follow_width": 0.974, "follow_transition_cue": 0.026 },
+            "woman": { "follow_width": 0.917, "follow_transition_cue": 0.083 },
+            "x":     { "follow_width": null,  "follow_transition_cue": null }
+          },
+          "35-49": {
+            "man":   { "follow_width": 0.894, "follow_transition_cue": 0.106 },
+            "woman": { "follow_width": 0.844, "follow_transition_cue": 0.156 },
+            "x":     { "follow_width": 1.000, "follow_transition_cue": 0.000 }
+          },
+          "50+": {
+            "man":   { "follow_width": 0.673, "follow_transition_cue": 0.327 },
+            "woman": { "follow_width": 0.759, "follow_transition_cue": 0.241 },
+            "x":     { "follow_width": null,  "follow_transition_cue": null }
+          }
+        }
+      },
+  
+      "meta": {
+        "notes": [
+          "Width is the dominant cue for younger adults across genders.",
+          "Transition cue influence increases significantly with age.",
+          "Women over 35 exhibit lower width sensitivity than men in the same age group.",
+          "Older men (>50) show the highest transition cue sensitivity (up to ~33%).",
+          "These values should be treated as behavioral priors over route choice; agents may override them based on context (fire, smoke, memory, goals, urban fabric)."
+        ],
+        "source": "Empirical evacuation dataset (responses.csv, participants.csv)",
+        "missing_value": "null"
       }
-    },
-    "meta": {
-      "notes": [
-        "Transition cue is a generalized signal representing spatial transitions (e.g., stairs, ramps, entrances).",
-        "Use these values as soft priors for behavioral models.",
-        "Derived from empirical evacuation dataset."
-      ],
-      "source": "evacuation_data/*.csv",
-      "missing_value": "null"
     }
   }
-}
+  

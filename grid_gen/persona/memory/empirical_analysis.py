@@ -7,12 +7,12 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-DATA_DIR = ROOT / "persona" / "prompt" / "evacuation_data"
-OUT_PATH = ROOT / "persona" / "memory" / "route_choice_priors.json"
+DATA_DIR = ROOT / "grid_gen" / "persona" / "prompt" / "evacuation_data"
+OUT_PATH = ROOT / "grid_gen" / "persona" / "memory" / "route_choice_priors.json"
 
 def main():
-    resp = pd.read_csv("persona/memory/evacuation_data/responses.csv")
-    parts = pd.read_csv("persona/memory/evacuation_data/participants.csv")
+    resp = pd.read_csv("grid_gen/persona/memory/evacuation_data/responses.csv")
+    parts = pd.read_csv("grid_gen/persona/memory/evacuation_data/participants.csv")
 
     # Extract left/right codes
     pat = re.compile(r".*L-([^_]+)_R-([^_]+)")
