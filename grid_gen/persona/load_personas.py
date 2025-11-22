@@ -28,7 +28,6 @@ class AgentConfig:
     gender: str
     innate: str
     learned: str
-    currently: str
     lifestyle: str
     living_area: str
     likelihood_to_help_others: str
@@ -114,7 +113,6 @@ def load_agent_configs(
             age=p["age"],
             innate=p["innate"],
             learned=p["learned"],
-            currently=p["currently"],
             lifestyle=p["lifestyle"],
             living_area=p["living_area"],
             likelihood_to_help_others=p["likelihood_to_help_others"],

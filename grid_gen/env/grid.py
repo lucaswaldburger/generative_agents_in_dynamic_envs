@@ -77,15 +77,25 @@ class MultiHumanGridEnv(gym.Env):
         assert self.action_space.contains(action), f"Invalid action {action}"
 
         self.step_count += 1
-
+        ACTION_TO_HEADING = {
+            Action.RIGHT: 0,     # +x
+            Action.DOWN: 90,     # +y
+            Action.LEFT: 180,    # -x
+            Action.UP: 270,      # -y
+        }
         # Move each agent
         for i, agent in enumerate(self.agents):
             act = Action(int(action[i]))
             dx, dy = DIR_TO_VEC[act]
             nx, ny = agent.x + dx, agent.y + dy
 
+
             if self._can_move_to(nx, ny):
                 agent.x, agent.y = nx, ny
+                if act in ACTION_TO_HEADING:
+                    agent.heading_deg = ACTION_TO_HEADING[act]
+
+
 
         # TODO: remove, we dont need this
         reward = 0.0

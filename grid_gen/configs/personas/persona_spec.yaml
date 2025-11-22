@@ -3,7 +3,7 @@ human_1:
   id: "human_1"
   kind: "human"
   gender: "female"
-  start: {x: 5, y: 16}
+  start: {x: 23, y: 9}
   heading_deg: 0
   fov: {range_cells: 9, angle_deg: 90, shade_color: "fov"} # field of view MUST BE ODD
   color: "red"
@@ -27,7 +27,7 @@ human_1:
       name: "Michi"
       species: "cat"
       age: 2
-      notes: "very attached to Isabella"
+      notes: "Isabella adores Michi and takes great care of her."
 
 
   daily_plan:

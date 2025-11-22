@@ -11,23 +11,83 @@ from env.constants import SemanticMap, Coord, Action, DIR_TO_VEC
 
 ## daily planner
 
-def get_plan_for_time(agent_cfg, time_str="09:15"):
+def get_plan_for_time(agent_cfg, time_str: str):
     """
-    Very simple: return the first plan item whose time range includes time_str.
-    You can make this smarter later.
+    Return the plan item active at time_str.
+
+    Rules:
+    - If an item has a range "HH:MM-HH:MM", use it directly.
+    - If an item has a single time "HH:MM", treat it as starting then
+      and lasting until the next plan item's start time.
+    - If time_str is before the first item, return None.
     """
-    for item in agent_cfg.daily_plan:
-        t = item["time"]
-        if "-" not in t and t == time_str:
+    def to_minutes(hhmm: str) -> int:
+        h, m = hhmm.strip().split(":")
+        return int(h) * 60 + int(m)
+
+    plan = agent_cfg.daily_plan or []
+    if not plan:
+        return None
+
+    t_now = to_minutes(time_str)
+
+    # Preprocess items into intervals
+    intervals = []
+    for i, item in enumerate(plan):
+        t_field = item["time"].strip()
+
+        if "-" in t_field:
+            start_s, end_s = t_field.split("-")
+            start_m = to_minutes(start_s)
+            end_m = to_minutes(end_s)
+            intervals.append((start_m, end_m, item))
+        else:
+            start_m = to_minutes(t_field)
+            # end at next item's start if exists, else end of day
+            if i + 1 < len(plan):
+                next_field = plan[i + 1]["time"].strip()
+                next_start_s = next_field.split("-")[0]  # if next is a range, take its start
+                end_m = to_minutes(next_start_s)
+            else:
+                end_m = 24 * 60  # until midnight
+            intervals.append((start_m, end_m, item))
+
+    # Find matching interval
+    for start_m, end_m, item in intervals:
+        if start_m <= t_now < end_m:
             return item
-        if "-" in t:
-            start, end = t.split("-")
-            if start <= time_str <= end:
-                return item
+
     return None
 
 
 
+def get_accessible_locations(env, agent_id):
+    start = get_agent_tile(env, agent_id)
+    accessible = []
+
+    for r in env.map_spec.regions:
+        name = str(r.get("name"))
+        typ  = str(r.get("type", ""))
+
+        gx, gy = int(r["x"]), int(r["y"])
+
+        # quick traversability check at goal
+        if not is_traversable(env, gx, gy):
+            continue
+
+        path = astar(env, start, (gx, gy))
+        if path is not None and len(path) > 0:
+            accessible.append(name)
+            if typ:
+                accessible.append(typ)
+
+        # also allow staying if already there
+        if (gx, gy) == start:
+            accessible.append(name)
+            if typ:
+                accessible.append(typ)
+
+    return sorted(set(accessible))
 
 
 ### High level planner
@@ -168,7 +228,7 @@ def astar(env, start: Coord, goal: Coord) -> List[Action]:
                 f_nb = new_g + manhattan(nb, goal)
                 heapq.heappush(pq, (f_nb, new_g, nb))
 
-    print(f"[A*] No path from {start} to {goal}")
+    print(f"[Astar bug] No path from {start} to {goal}")
     return []
 
 
@@ -197,4 +257,34 @@ def path_to_actions(path: List[Coord]) -> List[Action]:
             raise ValueError(f"[A*] Non-adjacent step in path: {(x1, y1)} -> {(x2, y2)}")
     return actions
 
+
+def normalize_command_for_planner(decision, agent_cfg, env):
+    """
+    decision: dict returned by llm_decide_intent
+    Always returns a safe planner command.
+    """
+    intent = (decision.get("intent") or "").lower()
+    target = decision.get("target_location")
+
+    # stay = no movement
+    if intent == "stay" or (decision.get("command","").lower().strip() == "stay"):
+        return "stay"
+
+    # if model gave a target, trust it
+    if target:
+        return f"go to {target}"
+
+    # dependent / family intent -> go home
+    if intent in {"check_dependent", "help_other"}:
+        home = getattr(agent_cfg, "living_area", None)
+        if home:
+            return f"go to {home}"
+        return "stay"
+
+    # evacuate intent -> go to a safe region you define
+    if intent == "evacuate":
+        return "go to streets"   # or "safe zone" if that's in regions
+
+    # fallback
+    return "stay"
 

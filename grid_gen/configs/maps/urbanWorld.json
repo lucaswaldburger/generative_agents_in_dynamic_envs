@@ -89,7 +89,7 @@
     },
    
     { "name": "Fire", "group_ids": [], "type": "fire", "access_code": 4, "render": "fire",
-      "shape": "rect", "x": 27, "y": 0, "w": 4, "h": 4
+      "shape": "rect", "x": 27, "y": 0, "w": 1, "h": 1
     }
   ],
 

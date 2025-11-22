@@ -20,13 +20,22 @@ from env.grid import MultiHumanGridEnv
 from env.constants import Action 
 
 # this might be temporary map until we move this high-level to the other cognitive models
-from persona.cognitive.plan import high_level_planner, astar
+from persona.cognitive.plan import get_accessible_locations, high_level_planner, astar, get_plan_for_time, normalize_command_for_planner
 from env.constants import SemanticMap
 from persona.cognitive.perceive import describe_perception
-from persona.prompt.gpt_structure import test_chat_completion, LLMConversation
+from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent
 
 import os
 import datetime
+
+
+
+
+def sim_time_str(cfg, t: int) -> str:
+    """Map sim timestep to clock time using cfg.sim.start_time and seconds_per_step."""
+    start = datetime.datetime.strptime(cfg.sim.start_time, "%H:%M")
+    curr = start + datetime.timedelta(seconds=t * cfg.sim.seconds_per_step)
+    return curr.strftime("%H:%M")
 
 
 # we can move these logger functions to other folder later
@@ -67,6 +76,18 @@ def log_agent_step(log_file, agent_id, step, substep, agent, action, desc):
     log_file.write("-" * 30 + "\n")
 
 
+def get_external_events_for_t(t):
+    if t == 0:
+        return "humans receive an alert text: there is a fire, but no need to evacuate yet"
+    if t == 10:
+        return "the fire alarm sounds loudly, evacuation is now required. Isabella sees smoke outside of the building."
+    return None
+
+
+
+
+
+
 @hydra.main(version_base=None, config_path="configs", config_name="config")
 def run(cfg: DictConfig):
     """
@@ -80,9 +101,12 @@ def run(cfg: DictConfig):
     map_spec = load_map(map_path)
     # print("Unique access codes in grid:", np.unique(map_spec.access_grid))
 
-    with open(priors_path, "r") as f:
-        route_choice_priors = json.load(f)
-        # let's add a try in case the json is not there
+    route_choice_priors = None
+    try:
+        with open(priors_path, "r") as f:
+            route_choice_priors = json.load(f)
+    except Exception as e:
+        print(f"[WARN] Could not load priors JSON at {priors_path}: {e}")
 
 
 
@@ -97,6 +121,14 @@ def run(cfg: DictConfig):
     obs, info = env.reset()
     print("Initial state:")
     env.render()
+
+    valid_locations = ['Home A', 'Home B', 'Park', 'Workplace A', 'block', 'fire', 'home', 'park', 'work']
+    # for r in env.map_spec.regions:
+    #     valid_locations.append(r["name"])
+    #     if "type" in r:
+    #         valid_locations.append(r["type"])
+    # valid_locations = sorted(set([str(x) for x in valid_locations]))
+    print("[VALID LOCATIONS]", valid_locations)
 
     # testing connecting
     try:
@@ -118,22 +150,24 @@ def run(cfg: DictConfig):
         ),
     )
 
-    persona_summary = [
-        {
+    persona_summary = []
+    for a in agent_configs:
+        persona_summary.append({
             "id": a.id,
             "name": a.name,
             "age": getattr(a, "age", None),
             "gender": getattr(a, "gender", None),
             "innate": getattr(a, "innate", None),
+            "learned": getattr(a, "learned", None),
             "lifestyle": getattr(a, "lifestyle", None),
-            "currently": getattr(a, "currently", None),
+            "living_area": getattr(a, "living_area", None),
+            "friends_with": getattr(a, "friends_with", []),
+            "dependents": getattr(a, "dependents", []),
+            "daily_plan": getattr(a, "daily_plan", []),
             "fov_range": a.fov.range_cells,
-        }
-        for a in agent_configs
-    ]
+        })
 
     # Give priors + personas to LLM ONCE at the start
-    # NOTE !!!!!!!!!! delete the last paragrpah i am testing this right now
     init_reply = conv.ask_llm(
         f"""
         Here are demographic-based route choice priors (JSON):
@@ -146,13 +180,10 @@ def run(cfg: DictConfig):
 
         Use these priors as soft behavioral rules for these personas in this simulation.
         Age buckets in the priors are: "<25", "25-34", "35-49", "50+".
-        If an agent age falls between two buckets, choose the closest one.
+        If an agent age and gender falls between two buckets, choose the closest one.
         Missing values (null) mean the data is unknown and you should fall back to general reasoning.
-
-        Let's assume these two agents are in an intersection and they must decide whhich way to go: see two 
-        paths left or right if they see smoke in the right road but not crowded and no smoke on the left road 
-        but very crowded. Which way would each agent go based on their persona and the priors provided? 
-        Just give me a brief explanation for each agent's choice.
+        We will use this information throughout the simulation to help decide how each agent moves.
+        Just quickly summarize in a few sentnces how the human agents demographics align with this data:
         """
             )
     print("[LLM INIT SUMMARY]\n", init_reply)
@@ -160,76 +191,144 @@ def run(cfg: DictConfig):
     run_dir = setup_sim_output_dir()
     agent_logs = create_agent_logs(run_dir, env)
 
+    last_external_events = None
+    agent_commands = {aid: "stay" for aid in range(env.num_agents)}
 
     for t in range(cfg.sim.steps):
+        clock_time = sim_time_str(cfg, t)
+
+        external_events = get_external_events_for_t(t)
+        stimulus_triggered = (external_events is not None and external_events != last_external_events)
+
+        if stimulus_triggered:
+            last_external_events = external_events
+            # valid_locations_accessible = {}
+            # for agent_id in range(env.num_agents):
+            #     valid_locations_accessible[agent_id] = get_accessible_locations(env, agent_id)
+            #     print(f"[ACCESSIBLE LOCS] agent {agent_id}: {valid_locations_accessible[agent_id]}")
 
 
-        # this will go to plannner eventially
-        # FOR NOW WE have two agents only so this hardcoding works but eventually change to env.agent_ids
-        
-        start0, goal0 = high_level_planner(env, agent_id=0, command="go to work")
-        start1, goal1 = high_level_planner(env, agent_id=1, command="go to park")
-        full_path0 = astar(env, start0, goal0)
-        full_path1 = astar(env, start1, goal1)
 
-        # in here we are shortening their low level planner path based on their fov
-        fov0 = env.agents[0].config.fov.range_cells
-        fov1 = env.agents[1].config.fov.range_cells
-        path0 = full_path0[:fov0]
-        path1 = full_path1[:fov1]
+            # this will go to plannner eventially
+            # FOR NOW WE have two agents only so this hardcoding works but eventually change to env.agent_ids
+            for agent_id, agent in enumerate(env.agents):
+                plan_item = get_plan_for_time(agent.config, clock_time)
+                if plan_item:
+                    print(f"[PLAN] t={t} ({clock_time}) {agent.config.name} plan is", plan_item["activity"], "in", plan_item["location"])
+                desc = describe_perception(env, agent_id)
+                decision = llm_decide_intent(
+                    conv=conv,
+                    agent_cfg=agent.config,
+                    plan_item=plan_item,
+                    perception_desc=desc,
+                    external_events=external_events,
+                    clock_time=clock_time,
+                    valid_locations=valid_locations,
+                )
+
+                print(f"[LLM INTENT] t={t} ({clock_time}) {agent.config.name}:")
+                print("  intent =", decision["intent"])
+                print("  command =", decision["command"])
+                print("  reason =", decision["reason"])
+
+                cmd = normalize_command_for_planner(decision, agent.config, env)
+                agent_commands[agent_id] = cmd
+
+                # If LLM intent is stay or command includes stay → force stay
+                if decision["intent"] == "stay" or "stay" in cmd:
+                    agent_commands[agent_id] = "stay"
+                else:
+                    agent_commands[agent_id] = cmd
 
 
-        for step in range(max(len(path0), len(path1))):
 
-            a0 = path0[step] if step < len(path0) else Action.STAY
-            a1 = path1[step] if step < len(path1) else Action.STAY
+        full_paths = []
+        for agent_id in range(env.num_agents):
+            cmd = agent_commands.get(agent_id, "stay")
 
-            action = np.array([a0, a1], dtype=np.int64)
+            if cmd.strip().lower() == "stay":
+                full_paths.append([])  # no movement for this agent
+                continue
+
+            start, goal = high_level_planner(env, agent_id=agent_id, command=cmd)
+            full_path = astar(env, start, goal)
+
+            if full_path is None:
+                print(f"[WARN] No path for agent {agent_id} to '{cmd}'. Forcing replanning.")
+                agent_commands[agent_id] = "stay"
+                last_external_events = None # force replan next time
+                full_paths.append([])
+                continue
+
+            full_paths.append(full_path)
+
+        # Slice each agent path by their FOV
+        paths = []
+        for agent_id, agent in enumerate(env.agents):
+            fov = agent.config.fov.range_cells
+            paths.append(full_paths[agent_id][:fov])
+
+        # If everyone staying, skip movement
+        if all(len(p) == 0 for p in paths):
+            print(f"t={t} all agents staying. Waiting for next stimulus.")
+            continue
+
+
+
+        max_substeps = max(len(p) for p in paths)
+        for step in range(max_substeps):
+
+            actions_this_step = []
+            for agent_id in range(env.num_agents):
+                a = paths[agent_id][step] if step < len(paths[agent_id]) else Action.STAY
+                actions_this_step.append(a)
+
+
+            action = np.array(actions_this_step, dtype=np.int64)
             obs, _, terminated, truncated, info = env.step(action)
 
             print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
+
             for agent_id in range(env.num_agents):
                 desc = describe_perception(env, agent_id)
                 agent = env.agents[agent_id]
+
                 log_agent_step(
                     log_file=agent_logs[agent_id],
                     agent_id=agent_id,
                     step=t + 1,
                     substep=step + 1,
-                    agent=env.agents[agent_id],
+                    agent=agent,
                     action=int(action[agent_id]),
                     desc=desc,
                 )
-                # testing the spatial memoery
+
                 sm = agent.config.spatial_memory
-                if not sm:
-                    continue
+                if sm:
+                    x, y = int(agent.x), int(agent.y)
+                    sm_info = sm.elements_at_position(env, x, y)
+                    contents = sm_info["contents"]
 
-                x, y = int(agent.x), int(agent.y)
-
-                info = sm.elements_at_position(env, x, y)
-                contents = info["contents"]
-
-                if contents:
-                    rooms_here = list(contents.keys())
-                    print(
-                        f"[SM] Agent {agent_id} at ({x}, {y}) -> "
-                        f"cell='{info['cell_name']}', lookup_key='{info.get('lookup_key')}', rooms={rooms_here}")
-
-                else:
-                    print(
-                        f"[SM] Agent {agent_id} at ({x}, {y}) -> "
-                        f"cell='{info['cell_name']}'")
+                    if contents:
+                        rooms_here = list(contents.keys())
+                        print(
+                            f"[SM] Agent {agent_id} at ({x}, {y}) -> "
+                            f"cell='{sm_info['cell_name']}', lookup_key='{sm_info.get('lookup_key')}', rooms={rooms_here}"
+                        )
+                    else:
+                        print(
+                            f"[SM] Agent {agent_id} at ({x}, {y}) -> "
+                            f"cell='{sm_info['cell_name']}'"
+                        )
 
                 print(f"[Agent {agent_id}] {desc}")
 
-                env.render()
-                time.sleep(0.5)
+            env.render()
+            time.sleep(0.5)
 
             if terminated or truncated:
                 break
-
-    
+            
     for f in agent_logs.values():
         f.close()
     env.close()
