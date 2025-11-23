@@ -363,7 +363,7 @@ class TrafficSimEnv(MiniGridEnv):
         self._add_traffic(row=6, color='red', initial_dir=-1)
         self._add_traffic(row=8, color='red', initial_dir=1)
         self._add_traffic(row=2, color='red', initial_dir=1)
-        self._add_traffic(row=9, color='red', initial_dir=1)
+        self._add_traffic(row=10, color='red', initial_dir=1)
 
         if self.agent_start_pos is not None:
             self.agent_pos = self.agent_start_pos

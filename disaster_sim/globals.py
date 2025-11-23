@@ -16,5 +16,5 @@ COLOR_TO_RGB = {
     'grey': np.array([100, 100, 100], dtype=np.uint8),
 }
 
-MAX_STEPS = 50_000
+MAX_STEPS = 1_000
 SPEED = 0.5
