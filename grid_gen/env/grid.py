@@ -56,7 +56,7 @@ class MultiHumanGridEnv(gym.Env):
      
         self.window: pygame.Surface | None = None
         self.clock: pygame.time.Clock | None = None
-        self.cell_size: int = 24  # pixels per grid cell
+        self.cell_size: int = 40  # pixels per grid cell, this can change how big the window is
     
 
     def reset(

@@ -2,8 +2,71 @@ from __future__ import annotations
 from typing import Tuple, List, Dict, Any
 import math
 
-from env.constants import Coord  
+from env.constants import Coord, Action, DIR_TO_VEC
+from persona.cognitive.plan import neighbors, get_agent_tile
 
+
+def is_intersection(env, agent_id: int) -> bool:
+    """
+    Intersection-ish if agent has 3+ possible moves,
+    OR 2 moves that are not a straight corridor (a turn choice).
+    """
+    acts = valid_move_actions(env, agent_id)  # excludes STAY
+    k = len(acts)
+    if k >= 3:
+        return True
+    if k <= 1:
+        return False
+
+    a1, a2 = acts
+    v1, v2 = DIR_TO_VEC[a1], DIR_TO_VEC[a2]
+    opposite = (v1[0] == -v2[0] and v1[1] == -v2[1])
+    return not opposite
+
+
+def action_names(actions):
+    # stable string list for LLM
+    name_map = {
+        Action.UP: "UP",
+        Action.DOWN: "DOWN",
+        Action.LEFT: "LEFT",
+        Action.RIGHT: "RIGHT",
+    }
+    return [name_map[a] for a in actions]
+
+
+def neighbor_semantics(env, agent_id):
+    """
+    Returns a dict mapping Action -> dict with:
+        - coord (x,y)
+        - location_label (street, Park, Home_A, B11, hazard)
+        - hazard (bool)
+    """
+    start = get_agent_tile(env, agent_id)
+    neigh = neighbors(env, start)
+
+    result = {}
+    for (coord, action) in neigh:
+        x, y = coord
+        loc = classify_location(env, x, y)
+
+        # detect hazard by access code
+        code = int(env.map_spec.access_grid[y, x])
+        access_codes = env.map_spec.raw.get("access_codes", {})
+        inv = {v: k for k, v in access_codes.items()}
+        label = inv.get(code, "")
+        hazard = ("hazard" in label.lower()) or ("fire" in label.lower()) or ("smoke" in label.lower())
+
+        result[action] = {
+            "coord": coord,
+            "location": loc,
+            "hazard": hazard
+        }
+    return result
+
+def valid_move_actions(env, agent_id):
+    start = get_agent_tile(env, agent_id)
+    return [act for (_, act) in neighbors(env, start)]
 
 def blocks_vision(env, x: int, y: int, agent_id: int) -> bool:
     """
@@ -212,26 +275,24 @@ def los_clear(env, x0: int, y0: int, x1: int, y1: int, agent_id: int) -> bool:
 
 
 
-def describe_perception(env, agent_id: int) -> str:
-    """
-    High-level natural-language description of what the agent perceives.
-    """
+def describe_perception(env, agent_id: int, include_decision_info: bool = False) -> str:
     x, y, heading_deg, fov_range, fov_angle_deg = get_agent_pose(env, agent_id)
     location_label = classify_location(env, x, y)
 
     visible_regions = regions_in_fov(env, agent_id)
-
-    visible_names: List[str] = []
-    for r in visible_regions:
-        name = r.get("name")
-        if not name:
-            continue
-        visible_names.append(name)
-
-    visible_names = sorted(set(visible_names))
+    visible_names = sorted(set([r.get("name") for r in visible_regions if r.get("name")]))
 
     if visible_names:
-        visible_str = ", ".join(visible_names)
-        return f"I am at {location_label}. I see {visible_str}."
+        base = f"I am at {location_label}. I see {', '.join(visible_names)}."
     else:
-        return f"I am at {location_label}. I don't see any labeled regions."
+        base = f"I am at {location_label}. I don't see any labeled regions."
+
+    if not include_decision_info:
+        return base
+
+    # only add this when you're ABOUT to query local LLM
+    valid_moves = valid_move_actions(env, agent_id)
+    valid_dirs = action_names(valid_moves)
+    inter = "I am at an intersection." if is_intersection(env, agent_id) else ""
+
+    return base + f" Valid directions: {', '.join(valid_dirs)}. {inter}"

@@ -117,6 +117,20 @@ def llm_decide_intent(conv, agent_cfg, plan_item, perception_desc, external_even
 
 
 
+def llm_decide_local_direction(conv, agent_cfg, perception_desc, high_level_goal, valid_dirs):
+    prompt = f"""
+You are controlling {agent_cfg.name}.
+High-level goal: {high_level_goal}.
+Perception: {perception_desc}
+
+Valid directions: {valid_dirs}
+
+Choose exactly ONE direction from Valid directions.
+Reply JSON:
+{{"direction": "<ONE_OF_VALID>", "reason": "..."}}
+"""
+    return conv.ask_llm(prompt)
+
 
 def safe_generate_structured_response(prompt: str, schema: dict):
     """

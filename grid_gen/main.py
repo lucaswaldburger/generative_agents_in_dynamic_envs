@@ -17,13 +17,13 @@ import yaml
 from env.load_map import load_map
 from persona.load_personas import load_agent_configs
 from env.grid import MultiHumanGridEnv
-from env.constants import Action 
+from env.constants import Action, DIR_TO_VEC 
 
 # this might be temporary map until we move this high-level to the other cognitive models
-from persona.cognitive.plan import get_accessible_locations, high_level_planner, astar, get_plan_for_time, normalize_command_for_planner
+from persona.cognitive.plan import get_accessible_locations, high_level_planner, astar, get_plan_for_time, normalize_command_for_planner, get_agent_tile
 from env.constants import SemanticMap
-from persona.cognitive.perceive import describe_perception
-from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent
+from persona.cognitive.perceive import describe_perception, is_intersection, valid_move_actions, action_names
+from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent, llm_decide_local_direction
 
 import os
 import datetime
@@ -122,7 +122,7 @@ def run(cfg: DictConfig):
     print("Initial state:")
     env.render()
 
-    valid_locations = ['Home_A', 'Home_B', 'Park', 'Workplace_A', 'block', 'fire', 'home', 'park', 'work']
+    valid_locations = ['Home_A', 'Home_B', 'Park', 'Workplace_A', 'fire', 'park']
     # for r in env.map_spec.regions:
     #     valid_locations.append(r["name"])
     #     if "type" in r:
@@ -168,6 +168,7 @@ def run(cfg: DictConfig):
         })
 
     # Give priors + personas to LLM ONCE at the start
+    # move this to the llm scripts later
     init_reply = conv.ask_llm(
         f"""
         Here are demographic-based route choice priors (JSON):
@@ -178,12 +179,21 @@ def run(cfg: DictConfig):
 
         {json.dumps(persona_summary, indent=2)}
 
-        Use these priors as soft behavioral rules for these personas in this simulation.
-        Age buckets in the priors are: "<25", "25-34", "35-49", "50+".
-        If an agent age and gender falls between two buckets, choose the closest one.
-        Missing values (null) mean the data is unknown and you should fall back to general reasoning.
-        We will use this information throughout the simulation to help decide how each agent moves.
-        Just quickly summarize in a few sentnces how the human agents demographics align with this data:
+        You will later be asked to make LOCAL route-choice decisions at intersections 
+        (e.g., left / right / forward / back) while pursuing a high-level goal. 
+        Use the demographic priors together with each agent’s innate and learned traits 
+        (risk-proneness vs. risk-aversion, exploration vs. familiarity preference, etc.) 
+        to bias these local choices, especially when hazards (smoke, fire) or congestion are present.
+
+        When asked for local choices, you MUST select only from the provided list of "Valid directions."
+
+        These demographic priors are soft behavioral rules:
+        - Age buckets: "<25", "25-34", "35-49", "50+" (choose the closest bucket when uncertain).
+        - Missing values (null) mean you should rely on general reasoning.
+
+        We will use this information throughout the simulation to determine how each agent moves.
+        Briefly summarize how the agents’ demographics align with these priors:
+
         """
             )
     print("[LLM INIT SUMMARY]\n", init_reply)
@@ -193,6 +203,8 @@ def run(cfg: DictConfig):
 
     last_external_events = None
     agent_commands = {aid: "stay" for aid in range(env.num_agents)}
+    active_goal_cmd = {aid: None for aid in range(env.num_agents)}  # e.g. "go to Home_A"
+
 
     for t in range(cfg.sim.steps):
         clock_time = sim_time_str(cfg, t)
@@ -233,6 +245,7 @@ def run(cfg: DictConfig):
 
                 cmd = normalize_command_for_planner(decision, agent.config, env)
                 agent_commands[agent_id] = cmd
+                active_goal_cmd[agent_id] = None if cmd == "stay" else cmd
 
                 # If LLM intent is stay or command includes stay → force stay
                 if decision["intent"] == "stay" or "stay" in cmd:
@@ -249,6 +262,50 @@ def run(cfg: DictConfig):
             if cmd.strip().lower() == "stay":
                 full_paths.append([])  # no movement for this agent
                 continue
+
+            # this is so that we can give the LLM the valid directions at intersections
+            if is_intersection(env, agent_id):
+                # build valid dirs list for LLM
+                valid_moves = valid_move_actions(env, agent_id)
+                valid_dirs = action_names(valid_moves)
+
+                desc = describe_perception(env, agent_id, include_decision_info=True)
+                print("\n[LLM LOCAL PROMPT]")
+                print(f"agent={env.agents[agent_id].config.name}")
+                print("perception:", desc)
+                print("high_level_goal:", cmd)
+                print("valid_dirs:", valid_dirs)
+                local_reply = llm_decide_local_direction(
+                    conv=conv,
+                    agent_cfg=env.agents[agent_id].config,
+                    perception_desc=desc,
+                    high_level_goal=cmd,
+                    valid_dirs=valid_dirs,
+                )
+
+                print("[LLM REPLY LOCAL DIR]")
+                print(local_reply)
+
+                try:
+                    local_decision = json.loads(local_reply)
+                    chosen = local_decision["direction"]
+                    chosen_action = Action[chosen]  # "UP" -> Action.UP
+
+                    # force first move by stepping to neighbor as new start
+                    sx, sy = get_agent_tile(env, agent_id)
+                    dx, dy = DIR_TO_VEC[chosen_action]
+                    forced_start = (sx + dx, sy + dy)
+
+                    # if forced cell not traversable, ignore and fall back to normal A*
+                    if env._can_move_to(*forced_start):
+                        start, goal = high_level_planner(env, agent_id, cmd)
+                        # plan from forced_start to goal, and prepend chosen_action
+                        tail = astar(env, forced_start, goal)
+                        full_path = [chosen_action] + tail
+                        full_paths.append(full_path)
+                        continue
+                except Exception as e:
+                    print("[WARN] local decision parse error:", e)
 
             start, goal = high_level_planner(env, agent_id=agent_id, command=cmd)
             print(f"[PLANNER] t={t} Agent {agent_id} command='{cmd}' -> start={start}, goal={goal}")
@@ -291,7 +348,7 @@ def run(cfg: DictConfig):
             print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
 
             for agent_id in range(env.num_agents):
-                desc = describe_perception(env, agent_id)
+                desc = describe_perception(env, agent_id, include_decision_info=False)
                 agent = env.agents[agent_id]
 
                 log_agent_step(
