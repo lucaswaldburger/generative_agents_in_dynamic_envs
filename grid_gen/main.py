@@ -23,6 +23,12 @@ from env.constants import Action, DIR_TO_VEC
 from persona.cognitive.plan import get_accessible_locations, high_level_planner, astar, get_plan_for_time, normalize_command_for_planner, get_agent_tile
 from env.constants import SemanticMap
 from persona.cognitive.perceive import describe_perception, is_intersection, valid_move_actions, action_names
+
+#---------------------------------------------------------------
+## activate after env integration for hazards. remove the upper line
+#from persona.cognitive.perceive import describe_perception, get_local_hazards
+#---------------------------------------------------------------
+
 from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent, llm_decide_local_direction
 
 import os
@@ -121,6 +127,11 @@ def run(cfg: DictConfig):
     obs, info = env.reset()
     print("Initial state:")
     env.render()
+
+    #--------------------------------------------------------------------
+    #### Social hazard memory (used once hazard env is integrated)
+    #social_hazard_memory = {i: set() for i in range(env.num_agents)}
+    #--------------------------------------------------------------------
 
     valid_locations = ['Home_A', 'Home_B', 'Park', 'Workplace_A', 'fire', 'park']
     # for r in env.map_spec.regions:
@@ -311,6 +322,23 @@ def run(cfg: DictConfig):
             print(f"[PLANNER] t={t} Agent {agent_id} command='{cmd}' -> start={start}, goal={goal}")
             full_path = astar(env, start, goal)
 
+            # ---------------------------------------------------------------
+            # hazard avoidance
+            # ---------------------------------------------------------------
+            if False:  # set to True after integration
+                known_hazards = getattr(env.agents[agent_id], "known_hazard_cells", set())
+                if full_path is not None and known_hazards:
+                    # if the planned path includes any known hazard cell, cancel it
+                    if any(cell in known_hazards for cell in full_path):
+                        print(
+                            f"[PLANNER] Agent {agent_id} path to {cmd} intersects known hazards "
+                            f"{known_hazards}. Cancelling path."
+                        )
+                        full_path = None  # invalidate the path
+
+            # ---------------------------------------------------------------
+
+
             if full_path is None:
                 print(f"[WARN] No path for agent {agent_id} to '{cmd}'. Forcing replanning.")
                 agent_commands[agent_id] = "stay"
@@ -350,6 +378,40 @@ def run(cfg: DictConfig):
             for agent_id in range(env.num_agents):
                 desc = describe_perception(env, agent_id, include_decision_info=False)
                 agent = env.agents[agent_id]
+
+                #------------------------------------------------------------------
+                # Planned social hazard sharing (inactive until hazard env integrated)
+                # shares hazards only with agents whose name is in friends_with
+                #------------------------------------------------------------------
+                if False:  # set to True after integ.
+                    from persona.cognitive.perceive import get_local_hazards
+
+                    hazards = get_local_hazards(env, agent_id)
+                    if hazards:
+                        for other_id, other in enumerate(env.agents):
+                            if other_id == agent_id:
+                                continue
+
+                            friends = getattr(agent.config, "friends_with", [])
+                            # "friend" = other agent's name is listed in my friends_with
+                            if other.config.name in friends:
+                                # share hazards in a simple social memory dict
+                                social_hazard_memory[other_id].update(hazards)
+                                print(
+                                    f"[SOCIAL] Agent {agent_id} shares {hazards} "
+                                    f"with {other.config.name}"
+                                )
+
+                        # If you also want the current agent to *use* what friends told them:
+                        heard = sorted(social_hazard_memory.get(agent_id, set()))
+                        if heard:
+                            desc = (
+                                desc
+                                + " My friends also told me about: "
+                                + ", ".join(heard)
+                                + "."
+                            )
+                #------------------------------------------------------------------
 
                 log_agent_step(
                     log_file=agent_logs[agent_id],
