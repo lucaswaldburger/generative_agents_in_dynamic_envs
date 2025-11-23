@@ -15,9 +15,9 @@ human_1:
   spatial_memory_file: "spatial_memory/human_1_isabella.json"
   age: 34
   innate: "friendly, outgoing, hospitable, risk-prone, low trust in local alarm systems"
-  learned: "Isabella Rodriguez is the owner of Workplace A ..."
+  learned: "Isabella Rodriguez is the owner of Workplace_A ..."
   lifestyle: "Isabella normally walks to work ..."
-  living_area: "Isabella Rodriguez's apartment: Home A"
+  living_area: "Isabella Rodriguez's apartment: Home_A"
   living_area_detail: "1-bedroom apartment with a small kitchen and living room, rents it"
 
   friends_with: ["human_2"]          
@@ -32,15 +32,15 @@ human_1:
 
   daily_plan:
     - time: "08:00"
-      activity: "walk to Workplace A"
-      location: "Workplace A"
+      activity: "walk to Workplace_A"
+      location: "Workplace_A"
       activity: "work shift"
     - time: "15:30"
       activity: "shift ends go home"
-      location: "Home A"
+      location: "Home_A"
     - time: "16:00"
       activity: "go home and rest"
-      location: "Home A"
+      location: "Home_A"
 
   likelihood_to_help_others: "Lower toward strangers."
   chatting_likelihood: "only if needed"
@@ -77,8 +77,8 @@ human_2:
   age: 44
   innate: "friendly, serious, risk-averse, strong trust in local alarm systems"
   learned: "Klaus is a father with an 8-year-old son..."
-  lifestyle: "He lives in a large home with his family. Home B"
-  living_area: "Klaus Mueller's house: Home B"
+  lifestyle: "He lives in a large home with his family. Home_B"
+  living_area: "Klaus Mueller's house: Home_B"
   living_area_detail: "two stories, 4 bedrooms, a large kitchen, and a garden, owns it"
 
   friends_with: ["human_1"]
@@ -98,13 +98,13 @@ human_2:
   daily_plan:
     - time: "07:30"
       activity: "breakfast with family"
-      location: "Home B"
+      location: "Home_B"
     - time: "08:30"
       activity: "help Leo with homework"
-      location: "Home B"
+      location: "Home_B"
     - time: "10:00"
       activity: "work from home"
-      location: "Home B"
+      location: "Home_B"
     - time: "17:00"
       activity: "walk to Park with family"
       location: "Park"

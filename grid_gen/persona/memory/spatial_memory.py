@@ -53,7 +53,7 @@ class SpatialMemory:
 
     def find_building_for_label(self, label_substring: str) -> Optional[str]:
         """
-        e.g. 'Isabella' -> 'Home A (Isabella Rodriguez's apartment)'
+        e.g. 'Isabella' -> 'Home_A (Isabella Rodriguez's apartment)'
         """
         for world, buildings in self.data.items():
             for bname in buildings.keys():

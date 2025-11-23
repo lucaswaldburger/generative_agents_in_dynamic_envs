@@ -93,31 +93,27 @@ def get_accessible_locations(env, agent_id):
 ### High level planner
 
 def find_object_from_command(env, place_token: str) -> Coord:
-    """
-    Given a symbolic place token like 'home_A' or 'park', find the corresponding
-    region in env.map_spec.regions and return a representative grid cell (x, y).
-    """
-    # Normalize the token: 'Home_A' -> 'home a'
     place_key = place_token.lower().replace("_", " ").strip()
-
     regions = getattr(env.map_spec, "regions", None)
     if not regions:
         raise RuntimeError("[Planner] env.map_spec.regions is empty or missing")
 
     for r in regions:
-        name = str(r.get("name", "")).lower()          # e.g. "home a"
-        typ  = str(r.get("type", "")).lower()          # e.g. "home"
+        name = str(r.get("name", "")).lower().replace("_", " ").strip()
+        typ  = str(r.get("type", "")).lower()
 
-        name_norm = name.replace("_", " ").strip()
+        if place_key == typ or place_key in name:
+            x0, y0 = int(r["x"]), int(r["y"])
+            w, h = int(r.get("w", 1)), int(r.get("h", 1))
 
-        # Match by type or by (normalized) name
-        # Examples:
-        #   place_key = "park"   -> typ == "park"  or "park" in "park"
-        #   place_key = "home a" -> "home a" in "home a"
-        if place_key == typ or place_key in name_norm:
-            x = int(r["x"])
-            y = int(r["y"])
-            return x, y
+            # search for first traversable cell inside region
+            for yy in range(y0, y0 + h):
+                for xx in range(x0, x0 + w):
+                    if env._can_move_to(xx, yy):
+                        return (xx, yy)
+
+            return (x0 + w // 2, y0 + h // 2)
+        
 
     raise KeyError(f"[Planner] No object matched place token: '{place_token}'")
 

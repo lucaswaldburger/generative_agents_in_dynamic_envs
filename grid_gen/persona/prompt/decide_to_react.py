@@ -227,8 +227,8 @@ The world is a small city made of rectangular blocks:
 - Central blocks: B5, B7, B8
 - South blocks: B9–B12
 - There is a Park in the central-south area.
-- There are Homes (Home A, Home B) in the south-west area.
-- There is a Workplace (Workplace A) in the east-central area.
+- There are Homes (Home_A, Home_B) in the south-west area.
+- There is a Workplace (Workplace_A) in the east-central area.
 - The Fire region is located in the north-east area of the city.
 
 [PERSONA]

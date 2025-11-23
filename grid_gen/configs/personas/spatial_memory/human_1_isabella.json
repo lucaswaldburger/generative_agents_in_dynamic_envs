@@ -1,6 +1,6 @@
 {
   "urbanWorld": {
-    "Home A": {
+    "Home_A": {
       "main room": [
         "sofa",
         "coffee table",
@@ -51,7 +51,7 @@
       ]
     },
 
-    "Workplace A": {
+    "Workplace_A": {
       "front counter": [
         "service counter",
         "cash register",
@@ -81,7 +81,7 @@
       "central blocks": [
         "intersection near B5",
         "intersection near Park",
-        "intersection near Workplace A"
+        "intersection near Workplace_A"
       ],
       "south blocks": [
         "intersection near B9",

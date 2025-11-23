@@ -141,7 +141,7 @@ def regions_in_fov(env, agent_id: int) -> List[Dict[str, Any]]:
 
 def classify_location(env, x: int, y: int) -> str:
     """
-    Rough semantic location: 'Home A', 'Workplace A', 'Park', 'B10', or 'street' if none.
+    Rough semantic location: 'Home_A', 'Workplace_A', 'Park', 'B10', or 'street' if none.
     Prefers non-block regions (home/park/work/fire) over generic blocks.
     """
     here = regions_containing_point(env, x, y)

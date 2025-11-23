@@ -122,7 +122,7 @@ def run(cfg: DictConfig):
     print("Initial state:")
     env.render()
 
-    valid_locations = ['Home A', 'Home B', 'Park', 'Workplace A', 'block', 'fire', 'home', 'park', 'work']
+    valid_locations = ['Home_A', 'Home_B', 'Park', 'Workplace_A', 'block', 'fire', 'home', 'park', 'work']
     # for r in env.map_spec.regions:
     #     valid_locations.append(r["name"])
     #     if "type" in r:
@@ -251,6 +251,7 @@ def run(cfg: DictConfig):
                 continue
 
             start, goal = high_level_planner(env, agent_id=agent_id, command=cmd)
+            print(f"[PLANNER] t={t} Agent {agent_id} command='{cmd}' -> start={start}, goal={goal}")
             full_path = astar(env, start, goal)
 
             if full_path is None:
