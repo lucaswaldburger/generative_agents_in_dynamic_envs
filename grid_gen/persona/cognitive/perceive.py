@@ -273,7 +273,27 @@ def los_clear(env, x0: int, y0: int, x1: int, y1: int, agent_id: int) -> bool:
 
     return True
 
-
+#------------------------------------------------------------------------
+# perceive hazards (Data from Lucas's code)
+#from objects import FireObstacle, SmokeObstacle, TrafficObstacle
+#
+#def get_local_hazards(env, agent_id, radius=3):
+#    ax, ay, _, _, _ = get_agent_pose(env, agent_id)
+#    hazards = []
+#    for dx in range(-radius, radius + 1):
+#        for dy in range(-radius, radius + 1):
+#            x, y = ax + dx, ay + dy
+#            if 0 <= x < env.map_spec.width and 0 <= y < env.map_spec.height:
+#                if hasattr(env, "grid"):
+#                    cell = env.grid.get(x, y)
+#                    if isinstance(cell, FireObstacle):
+#                        hazards.append(f"fire at ({x},{y})")
+#                    elif isinstance(cell, SmokeObstacle):
+#                        hazards.append(f"smoke at ({x},{y})")
+#                    elif isinstance(cell, TrafficObstacle):
+#                        hazards.append(f"traffic at ({x},{y})")
+#    return hazards
+#------------------------------------------------------------------------
 
 def describe_perception(env, agent_id: int, include_decision_info: bool = False) -> str:
     x, y, heading_deg, fov_range, fov_angle_deg = get_agent_pose(env, agent_id)
@@ -296,3 +316,25 @@ def describe_perception(env, agent_id: int, include_decision_info: bool = False)
     inter = "I am at an intersection." if is_intersection(env, agent_id) else ""
 
     return base + f" Valid directions: {', '.join(valid_dirs)}. {inter}"
+
+#------------------------------------------------------------------------
+# hazard detection
+# hazards = get_local_hazards(env, agent_id)
+
+#    if hazards:
+#        hazard_str = ", ".join(hazards)
+#        if visible_names:
+#            visible_str = ", ".join(visible_names)
+#            return (
+#                f"I am at {location_label}. I see {visible_str}. "
+#                f"Hazards nearby: {hazard_str}."
+#            )
+#        else:
+#            return f"I am at {location_label}. Hazards nearby: {hazard_str}."
+#    else:
+#        if visible_names:
+#            visible_str = ", ".join(visible_names)
+#            return f"I am at {location_label}. I see {visible_str}."
+#        else:
+#            return f"I am at {location_label}. I don't see any labeled regions."
+#------------------------------------------------------------------------
