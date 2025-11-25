@@ -7,7 +7,6 @@ from typing import Dict, Any, List
 
 import numpy as np
 
-
 @dataclass
 class MapSpec:
     width: int
@@ -17,7 +16,6 @@ class MapSpec:
     regions: List[Dict[str, Any]]
     raw: Dict[str, Any]
     cell_names: np.ndarray
-
 
 def load_map(map_path: str | Path) -> MapSpec:
     path = Path(map_path)

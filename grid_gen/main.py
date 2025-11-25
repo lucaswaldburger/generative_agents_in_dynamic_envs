@@ -34,15 +34,11 @@ from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, 
 import os
 import datetime
 
-
-
-
 def sim_time_str(cfg, t: int) -> str:
     """Map sim timestep to clock time using cfg.sim.start_time and seconds_per_step."""
     start = datetime.datetime.strptime(cfg.sim.start_time, "%H:%M")
     curr = start + datetime.timedelta(seconds=t * cfg.sim.seconds_per_step)
     return curr.strftime("%H:%M")
-
 
 # we can move these logger functions to other folder later
 def setup_sim_output_dir():
@@ -55,7 +51,6 @@ def setup_sim_output_dir():
     run_dir = os.path.join(base_dir, f"run_{timestamp}")
     os.makedirs(run_dir, exist_ok=True)
     return run_dir
-
 
 def create_agent_logs(run_dir, env):
     """
@@ -81,18 +76,12 @@ def log_agent_step(log_file, agent_id, step, substep, agent, action, desc):
     log_file.write(f" Observation: {desc}\n")
     log_file.write("-" * 30 + "\n")
 
-
 def get_external_events_for_t(t):
     if t == 0:
         return "humans receive an alert text: there is a fire, but no need to evacuate yet"
     if t == 10:
         return "the fire alarm sounds loudly, evacuation is now required. Isabella sees smoke outside of the building."
     return None
-
-
-
-
-
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
 def run(cfg: DictConfig):
@@ -113,8 +102,6 @@ def run(cfg: DictConfig):
             route_choice_priors = json.load(f)
     except Exception as e:
         print(f"[WARN] Could not load priors JSON at {priors_path}: {e}")
-
-
 
     env = MultiHumanGridEnv(
         map_spec=map_spec,
@@ -229,8 +216,6 @@ def run(cfg: DictConfig):
             # for agent_id in range(env.num_agents):
             #     valid_locations_accessible[agent_id] = get_accessible_locations(env, agent_id)
             #     print(f"[ACCESSIBLE LOCS] agent {agent_id}: {valid_locations_accessible[agent_id]}")
-
-
 
             # this will go to plannner eventially
             # FOR NOW WE have two agents only so this hardcoding works but eventually change to env.agent_ids
@@ -358,8 +343,6 @@ def run(cfg: DictConfig):
         if all(len(p) == 0 for p in paths):
             print(f"t={t} all agents staying. Waiting for next stimulus.")
             continue
-
-
 
         max_substeps = max(len(p) for p in paths)
         for step in range(max_substeps):

@@ -9,7 +9,8 @@
     "fire": [255, 165, 0, 120],        
     "human": [255, 255, 255],          
     "fov": [120, 180, 255, 90],
-    "work": [0, 0, 255]
+    "work": [0, 0, 255],
+    "traffic": [255, 0, 0, 255]
   },
 
   "access_codes": {
@@ -17,8 +18,9 @@
     "walkable": 1,         
     "park_walkable": 2,    
     "home_walkable": 3,    
-    "hazard_fire": 4, 
-    "work_walkable": 5       
+    "hazard_fire": 4,
+    "work_walkable": 5,
+    "hazard_smoke": 6
   },
 
   "grid_theme": {
@@ -89,7 +91,7 @@
     },
    
     { "name": "Fire", "group_ids": [], "type": "fire", "access_code": 4, "render": "fire",
-      "shape": "rect", "x": 27, "y": 0, "w": 1, "h": 1
+      "shape": "rect", "x": 27, "y": 1, "w": 1, "h": 1
     }
   ],
 
