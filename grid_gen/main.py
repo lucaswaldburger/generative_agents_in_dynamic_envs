@@ -10,8 +10,6 @@ from hydra.utils import to_absolute_path
 
 from pathlib import Path
 from typing import Dict, Any
-
-import numpy as np
 import yaml
 
 from env.load_map import load_map
@@ -310,16 +308,16 @@ def run(cfg: DictConfig):
             # ---------------------------------------------------------------
             # hazard avoidance
             # ---------------------------------------------------------------
-            if False:  # set to True after integration
-                known_hazards = getattr(env.agents[agent_id], "known_hazard_cells", set())
-                if full_path is not None and known_hazards:
-                    # if the planned path includes any known hazard cell, cancel it
-                    if any(cell in known_hazards for cell in full_path):
-                        print(
-                            f"[PLANNER] Agent {agent_id} path to {cmd} intersects known hazards "
-                            f"{known_hazards}. Cancelling path."
-                        )
-                        full_path = None  # invalidate the path
+            # if False:  # set to True after integration
+            #     known_hazards = getattr(env.agents[agent_id], "known_hazard_cells", set())
+            #     if full_path is not None and known_hazards:
+            #         # if the planned path includes any known hazard cell, cancel it
+            #         if any(cell in known_hazards for cell in full_path):
+            #             print(
+            #                 f"[PLANNER] Agent {agent_id} path to {cmd} intersects known hazards "
+            #                 f"{known_hazards}. Cancelling path."
+            #             )
+            #             full_path = None  # invalidate the path
 
             # ---------------------------------------------------------------
 
@@ -366,34 +364,34 @@ def run(cfg: DictConfig):
                 # Planned social hazard sharing (inactive until hazard env integrated)
                 # shares hazards only with agents whose name is in friends_with
                 #------------------------------------------------------------------
-                if False:  # set to True after integ.
-                    from persona.cognitive.perceive import get_local_hazards
+                # if False:  # set to True after integ.
+                #     from persona.cognitive.perceive import get_local_hazards
 
-                    hazards = get_local_hazards(env, agent_id)
-                    if hazards:
-                        for other_id, other in enumerate(env.agents):
-                            if other_id == agent_id:
-                                continue
+                #     hazards = get_local_hazards(env, agent_id)
+                #     if hazards:
+                #         for other_id, other in enumerate(env.agents):
+                #             if other_id == agent_id:
+                #                 continue
 
-                            friends = getattr(agent.config, "friends_with", [])
-                            # "friend" = other agent's name is listed in my friends_with
-                            if other.config.name in friends:
-                                # share hazards in a simple social memory dict
-                                social_hazard_memory[other_id].update(hazards)
-                                print(
-                                    f"[SOCIAL] Agent {agent_id} shares {hazards} "
-                                    f"with {other.config.name}"
-                                )
+                #             friends = getattr(agent.config, "friends_with", [])
+                #             # "friend" = other agent's name is listed in my friends_with
+                #             if other.config.name in friends:
+                #                 # share hazards in a simple social memory dict
+                #                 social_hazard_memory[other_id].update(hazards)
+                #                 print(
+                #                     f"[SOCIAL] Agent {agent_id} shares {hazards} "
+                #                     f"with {other.config.name}"
+                #                 )
 
-                        # If you also want the current agent to *use* what friends told them:
-                        heard = sorted(social_hazard_memory.get(agent_id, set()))
-                        if heard:
-                            desc = (
-                                desc
-                                + " My friends also told me about: "
-                                + ", ".join(heard)
-                                + "."
-                            )
+                #         # If you also want the current agent to *use* what friends told them:
+                #         heard = sorted(social_hazard_memory.get(agent_id, set()))
+                #         if heard:
+                #             desc = (
+                #                 desc
+                #                 + " My friends also told me about: "
+                #                 + ", ".join(heard)
+                #                 + "."
+                #             )
                 #------------------------------------------------------------------
 
                 log_agent_step(
