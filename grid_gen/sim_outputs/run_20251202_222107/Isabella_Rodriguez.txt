@@ -1,0 +1,626 @@
+Log for Isabella Rodriguez
+========================================
+
+Step 11, Sub-step 1
+ Position: (22, 9)
+ Action: 4
+ Observation: I am at the street. I see B3, B7.
+------------------------------
+Step 11, Sub-step 2
+ Position: (21, 9)
+ Action: 4
+ Observation: I am at the street. I see B3, B7.
+------------------------------
+Step 11, Sub-step 3
+ Position: (21, 10)
+ Action: 3
+ Observation: I am at the street. I see B12, B7, B8.
+------------------------------
+Step 11, Sub-step 4
+ Position: (21, 11)
+ Action: 3
+ Observation: I am at the street. I see B11, B12, B7, B8.
+------------------------------
+Step 11, Sub-step 5
+ Position: (21, 12)
+ Action: 3
+ Observation: I am at the street. I see B11, B12, B7.
+------------------------------
+Step 11, Sub-step 6
+ Position: (21, 13)
+ Action: 3
+ Observation: I am at the street. I see B11, B12.
+------------------------------
+Step 11, Sub-step 7
+ Position: (21, 14)
+ Action: 3
+ Observation: I am at the street. I see B11, B12.
+------------------------------
+Step 11, Sub-step 8
+ Position: (20, 14)
+ Action: 4
+ Observation: I am at the street. I see B11, B7, Park.
+------------------------------
+Step 11, Sub-step 9
+ Position: (19, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B11, B7, Park.
+------------------------------
+Step 12, Sub-step 1
+ Position: (18, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B11, B7, Park.
+------------------------------
+Step 12, Sub-step 2
+ Position: (17, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B11, B7, Park.
+------------------------------
+Step 12, Sub-step 3
+ Position: (16, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, Park.
+------------------------------
+Step 12, Sub-step 4
+ Position: (15, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, Park.
+------------------------------
+Step 12, Sub-step 5
+ Position: (14, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B5, Park.
+------------------------------
+Step 12, Sub-step 6
+ Position: (13, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park.
+------------------------------
+Step 12, Sub-step 7
+ Position: (12, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park.
+------------------------------
+Step 12, Sub-step 8
+ Position: (11, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park.
+------------------------------
+Step 12, Sub-step 9
+ Position: (10, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park.
+------------------------------
+Step 13, Sub-step 1
+ Position: (11, 14)
+ Action: 2
+ Observation: I am at the street. I see B10, B11, B7, Park.
+------------------------------
+Step 13, Sub-step 2
+ Position: (10, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park.
+------------------------------
+Step 13, Sub-step 3
+ Position: (9, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A.
+------------------------------
+Step 13, Sub-step 4
+ Position: (8, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A.
+------------------------------
+Step 13, Sub-step 5
+ Position: (7, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A.
+------------------------------
+Step 13, Sub-step 6
+ Position: (6, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A.
+------------------------------
+Step 13, Sub-step 7
+ Position: (5, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A.
+------------------------------
+Step 13, Sub-step 8
+ Position: (4, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9.
+------------------------------
+Step 13, Sub-step 9
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 14, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 14, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5.
+------------------------------
+Step 15, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 15, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 16, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 16, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 17, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 17, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 18, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 18, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 19, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 19, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 20, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 20, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5.
+------------------------------
+Step 21, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 21, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 22, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 22, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 23, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 23, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 24, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 24, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5.
+------------------------------
+Step 25, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 25, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 26, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 26, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 27, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 27, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 28, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 28, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 29, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 29, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5.
+------------------------------
+Step 30, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 30, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 31, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 31, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 32, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 32, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 34, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 34, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 35, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 35, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 36, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 36, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5.
+------------------------------
+Step 37, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 37, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 38, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 38, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 39, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 39, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 40, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 40, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 41, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 41, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5.
+------------------------------
+Step 42, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 42, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 43, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 43, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 44, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 44, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 45, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 45, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 46, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 46, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5.
+------------------------------
+Step 47, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 47, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 48, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 48, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 49, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 49, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9.
+------------------------------
+Step 50, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5.
+------------------------------
+Step 50, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A.
+------------------------------
+Step 51, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 52, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 53, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 54, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 55, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 56, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 57, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 58, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 59, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 60, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 61, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 62, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 63, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 64, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 65, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 66, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 67, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 68, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 69, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 70, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 71, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 72, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 73, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 74, Sub-step 1
+ Position: (5, 16)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park.
+------------------------------
+Step 75, Sub-step 1
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9.
+------------------------------
+Step 76, Sub-step 1
+ Position: (5, 16)
+ Action: 2

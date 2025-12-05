@@ -1,0 +1,523 @@
+Log for Isabella Rodriguez
+========================================
+
+Step 11, Sub-step 1
+ Position: (23, 8)
+ Action: 1
+ Observation: I am at the street. I see B3, B4.
+------------------------------
+Step 11, Sub-step 2
+ Position: (22, 8)
+ Action: 4
+ Observation: I am at the street. I see B3, B7.
+------------------------------
+Step 11, Sub-step 3
+ Position: (21, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, B3, B7.
+------------------------------
+Step 11, Sub-step 4
+ Position: (20, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, B3, B7, Park.
+------------------------------
+Step 11, Sub-step 5
+ Position: (19, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, B3, B7, Park.
+------------------------------
+Step 11, Sub-step 6
+ Position: (18, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, B3, B7, Park.
+------------------------------
+Step 11, Sub-step 7
+ Position: (17, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, B7, Park.
+------------------------------
+Step 11, Sub-step 8
+ Position: (16, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, Park.
+------------------------------
+Step 11, Sub-step 9
+ Position: (15, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, Park.
+------------------------------
+Step 12, Sub-step 1
+ Position: (16, 8)
+ Action: 2
+ Observation: I am at the street. I see B3, B4, B7.
+------------------------------
+Step 12, Sub-step 2
+ Position: (15, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, Park.
+------------------------------
+Step 12, Sub-step 3
+ Position: (14, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park.
+------------------------------
+Step 12, Sub-step 4
+ Position: (13, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. There is heavy traffic near Park at (10,11).
+------------------------------
+Step 12, Sub-step 5
+ Position: (12, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 12, Sub-step 6
+ Position: (11, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 12, Sub-step 7
+ Position: (10, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B5, Park. A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 12, Sub-step 8
+ Position: (9, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B5. A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 12, Sub-step 9
+ Position: (8, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B5. A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 1
+ Position: (8, 7)
+ Action: 1
+ Observation: I am at the street. I see B1, B2. A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 2
+ Position: (7, 7)
+ Action: 4
+ Observation: I am at the street. I see B1, B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 3
+ Position: (7, 8)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 4
+ Position: (7, 9)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 5
+ Position: (7, 10)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 6
+ Position: (7, 11)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 7
+ Position: (7, 12)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 8
+ Position: (7, 13)
+ Action: 3
+ Observation: I am at the street. I see B10, B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 13, Sub-step 9
+ Position: (7, 14)
+ Action: 3
+ Observation: I am at the street. I see B10, B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 14, Sub-step 1
+ Position: (6, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 14, Sub-step 2
+ Position: (5, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 14, Sub-step 3
+ Position: (4, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 14, Sub-step 4
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 15, Sub-step 1
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 15, Sub-step 2
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 16, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near walkable at (8,14). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 16, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 17, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 17, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 18, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near walkable at (8,14). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 18, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 19, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 19, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 20, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 20, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 21, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 21, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 22, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 22, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 23, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 23, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 24, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 24, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 25, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 25, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 26, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 26, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 27, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 27, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 28, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 28, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 29, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 29, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 30, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 30, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 31, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 31, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 32, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 32, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 33, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 33, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 34, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 34, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 35, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 35, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 36, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 36, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 37, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 37, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 38, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 38, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 39, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 39, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 40, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 40, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 41, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near Home_A at (5,16). There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 41, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near Home_A at (5,16). There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 42, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near Home_A at (5,16). There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 42, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near Home_A at (5,16). There is heavy traffic near walkable at (7,17). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 43, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 43, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 44, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 44, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 45, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 45, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 46, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 46, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 47, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 47, Sub-step 2
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 48, Sub-step 1
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 48, Sub-step 2
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 49, Sub-step 1
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 50, Sub-step 1
+ Position: (5, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 51, Sub-step 1
+ Position: (4, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 52, Sub-step 1
+ Position: (5, 14)
+ Action: 2
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------
+Step 53, Sub-step 1
+ Position: (4, 14)
+ Action: 4
+ Observation: I am at the street. I see B5, B9. There is heavy traffic near walkable at (6,14). There is heavy traffic near Home_A at (6,15). A neighbor says: "There is heavy traffic on the roads." A neighbor says: "There is heavy traffic on the roads."
+------------------------------

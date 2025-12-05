@@ -1,0 +1,348 @@
+Log for Klaus Mueller
+========================================
+
+Step 1, Sub-step 1
+ Position: (6, 19)
+ Action: 2
+ Observation: I am at Home_B. I see B10.
+------------------------------
+Step 1, Sub-step 2
+ Position: (5, 19)
+ Action: 4
+ Observation: I am at Home_B. I see B9, Home_B.
+------------------------------
+Step 1, Sub-step 3
+ Position: (4, 19)
+ Action: 4
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 1, Sub-step 4
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 2, Sub-step 1
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 2, Sub-step 2
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 3, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 3, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 4, Sub-step 1
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 4, Sub-step 2
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 5, Sub-step 1
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 5, Sub-step 2
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 6, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 6, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (6,21).
+------------------------------
+Step 7, Sub-step 1
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (6,21).
+------------------------------
+Step 7, Sub-step 2
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (6,21).
+------------------------------
+Step 8, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (6,21).
+------------------------------
+Step 8, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (6,21).
+------------------------------
+Step 9, Sub-step 1
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (3,20). There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 9, Sub-step 2
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (3,20). There is heavy traffic near Home_B at (5,18).
+------------------------------
+Step 10, Sub-step 1
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 10, Sub-step 2
+ Position: (4, 18)
+ Action: 0
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 11, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near Home_B at (5,18). There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 11, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 12, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 12, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 13, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 13, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 14, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 14, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 15, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 15, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (7,18).
+------------------------------
+Step 16, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B.
+------------------------------
+Step 16, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9.
+------------------------------
+Step 17, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 17, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 18, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 18, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 19, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 19, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 20, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 20, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 21, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 21, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 22, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near walkable at (5,21). There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 22, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 23, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near Home_B at (6,18).
+------------------------------
+Step 23, Sub-step 2
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9.
+------------------------------
+Step 24, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B.
+------------------------------
+Step 24, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9.
+------------------------------
+Step 25, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B.
+------------------------------
+Step 25, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9.
+------------------------------
+Step 26, Sub-step 1
+ Position: (5, 18)
+ Action: 2
+ Observation: I am at Home_B. I see B10, B9, Home_B.
+------------------------------
+Step 26, Sub-step 2
+ Position: (4, 18)
+ Action: 4
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (5,20).
+------------------------------
+Step 27, Sub-step 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near walkable at (5,20).
+------------------------------
+Step 28, Sub-step 1
+ Position: (4, 20)
+ Action: 3
+ Observation: I am at the street. I don't see any labeled regions. There is heavy traffic near walkable at (5,20).
+------------------------------
+Step 29, Sub-step 1
+ Position: (4, 21)
+ Action: 3
+ Observation: I am at the street. I don't see any labeled regions.
+------------------------------
+Step 29, Sub-step 2
+ Position: (4, 20)
+ Action: 1
+ Observation: I am at the street. I see B9, Home_B.
+------------------------------
+Step 30, Sub-step 1
+ Position: (5, 20)
+ Action: 2
+ Observation: I am at the street. I see B10. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 30, Sub-step 2
+ Position: (4, 20)
+ Action: 4
+ Observation: I am at the street. I see B9. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 31, Sub-step 1
+ Position: (4, 21)
+ Action: 3
+ Observation: I am at the street. I don't see any labeled regions. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 31, Sub-step 2
+ Position: (4, 20)
+ Action: 1
+ Observation: I am at the street. I see B9, Home_B. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 32, Sub-step 1
+ Position: (5, 20)
+ Action: 2
+ Observation: I am at the street. I see B10. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 33, Sub-step 1
+ Position: (5, 21)
+ Action: 3
+ Observation: I am at the street. I don't see any labeled regions. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 33, Sub-step 2
+ Position: (4, 21)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 34, Sub-step 1
+ Position: (4, 22)
+ Action: 3
+ Observation: I am at the street. I don't see any labeled regions. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 34, Sub-step 2
+ Position: (4, 21)
+ Action: 1
+ Observation: I am at the street. I see B9, Home_B. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 35, Sub-step 1
+ Position: (5, 21)
+ Action: 2
+ Observation: I am at the street. I see B10. There is heavy traffic near walkable at (3,20).
+------------------------------
+Step 35, Sub-step 2
+ Position: (4, 21)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+------------------------------

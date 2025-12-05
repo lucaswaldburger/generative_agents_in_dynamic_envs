@@ -1,0 +1,8 @@
+Log for Klaus Mueller
+========================================
+
+Step 11, Sub-step 1
+ Position: (5, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9.
+------------------------------
