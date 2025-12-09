@@ -139,3 +139,73 @@ def llm_decide_local_direction(conv, agent_cfg, perception_desc, high_level_goal
     """
     return json.loads(conv.ask_llm(prompt))
 
+
+import json
+
+def llm_decide_social(
+    conv,
+    ego_cfg,
+    friend_cfg,
+    perception_desc: str,
+    hazards: list[str],
+    current_command: str,
+    clock_time: str,
+    ):
+    """
+    SOCIAL-LEVEL decision: should ego agent talk to a nearby friend or keep following their goal?
+
+    Returns a dict:
+    {
+        "talk": bool,
+        "new_command": str | None,
+        "reason": str
+    }
+        """
+    hazard_text = "; ".join(hazards) if hazards else "none"
+
+    prompt = f"""
+    SOCIAL-LEVEL DECISION
+
+    Time:{clock_time}
+    Ego:{ego_cfg.persona_compact}
+    Friend:{friend_cfg.name}
+
+    Perception:{perception_desc}
+    Hazards:{hazard_text}
+    Current_command:{current_command}
+
+    Task:
+    Decide if the ego agent should briefly talk to this friend to exchange
+    information about the situation, or ignore and continue following the
+    current command.
+
+    If the agent SHOULD talk:
+    - "talk": true
+    - "new_command": you MAY either:
+        - leave it as null to keep the current_command, or
+        - override with a safer high-level command like "stay" or "go to Home_A".
+
+    If the agent SHOULD NOT talk:
+    - "talk": false
+    - "new_command": null
+
+    Return ONLY JSON:
+    {{
+    "talk": true or false,
+    "new_command": "<new high-level command string or null>",
+    "reason": "<1-2 sentences>"
+    }}
+    """
+
+    raw = conv.ask_llm(prompt)
+    try:
+        cleaned = _strip_code_fence(raw)
+        return json.loads(cleaned)
+    except Exception as e:
+        print("[WARN] llm_decide_social parse error:", e, "raw:", raw)
+        # Safe fallback: do nothing, keep current behavior
+        return {
+            "talk": False,
+            "new_command": None,
+            "reason": "Fallback: keep current command.",
+        }

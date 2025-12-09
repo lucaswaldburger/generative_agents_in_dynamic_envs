@@ -20,12 +20,12 @@ from env.constants import Action, DIR_TO_VEC
 # this might be temporary map until we move this high-level to the other cognitive models
 from persona.cognitive.plan import get_accessible_locations, high_level_planner, astar, get_plan_for_time, normalize_command_for_planner, get_agent_tile
 from env.constants import SemanticMap
-from persona.cognitive.perceive import describe_perception, is_intersection, valid_move_actions, action_names, get_local_hazards
+from persona.cognitive.perceive import describe_perception, is_intersection, valid_move_actions, action_names, get_local_hazards, agents_in_fov, get_local_traffic_cells
 
 # load social memory
-from persona.memory.associative_memory import add_social_memory, hazard_to_dialogue
+from persona.memory.associative_memory import add_social_memory, hazard_to_dialogue, is_friend
 
-from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent, llm_decide_local_direction
+from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent, llm_decide_local_direction, llm_decide_social
 
 # logging imports
 from utils.logs import  create_agent_logs, log_agent_step, setup_debug_loggers, setup_sim_output_dir, sim_time_str
@@ -49,7 +49,7 @@ def run(cfg: DictConfig):
     agent_configs = load_agent_configs(personas_path, cfg.personas.personas_in_sim)
     for agent_cfg in agent_configs:
         agent_cfg.persona_compact = encode_persona(agent_cfg)
-        print(f"[Persona] Loaded agent '{agent_cfg.name}' with encoding: {agent_cfg.persona_compact}")
+        # print(f"[Persona] Loaded agent '{agent_cfg.name}' with encoding: {agent_cfg.persona_compact}")
     map_spec = load_map(map_path)
 
     route_choice_priors = None
@@ -137,7 +137,11 @@ def run(cfg: DictConfig):
     last_external_events = None
     agent_commands = {aid: "stay" for aid in range(env.num_agents)}
     active_goal_cmd = {aid: None for aid in range(env.num_agents)} 
-    social_hazard_memory = {i: set() for i in range(env.num_agents)}
+
+    for a in env.agents:
+        a.known_hazard_cells = set()
+        a.traffic_memory = {} 
+        a.social_ignored_friends = set() 
 
     for t in range(cfg.sim.steps):
         clock_time = sim_time_str(cfg, t)
@@ -233,7 +237,7 @@ def run(cfg: DictConfig):
                         full_paths.append([])  # no movement
                         continue
                     chosen = local_decision["direction"]
-                    chosen_action = Action[chosen]  # "UP" -> Action.UP
+                    chosen_action = Action[chosen] 
 
                     # force first move by stepping to neighbor as new start
                     sx, sy = get_agent_tile(env, agent_id)
@@ -326,47 +330,109 @@ def run(cfg: DictConfig):
                 desc = describe_perception(env, agent_id, include_decision_info=False)
                 agent = env.agents[agent_id]
 
-                #------------------------------------------------------------------
-                # Planned social hazard sharing (inactive until hazard env integrated)
-                # Social hazard sharing + memory integration
-                #------------------------------------------------------------------
 
                 hazards = get_local_hazards(env, agent_id)
-                if hazards:
-                    for other_id, other in enumerate(env.agents):
-                        if other_id == agent_id:
-                            continue
+
+                if not hasattr(agent, "social_ignored_friends"): # this is so that i doesnt constantly trigger the social part
+                    agent.social_ignored_friends = set()
+                # which agents are within FOV radius
+                nearby_ids = agents_in_fov(env, agent_id)
+
+                # filter to friends that we haven't already decided to ignore
+                friend_candidates = []
+                for other_id in nearby_ids:
+                    other = env.agents[other_id]
+                    if other_id in agent.social_ignored_friends:
+                        continue
+                    if is_friend(agent.config, other.config):
+                        friend_candidates.append(other_id)
+
+                # if there is at least one friend in FOV, consider the first one
+                if friend_candidates:
+                    other_id = friend_candidates[0]
+                    other = env.agents[other_id]
+
+                    current_cmd = agent_commands.get(agent_id, "stay")
+
+                    social_dec = llm_decide_social(
+                        conv=conv,
+                        ego_cfg=agent.config,
+                        friend_cfg=other.config,
+                        perception_desc=desc,
+                        hazards=hazards,
+                        current_command=current_cmd,
+                        clock_time=clock_time,
+                    )
+
+                    talk = bool(social_dec.get("talk", False))
+                    new_command = social_dec.get("new_command")
+
+
+                    if not talk:
+                        # remember we chose NOT to talk to this friend,
+                        # so we don't keep re-triggering for this pair
+                        agent.social_ignored_friends.add(other_id)
+                        # keep current_cmd
+                    else:
+                        # We decided to talk to the friend
+                        # If LLM gives a new command, override the high-level one
+                        if new_command and isinstance(new_command, str):
+                            agent_commands[agent_id] = new_command.strip()
+                            print(
+                                f"[SOCIAL] t={t} agent={agent.config.name} "
+                                f"talks with {other.config.name}, new_command='{agent_commands[agent_id]}' "
+                                f"reason={social_dec.get('reason')}"
+                            )
+                        else:
+                            print(
+                                f"[SOCIAL] t={t} agent={agent.config.name} "
+                                f"talks with {other.config.name} but keeps command='{current_cmd}' "
+                                f"reason={social_dec.get('reason')}"
+                            )
+                            add_social_memory(
+                                agent,
+                                info=f"Talked with {other.config.name} about: {', '.join(hazards) or 'no hazards'}"
+                            )
+                            
+                        #  mark as ignored so we don't keep asking about same friend
+                        agent.social_ignored_friends.add(other_id)
+
+                # hazards = get_local_hazards(env, agent_id)
+                # if hazards:
+                #     for other_id, other in enumerate(env.agents):
+                #         if other_id == agent_id:
+                #             continue
                         
 
-                        friends = getattr(agent.config, "friends_with", [])
-                        other_id_str = getattr(other.config, "id", None)
-                        other_name = getattr(other.config, "name", None)
+                #         friends = getattr(agent.config, "friends_with", [])
+                #         other_id_str = getattr(other.config, "id", None)
+                #         other_name = getattr(other.config, "name", None)
 
-                        if (other_id_str in friends) or (other_name in friends):
-                            for hz in hazards:
+                #         if (other_id_str in friends) or (other_name in friends):
+                #             for hz in hazards:
                     
-                                social_hazard_memory[other_id].add(hz)
-                                add_social_memory(other, hz)
+                #                 social_hazard_memory[other_id].add(hz)
+                #                 add_social_memory(other, hz)
 
-                            print(
-                                f"[SOCIAL] Agent {agent_id} shares {hazards} "
-                                f"with {other.config.name}"
-                            )
+                #             print(
+                #                 f"[SOCIAL] Agent {agent_id} shares {hazards} "
+                #                 f"with {other.config.name}"
+                #             )
 
-                heard = sorted(social_hazard_memory.get(agent_id, set()))
+                # heard = sorted(social_hazard_memory.get(agent_id, set()))
 
-                if heard:
-                    MAX_DIALOGUES_PER_STEP = 2
-                    heard = heard[:MAX_DIALOGUES_PER_STEP]
+                # if heard:
+                #     MAX_DIALOGUES_PER_STEP = 2
+                #     heard = heard[:MAX_DIALOGUES_PER_STEP]
 
-                    dialogue_lines = []
-                    for hz in heard:
-                        spoken = hazard_to_dialogue(hz)
+                #     dialogue_lines = []
+                #     for hz in heard:
+                #         spoken = hazard_to_dialogue(hz)
 
-                        dialogue_lines.append(f'A neighbor says: "{spoken}"')
+                #         dialogue_lines.append(f'A neighbor says: "{spoken}"')
 
-                    if dialogue_lines:
-                        desc = desc + " " + " ".join(dialogue_lines)
+                #     if dialogue_lines:
+                #         desc = desc + " " + " ".join(dialogue_lines)
                 #------------------------------------------------------------------
 
                 sm = agent.config.spatial_memory

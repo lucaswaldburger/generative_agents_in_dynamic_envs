@@ -22,7 +22,7 @@ class MultiHumanGridEnv(gym.Env):
         render_mode: str | None = "human",
         fire_spread_rate: float = 0.05,
         traffic_disappear_mode: bool = True,
-        traffic_disappear_rate: float = 0.1,
+        traffic_disappear_rate: float = 0.5,
     ):
         super().__init__()
         self.map_spec = map_spec

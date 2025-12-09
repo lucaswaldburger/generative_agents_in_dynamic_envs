@@ -433,3 +433,54 @@ def describe_perception(env, agent_id: int, include_decision_info: bool = False)
     return " ".join(parts)
 
 
+
+def get_local_traffic_cells(env, agent_id: int, radius: int = 3):
+    """
+    Return a list of (x, y, place_label) where traffic is observed near the agent.
+    place_label is a short semantic name: 'B7', 'Workplace_A', or 'street' fallback.
+    """
+    ax, ay, _, _, _ = get_agent_pose(env, agent_id)
+    W, H = env.map_spec.width, env.map_spec.height
+    traffic_locs = getattr(env, "traffic_locations", set())
+
+    seen = set()
+    results: list[tuple[int, int, str]] = []
+
+    for dx in range(-radius, radius + 1):
+        for dy in range(-radius, radius + 1):
+            x, y = ax + dx, ay + dy
+            if not (0 <= x < W and 0 <= y < H):
+                continue
+            pos = (x, y)
+            if pos not in traffic_locs:
+                continue
+
+            if pos in seen:
+                continue
+            seen.add(pos)
+
+            place = _cell_name_at(env, x, y) or _nearest_named_place(env, x, y)
+            if not place:
+                place = "nearby street"
+
+            results.append((x, y, place))
+
+    return results
+
+def agents_in_fov(env, agent_id: int):
+    """
+    Return list of other agent_ids that are within this agent's FOV radius
+    (very rough: Manhattan distance <= fov.range_cells).
+    """
+    me = env.agents[agent_id]
+    fx = me.x
+    fy = me.y
+    r = me.config.fov.range_cells
+
+    nearby = []
+    for other_id, other in enumerate(env.agents):
+        if other_id == agent_id:
+            continue
+        if abs(other.x - fx) + abs(other.y - fy) <= r:
+            nearby.append(other_id)
+    return nearby
