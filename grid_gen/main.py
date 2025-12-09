@@ -263,10 +263,7 @@ def run(cfg: DictConfig):
 
                 desc = describe_perception(env, agent_id, include_decision_info=True)
                 print("\n[LLM LOCAL PROMPT]")
-                print(f"agent={env.agents[agent_id].config.name}")
-                print("perception:", desc)
-                print("high_level_goal:", cmd)
-                print("valid_dirs:", valid_dirs)
+                print(f"agent={env.agents[agent_id].config.name}, perception:{desc}, high_level_goal:{cmd}, valid_dirs:{valid_dirs}")
                 local_reply = llm_decide_local_direction(
                     conv=conv,
                     agent_cfg=env.agents[agent_id].config,
@@ -275,11 +272,13 @@ def run(cfg: DictConfig):
                     valid_dirs=valid_dirs,
                 )
 
-                print("[LLM REPLY LOCAL DIR]")
-                print(local_reply)
+                print(f'[LLM REPLY LOCAL DIR] agent={env.agents[agent_id].config.name} chooses ={local_reply["direction"]} because {local_reply["reason"]}')
 
                 try:
-                    local_decision = json.loads(local_reply)
+                    local_decision = local_reply
+                    if local_reply == "stay":
+                        full_paths.append([])  # no movement
+                        continue
                     chosen = local_decision["direction"]
                     chosen_action = Action[chosen]  # "UP" -> Action.UP
 
@@ -306,17 +305,17 @@ def run(cfg: DictConfig):
             # ---------------------------------------------------------------
             # hazard avoidance
             # ---------------------------------------------------------------
-            if True:  # set to True after integration
-                known_hazards = getattr(env.agents[agent_id], "known_hazard_cells", set())
-                if full_path is not None and known_hazards:
-                    # if the planned path includes any known hazard cell, cancel it
-                    if any(cell in known_hazards for cell in full_path):
-                        print(
-                            f"[PLANNER] Agent {agent_id} path to {cmd} intersects known hazards "
-                            f"{known_hazards}. Cancelling path."
-                        )
-                        
-                        full_path = None  # invalidate the path
+
+            known_hazards = getattr(env.agents[agent_id], "known_hazard_cells", set())
+            if full_path is not None and known_hazards:
+                # if the planned path includes any known hazard cell, cancel it
+                if any(cell in known_hazards for cell in full_path):
+                    print(
+                        f"[HAZARD] Agent {agent_id} path to {cmd} intersects known hazards "
+                        f"{known_hazards}. Cancelling path."
+                    )
+                    
+                    full_path = None  # invalidate the path
             # ---------------------------------------------------------------
 
 
@@ -362,43 +361,43 @@ def run(cfg: DictConfig):
                 # Planned social hazard sharing (inactive until hazard env integrated)
                 # Social hazard sharing + memory integration
                 #------------------------------------------------------------------
-                if True: 
-                    hazards = get_local_hazards(env, agent_id)
-                    if hazards:
-                        for other_id, other in enumerate(env.agents):
-                            if other_id == agent_id:
-                                continue
-                            
 
-                            friends = getattr(agent.config, "friends_with", [])
-                            other_id_str = getattr(other.config, "id", None)
-                            other_name = getattr(other.config, "name", None)
-
-                            if (other_id_str in friends) or (other_name in friends):
-                                for hz in hazards:
+                hazards = get_local_hazards(env, agent_id)
+                if hazards:
+                    for other_id, other in enumerate(env.agents):
+                        if other_id == agent_id:
+                            continue
                         
-                                    social_hazard_memory[other_id].add(hz)
-                                    add_social_memory(other, hz)
 
-                                print(
-                                    f"[SOCIAL] Agent {agent_id} shares {hazards} "
-                                    f"with {other.config.name}"
-                                )
+                        friends = getattr(agent.config, "friends_with", [])
+                        other_id_str = getattr(other.config, "id", None)
+                        other_name = getattr(other.config, "name", None)
 
-                    heard = sorted(social_hazard_memory.get(agent_id, set()))
+                        if (other_id_str in friends) or (other_name in friends):
+                            for hz in hazards:
+                    
+                                social_hazard_memory[other_id].add(hz)
+                                add_social_memory(other, hz)
 
-                    if heard:
-                        MAX_DIALOGUES_PER_STEP = 2
-                        heard = heard[:MAX_DIALOGUES_PER_STEP]
+                            print(
+                                f"[SOCIAL] Agent {agent_id} shares {hazards} "
+                                f"with {other.config.name}"
+                            )
 
-                        dialogue_lines = []
-                        for hz in heard:
-                            spoken = hazard_to_dialogue(hz)
+                heard = sorted(social_hazard_memory.get(agent_id, set()))
 
-                            dialogue_lines.append(f'A neighbor says: "{spoken}"')
+                if heard:
+                    MAX_DIALOGUES_PER_STEP = 2
+                    heard = heard[:MAX_DIALOGUES_PER_STEP]
 
-                        if dialogue_lines:
-                            desc = desc + " " + " ".join(dialogue_lines)
+                    dialogue_lines = []
+                    for hz in heard:
+                        spoken = hazard_to_dialogue(hz)
+
+                        dialogue_lines.append(f'A neighbor says: "{spoken}"')
+
+                    if dialogue_lines:
+                        desc = desc + " " + " ".join(dialogue_lines)
                 #------------------------------------------------------------------
 
                 log_agent_step(

@@ -1,5 +1,7 @@
 generative_agents/
 grid_gen/persona/cognitive/__pycache__/*
-grid_gen/env/__pycache__/
+grid_gen/env/__pycache__/*
 grid_gen/outputs/
-grid_gen/persona/__pycache__/
+grid_gen/persona/__pycache__/*
+grid_gen/persona/prompt/__pycache__/*
+grid_gen/persona/memory/__pycache__/*

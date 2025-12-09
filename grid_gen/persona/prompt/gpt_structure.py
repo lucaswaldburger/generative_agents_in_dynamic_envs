@@ -110,77 +110,22 @@ def llm_decide_intent(conv, agent_cfg, plan_item, perception_desc, external_even
         }}
         """
     raw = conv.ask_llm(prompt)
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return {"intent":"follow_plan", "target_location": plan_loc, "command": f"go to {plan_loc}" if plan_loc else "stay", "reason": raw}
+    # try:
+    return json.loads(raw)
+    # except json.JSONDecodeError:
+    #     return {"intent":"follow_plan", "target_location": plan_loc, "command": f"go to {plan_loc}" if plan_loc else "stay", "reason": raw}
 
 
 
 def llm_decide_local_direction(conv, agent_cfg, perception_desc, high_level_goal, valid_dirs):
-    prompt = f"""
-You are controlling {agent_cfg.name}.
-High-level goal: {high_level_goal}.
-Perception: {perception_desc}
+    prompt = f"""You are controlling {agent_cfg.name}.
+    High-level goal: {high_level_goal}.
+    Perception: {perception_desc}
+    Valid directions: {valid_dirs}
 
-Valid directions: {valid_dirs}
-
-Choose exactly ONE direction from Valid directions.
-Reply JSON:
-{{"direction": "<ONE_OF_VALID>", "reason": "..."}}
-"""
-    return conv.ask_llm(prompt)
-
-
-def safe_generate_structured_response(prompt: str, schema: dict):
+    Choose exactly ONE direction from Valid directions.
+    Reply JSON:
+    {{"direction": "<ONE_OF_VALID>", "reason": "..."}}
     """
-    Send a prompt to the LLM and force it to return valid JSON.
-    If parsing fails, retries by asking the model to correct itself.
+    return json.loads(conv.ask_llm(prompt))
 
-    Args:
-        prompt: str - user/system prompt
-        schema: dict - NOT formally validated, only passed for context if needed
-
-    Returns:
-        parsed JSON (Python dict)
-    """
-
-    # 1) First attempt
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",     
-        temperature=0.2,
-        messages=[
-            {"role": "system", "content": "You MUST return ONLY valid JSON. No explanation."},
-            {"role": "user", "content": prompt},
-        ],
-    ).choices[0].message.content.strip()
-
-    try:
-        return json.loads(response)
-    except Exception:
-        pass  # fall through to retry
-
-    # 2) Retry with correction
-    correction_prompt = f"""
-The following output was invalid JSON. Fix it and return valid JSON only.
-
---- INVALID OUTPUT ---
-{response}
-----------------------
-
-Correct it according to the schema. Return ONLY valid JSON.
-"""
-    corrected = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        temperature=0.0,
-        messages=[
-            {"role": "system", "content": "Return valid JSON. No explanation."},
-            {"role": "user", "content": correction_prompt},
-        ],
-    ).choices[0].message.content.strip()
-
-    try:
-        return json.loads(corrected)
-    except Exception:
-        # Last resort: give empty valid fallback
-        return {"error": "Failed to parse JSON from LLM."}
