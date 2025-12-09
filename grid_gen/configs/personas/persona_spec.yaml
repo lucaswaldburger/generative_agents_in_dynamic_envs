@@ -14,7 +14,10 @@ human_1:
   last_name: "Rodriguez"
   spatial_memory_file: "spatial_memory/human_1_isabella.json"
   age: 34
-  innate: "friendly, outgoing, hospitable, risk-prone, low trust in local alarm systems, favors exploration more"
+  innate: "friendly, outgoing, hospitable"
+  risk_perception: "tends to underestimate risks in unfamiliar situations."
+  authority_trust: "generally skeptical of authority figures and official warnings."
+  threat_response: "more likely to rely on personal judgment and social cues from peers."
   learned: "Isabella Rodriguez is the owner of Workplace_A ..."
   lifestyle: "Isabella normally walks to work ..."
   living_area: "Isabella Rodriguez's apartment: Home_A"
@@ -75,7 +78,10 @@ human_2:
   last_name: "Mueller"
   spatial_memory_file: "spatial_memory/human_2_klaus.json"
   age: 44
-  innate: "friendly, serious, risk-averse, strong trust in local alarm systems, favors familiarity more"
+  innate: "friendly, serious, responsible"
+  risk_perception: "generally cautious and attentive to potential hazards, especially in familiar settings."
+  authority_trust: "tends to trust local authorities and established warning systems."
+  threat_response: "likely to follow established protocols and seek safety in familiar locations."
   learned: "Klaus is a father with an 8-year-old son..."
   lifestyle: "He lives in a large home with his family. Home_B"
   living_area: "Klaus Mueller's house: Home_B"

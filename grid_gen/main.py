@@ -31,7 +31,7 @@ from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, 
 from utils.logs import  create_agent_logs, log_agent_step, setup_debug_loggers, setup_sim_output_dir, sim_time_str
 from utils.external_events import get_external_events_for_t
 
-
+from utils.persona_utils import encode_persona
 
 
 
@@ -47,6 +47,9 @@ def run(cfg: DictConfig):
     priors_path = to_absolute_path(cfg.data.route_choice_priors_file)
 
     agent_configs = load_agent_configs(personas_path, cfg.personas.personas_in_sim)
+    for agent_cfg in agent_configs:
+        agent_cfg.persona_compact = encode_persona(agent_cfg)
+        print(f"[Persona] Loaded agent '{agent_cfg.name}' with encoding: {agent_cfg.persona_compact}")
     map_spec = load_map(map_path)
 
     route_choice_priors = None
@@ -68,10 +71,6 @@ def run(cfg: DictConfig):
     print("Initial state:")
     env.render()
 
-    #--------------------------------------------------------------------
-    #### Social hazard memory (used once hazard env is integrated)
-    social_hazard_memory = {i: set() for i in range(env.num_agents)}
-    #--------------------------------------------------------------------
 
     valid_locations = ['Home_A', 'Home_B', 'Park', 'Workplace_A', 'fire', 'park']
 
@@ -87,62 +86,46 @@ def run(cfg: DictConfig):
         print("[OpenAI] Error while testing API:", e)
 
     # Create ONE conversation for this simulation
+    # let's move this somewhere else later
     conv = LLMConversation(
         cfg,
         system_prompt=(
-            "You are the cognitive model for humans in a fire evacuation simulation. "
-            "You must combine empirical route-choice priors with each agent's persona "
-            "and demographics to decide how they move."
+        "You are the cognitive model for multiple human agents in a fire evacuation simulation. "
+        "You never control the environment directly; instead, you provide decisions for each agent.\n\n"
+        "You will be called at multiple decision levels:\n"
+        "1) HIGH-LEVEL INTENT: Triggered when a NEW external event occurs (e.g., alerts, visible smoke, alarms). Given an agent's persona, daily plan, current time, perception, and external events, "
+        "   decide their high-level intent (e.g., ignore, shelter in place, evacuate) and a high-level goal "
+        "   such as 'go to Home_A', 'go to Workplace_A', or 'stay'.\n"
+        "2) MID-LEVEL LOCAL ROUTE CHOICE: Triggered at intersections or navigating, given the agent's current high-level goal, local perception, "
+        "   and a list of valid directions, choose a single direction from the allowed options (e.g., LEFT, RIGHT, FORWARD, BACK, STAY).\n"
+        "3) SOCIAL-LEVEL RESPONSES: Optionally, you may later be asked to generate brief messages the agent might "
+        "   say to others about hazards or guidance.\n\n"
+        "Your decisions must combine data provided in each prompt, for example:\n"
+        "- Empirical route-choice priors (by age, gender, etc.)\n"
+        "- Each agent's persona (innate traits, learned traits, lifestyle, dependents)\n"
+        "- The current situation (time of day, hazards like smoke/fire, congestion, alerts)\n\n"
+        "In emergencies, safety and survival are more important than routine preferences or habits. "
+        "When in doubt, favor routes that avoid known hazards and reflect the agent's risk attitude and responsibilities "
+        "(e.g., protecting dependents).\n"
+        "All outputs must follow the requested JSON schema exactly when prompted (no extra text).\n"
+        "PERSONA ENCODING SCHEMA:\n"
+        "N|A|G|I|R|T|X|L|F|D|H\n"
+        "Where:\n"
+        "- N=name\n"
+        "- A=age\n"
+        "- G=gender(M/F)\n"
+        "- I=innate traits\n"
+        "- R=risk perception summary\n"
+        "- T=authority trust summary\n"
+        "- X=threat style summary\n"
+        "- L=learned summary\n"
+        "- F=lifestyle summary\n"
+        "- D=dependents\n"
+        "- H=home area\n"
+        "\n"
+        "Different decision leevel might use some of these encoding schema. All responses must strictly follow the JSON schema when asked."
         ),
     )
-
-    persona_summary = []
-    for a in agent_configs:
-        persona_summary.append({
-            "id": a.id,
-            "name": a.name,
-            "age": getattr(a, "age", None),
-            "gender": getattr(a, "gender", None),
-            "innate": getattr(a, "innate", None),
-            "learned": getattr(a, "learned", None),
-            "lifestyle": getattr(a, "lifestyle", None),
-            "living_area": getattr(a, "living_area", None),
-            "friends_with": getattr(a, "friends_with", []),
-            "dependents": getattr(a, "dependents", []),
-            "daily_plan": getattr(a, "daily_plan", []),
-            "fov_range": a.fov.range_cells,
-        })
-
-    # Give priors + personas to LLM ONCE at the start
-    # move this to the llm scripts later
-    init_reply = conv.ask_llm(
-        f"""
-        Here are demographic-based route choice priors (JSON):
-
-        {json.dumps(route_choice_priors['route_choice_priors'], indent=2)}
-
-        Here are the agent personas (JSON):
-
-        {json.dumps(persona_summary, indent=2)}
-
-        You will later be asked to make LOCAL route-choice decisions at intersections 
-        (e.g., left / right / forward / back) while pursuing a high-level goal. 
-        Use the demographic priors together with each agent’s innate and learned traits 
-        (risk-proneness vs. risk-aversion, exploration vs. familiarity preference, etc.) 
-        to bias these local choices, especially when hazards (smoke, fire) or congestion are present.
-
-        When asked for local choices, you MUST select only from the provided list of "Valid directions."
-
-        These demographic priors are soft behavioral rules:
-        - Age buckets: "<25", "25-34", "35-49", "50+" (choose the closest bucket when uncertain).
-        - Missing values (null) mean you should rely on general reasoning.
-
-        We will use this information throughout the simulation to determine how each agent moves.
-        Briefly summarize how the agents’ demographics align with these priors:
-
-        """
-            )
-    print("[LLM INIT SUMMARY]\n", init_reply)
 
     run_dir = setup_sim_output_dir()
     agent_logs = create_agent_logs(run_dir, env)
@@ -150,11 +133,11 @@ def run(cfg: DictConfig):
 
     
 
-
+    # initializing variables for simulation loop
     last_external_events = None
     agent_commands = {aid: "stay" for aid in range(env.num_agents)}
     active_goal_cmd = {aid: None for aid in range(env.num_agents)} 
-
+    social_hazard_memory = {i: set() for i in range(env.num_agents)}
 
     for t in range(cfg.sim.steps):
         clock_time = sim_time_str(cfg, t)
@@ -164,8 +147,6 @@ def run(cfg: DictConfig):
 
         if stimulus_triggered:
             last_external_events = external_events
-
-
 
             # this will go to plannner eventially
             for agent_id, agent in enumerate(env.agents):
@@ -181,13 +162,17 @@ def run(cfg: DictConfig):
                     external_events=external_events,
                     clock_time=clock_time,
                     valid_locations=valid_locations,
+                    current_location=plan_item["location"],
                 )
 
-                print(f"[LLM HIGH-LEVEL GOAL] t={t} ({clock_time}) {agent.config.name}: intent {decision['intent']}")
+                print(f"[LLM HIGH-LEVEL GOAL] t={t} ({clock_time}) {agent.config.name} intent {decision['intent']}, action {decision['action']}")
 
                 intent_logger.debug(
                     f"t={t} ({clock_time}) agent={agent.config.name} "
                     f"intent={decision.get('intent')} "
+                    f"action={decision.get('action')} "
+                    f"next_action={decision.get('next_action')} "
+                    f"target_location={decision.get('target_location')} "
                     f"command={decision.get('command')} "
                     f"reason={decision.get('reason')} "
                     f"plan_item={plan_item} "

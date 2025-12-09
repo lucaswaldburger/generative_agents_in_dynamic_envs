@@ -5,3 +5,4 @@ grid_gen/outputs/
 grid_gen/persona/__pycache__/*
 grid_gen/persona/prompt/__pycache__/*
 grid_gen/persona/memory/__pycache__/*
+grid_gen/utils/__pycache__/*

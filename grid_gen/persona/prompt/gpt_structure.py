@@ -63,58 +63,68 @@ class LLMConversation:
         self.messages.append({"role": "assistant", "content": answer})
         return answer
 
+def _strip_code_fence(text: str):
+    return text.replace("```json", "").replace("```", "").strip()
 
 
 
-
-def llm_decide_intent(conv, agent_cfg, plan_item, perception_desc, external_events, clock_time, valid_locations):
-
-
+def llm_decide_intent(
+    conv,
+    agent_cfg,
+    plan_item,
+    perception_desc,
+    external_events,
+    clock_time,
+    valid_locations,
+    current_location: str | None,
+):
     plan_text = plan_item["activity"] if plan_item else "no scheduled activity"
     plan_loc  = plan_item["location"] if plan_item else None
+    is_at_plan = (plan_loc is not None and current_location is not None and plan_loc == current_location)
+
+    persona = agent_cfg.persona_compact
+    valid_locs = ",".join(valid_locations)
 
     prompt = f"""
-        Time: {clock_time}
+    HIGH-LEVEL INTENT PLANNER CALL
+    (Triggered because a NEW external event occurred.)
 
-        Agent persona:
-        - name: {agent_cfg.name}
-        - age: {agent_cfg.age}
-        - gender: {agent_cfg.gender}
-        - innate: {agent_cfg.innate}
-        - dependents: {agent_cfg.dependents}
-        - living_area: {agent_cfg.living_area}
+    Time:{clock_time}
+    External:{external_events or "none"}
 
-        Scheduled plan right now:
-        - activity: {plan_text}
-        - location: {plan_loc}
+    Persona:{persona}
 
-        Perception:
-        {perception_desc}
+    Plan:{plan_text}@{plan_loc}
+    Current:{current_location},at_plan:{is_at_plan}
 
-        External events:
-        {external_events}
+    Perception:{perception_desc}
+    Valid_locs:{valid_locs}
 
-        Valid locations in this map (choose exactly one if moving):
-        {valid_locations}
+    Choose intent:
+    - ignore
+    - evacuate: pack, check_on_dependent, go to <target_location> (choose one from Valid_locs)
 
-        Task:
-        Decide the agent's intent and where they will go.
-        If staying, target_location should be null.
 
-        Return ONLY JSON:
-        {{
-        "intent": "<follow_plan|stay|evacuate|check_dependent|help_other|reroute|other>",
-        "target_location": "<one string from valid_locations OR null>",
-        "command": "<either 'stay' OR 'go to <target_location>'>",
-        "reason": "<1-3 sentences>"
-        }}
-        """
+    Rules:
+    - If intent=ignore: action="stay", next_action = continue current plan, target_location=null
+    - If intent=evacuate and pack: action="stay", next_action = pack_belongings, target_location=null
+    - If intent=evacuate and check_on_dependent: action="stay", next_action = help dependent, target_location=null
+    - If intent=evacuate and go to <target_location>: action="go to <target_location>", next_action = "go to <target_location>", target_location=<target_location>
+
+    Return ONLY JSON:
+    {{
+    "intent":"...",
+    "action":"...",
+    "next_action":"...",
+    "target_location":"... or null",
+    "command":"...",
+    "reason":"1-3 sentences"
+    }}
+    """
+
     raw = conv.ask_llm(prompt)
-    # try:
-    return json.loads(raw)
-    # except json.JSONDecodeError:
-    #     return {"intent":"follow_plan", "target_location": plan_loc, "command": f"go to {plan_loc}" if plan_loc else "stay", "reason": raw}
-
+    cleaned = _strip_code_fence(raw)
+    return json.loads(cleaned)
 
 
 def llm_decide_local_direction(conv, agent_cfg, perception_desc, high_level_goal, valid_dirs):

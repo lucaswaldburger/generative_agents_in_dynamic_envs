@@ -27,6 +27,9 @@ class AgentConfig:
     age: int
     gender: str
     innate: str
+    risk_perception: str
+    authority_trust: str
+    threat_response: str
     learned: str
     lifestyle: str
     living_area: str
@@ -57,6 +60,8 @@ class AgentConfig:
     importance_trigger_curr: int
     importance_ele_n: int
     thought_count: int
+
+    persona_compact: str  # optional precomputed encoding string
 
 
 def load_agent_configs(
@@ -112,6 +117,9 @@ def load_agent_configs(
             last_name=p["last_name"],
             age=p["age"],
             innate=p["innate"],
+            risk_perception=p["risk_perception"],
+            authority_trust=p["authority_trust"],
+            threat_response=p["threat_response"],
             learned=p["learned"],
             lifestyle=p["lifestyle"],
             living_area=p["living_area"],
@@ -136,7 +144,9 @@ def load_agent_configs(
             thought_count=p["thought_count"],
             friends_with = p.get("friends_with", []),
             dependents = p.get("dependents", []),
-            daily_plan = p.get("daily_plan", [])
+            daily_plan = p.get("daily_plan", []),
+            persona_compact=  p.get("persona_encoding", "")
+            
         )
 
         agent_configs.append(cfg)
