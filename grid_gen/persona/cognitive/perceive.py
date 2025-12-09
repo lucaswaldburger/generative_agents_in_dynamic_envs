@@ -411,17 +411,27 @@ def describe_perception(env, agent_id: int, include_decision_info: bool = False)
 
     parts: list[str] = []
 
-    # basic location
+    # --- basic location / landmarks ---
     if visible_names:
         parts.append(f"I am at {location_label}. I see {', '.join(visible_names)}.")
     else:
         parts.append(f"I am at {location_label}. I don't see any labeled regions.")
 
+    # --- hazards: fire / smoke / traffic (detailed, per-cell) ---
     hazards = get_local_hazards(env, agent_id)
     if hazards:
         unique_hazards = sorted(set(hazards))
         parts.extend(unique_hazards)
 
+    # --- explicit traffic summary (current time, within FOV-ish radius) ---
+    traffic_cells = get_local_traffic_cells(env, agent_id, radius=fov_range)
+    if traffic_cells:
+        # traffic_cells: list[(x, y, place_label)]
+        places = sorted(set(place for (_, _, place) in traffic_cells))
+        place_str = ", ".join(places)
+        parts.append(f"I see heavy traffic near {place_str} right now.")
+
+    # --- navigation info for mid-level decisions ---
     if include_decision_info:
         valid_moves = valid_move_actions(env, agent_id)
         valid_dirs = action_names(valid_moves)
@@ -429,6 +439,7 @@ def describe_perception(env, agent_id: int, include_decision_info: bool = False)
             parts.append(f"Valid directions: {', '.join(valid_dirs)}.")
         if is_intersection(env, agent_id):
             parts.append("I am at an intersection.")
+
 
     return " ".join(parts)
 

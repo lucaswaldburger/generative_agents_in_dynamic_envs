@@ -273,10 +273,6 @@ def run(cfg: DictConfig):
             if full_path is not None and known_hazards:
                 # if the planned path includes any known hazard cell, cancel it
                 if any(cell in known_hazards for cell in full_path):
-                    # print(
-                    #     f"[HAZARD] Agent {agent_id} path to {cmd} intersects known hazards "
-                    #     f"{known_hazards}. Cancelling path."
-                    # )
                     
                     full_path = None  # invalidate the path
 
