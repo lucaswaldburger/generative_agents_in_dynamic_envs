@@ -27,57 +27,15 @@ from persona.memory.associative_memory import add_social_memory, hazard_to_dialo
 
 from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent, llm_decide_local_direction
 
-import os
-import datetime
+# logging imports
+from utils.logs import  create_agent_logs, log_agent_step, setup_debug_loggers, setup_sim_output_dir, sim_time_str
+from utils.external_events import get_external_events_for_t
 
-def sim_time_str(cfg, t: int) -> str:
-    """Map sim timestep to clock time using cfg.sim.start_time and seconds_per_step."""
-    start = datetime.datetime.strptime(cfg.sim.start_time, "%H:%M")
-    curr = start + datetime.timedelta(seconds=t * cfg.sim.seconds_per_step)
-    return curr.strftime("%H:%M")
 
-# we can move these logger functions to other folder later
-def setup_sim_output_dir():
-    """
-    Creates a run folder in sim_outputs/ with timestamp.
-    Returns the folder path.
-    """
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    base_dir = "sim_outputs"
-    run_dir = os.path.join(base_dir, f"run_{timestamp}")
-    os.makedirs(run_dir, exist_ok=True)
-    return run_dir
 
-def create_agent_logs(run_dir, env):
-    """
-    Creates one text file per agent using their name.
-    Returns a dict: agent_id -> file_handle
-    """
-    logs = {}
-    for agent_id, agent in enumerate(env.agents):
-        safe_name = agent.config.name.replace(" ", "_")
-        path = os.path.join(run_dir, f"{safe_name}.txt")
-        logs[agent_id] = open(path, "w")
-        logs[agent_id].write(f"Log for {agent.config.name}\n")
-        logs[agent_id].write("=" * 40 + "\n\n")
-    return logs
 
-def log_agent_step(log_file, agent_id, step, substep, agent, action, desc):
-    """
 
-    """
-    log_file.write(f"Step {step}, Sub-step {substep}\n")
-    log_file.write(f" Position: ({agent.x}, {agent.y})\n")
-    log_file.write(f" Action: {action}\n")
-    log_file.write(f" Observation: {desc}\n")
-    log_file.write("-" * 30 + "\n")
 
-def get_external_events_for_t(t):
-    if t == 0:
-        return "humans receive an alert text: there is a fire, but no need to evacuate yet"
-    if t == 10:
-        return "the fire alarm sounds loudly, evacuation is now required. Isabella sees smoke outside of the building."
-    return None
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
 def run(cfg: DictConfig):
@@ -90,7 +48,6 @@ def run(cfg: DictConfig):
 
     agent_configs = load_agent_configs(personas_path, cfg.personas.personas_in_sim)
     map_spec = load_map(map_path)
-    # print("Unique access codes in grid:", np.unique(map_spec.access_grid))
 
     route_choice_priors = None
     try:
@@ -117,12 +74,7 @@ def run(cfg: DictConfig):
     #--------------------------------------------------------------------
 
     valid_locations = ['Home_A', 'Home_B', 'Park', 'Workplace_A', 'fire', 'park']
-    # for r in env.map_spec.regions:
-    #     valid_locations.append(r["name"])
-    #     if "type" in r:
-    #         valid_locations.append(r["type"])
-    # valid_locations = sorted(set([str(x) for x in valid_locations]))
-    print("[VALID LOCATIONS]", valid_locations)
+
 
     # testing connecting
     try:
@@ -194,10 +146,14 @@ def run(cfg: DictConfig):
 
     run_dir = setup_sim_output_dir()
     agent_logs = create_agent_logs(run_dir, env)
+    intent_logger, local_logger, planner_logger = setup_debug_loggers(run_dir)
+
+    
+
 
     last_external_events = None
     agent_commands = {aid: "stay" for aid in range(env.num_agents)}
-    active_goal_cmd = {aid: None for aid in range(env.num_agents)}  # e.g. "go to Home_A"
+    active_goal_cmd = {aid: None for aid in range(env.num_agents)} 
 
 
     for t in range(cfg.sim.steps):
@@ -208,13 +164,10 @@ def run(cfg: DictConfig):
 
         if stimulus_triggered:
             last_external_events = external_events
-            # valid_locations_accessible = {}
-            # for agent_id in range(env.num_agents):
-            #     valid_locations_accessible[agent_id] = get_accessible_locations(env, agent_id)
-            #     print(f"[ACCESSIBLE LOCS] agent {agent_id}: {valid_locations_accessible[agent_id]}")
+
+
 
             # this will go to plannner eventially
-            # FOR NOW WE have two agents only so this hardcoding works but eventually change to env.agent_ids
             for agent_id, agent in enumerate(env.agents):
                 plan_item = get_plan_for_time(agent.config, clock_time)
                 if plan_item:
@@ -230,11 +183,17 @@ def run(cfg: DictConfig):
                     valid_locations=valid_locations,
                 )
 
-                print(f"[LLM INTENT] t={t} ({clock_time}) {agent.config.name}:")
-                print("  intent =", decision["intent"])
-                print("  command =", decision["command"])
-                print("  reason =", decision["reason"])
+                print(f"[LLM HIGH-LEVEL GOAL] t={t} ({clock_time}) {agent.config.name}: intent {decision['intent']}")
 
+                intent_logger.debug(
+                    f"t={t} ({clock_time}) agent={agent.config.name} "
+                    f"intent={decision.get('intent')} "
+                    f"command={decision.get('command')} "
+                    f"reason={decision.get('reason')} "
+                    f"plan_item={plan_item} "
+                    f"perception={desc} "
+                    f"external_events={external_events}"
+                )
                 cmd = normalize_command_for_planner(decision, agent.config, env)
                 agent_commands[agent_id] = cmd
                 active_goal_cmd[agent_id] = None if cmd == "stay" else cmd
@@ -262,7 +221,7 @@ def run(cfg: DictConfig):
                 valid_dirs = action_names(valid_moves)
 
                 desc = describe_perception(env, agent_id, include_decision_info=True)
-                print("\n[LLM LOCAL PROMPT]")
+                print("\n[LLM MID-LEVEL GOAL]")
                 print(f"agent={env.agents[agent_id].config.name}, perception:{desc}, high_level_goal:{cmd}, valid_dirs:{valid_dirs}")
                 local_reply = llm_decide_local_direction(
                     conv=conv,
@@ -272,7 +231,16 @@ def run(cfg: DictConfig):
                     valid_dirs=valid_dirs,
                 )
 
-                print(f'[LLM REPLY LOCAL DIR] agent={env.agents[agent_id].config.name} chooses ={local_reply["direction"]} because {local_reply["reason"]}')
+                local_logger.debug(
+                    f"t={t} agent={env.agents[agent_id].config.name} "
+                    f"high_level_goal={cmd} "
+                    f"perception={desc} "
+                    f"valid_dirs={valid_dirs} "
+                    f"direction={local_reply.get('direction')} "
+                    f"reason={local_reply.get('reason')}"
+                )
+
+                print(f'[LLM MID-LEVEL GOAL REPLY] agent={env.agents[agent_id].config.name} chooses ={local_reply["direction"]} because {local_reply["reason"]}')
 
                 try:
                     local_decision = local_reply
@@ -299,7 +267,13 @@ def run(cfg: DictConfig):
                     print("[WARN] local decision parse error:", e)
 
             start, goal = high_level_planner(env, agent_id=agent_id, command=cmd)
-            print(f"[PLANNER] t={t} Agent {agent_id} command='{cmd}' -> start={start}, goal={goal}")
+            print(f"[LOW LEVEL PLANNER] t={t} Agent {agent_id} command='{cmd}' -> start={start}, goal={goal}")
+            planner_logger.debug(
+                f"t={t} agent={agent_id} command='{cmd}' "
+                f"start={start} goal={goal}"
+            )
+
+
             full_path = astar(env, start, goal)
 
             # ---------------------------------------------------------------
@@ -310,17 +284,25 @@ def run(cfg: DictConfig):
             if full_path is not None and known_hazards:
                 # if the planned path includes any known hazard cell, cancel it
                 if any(cell in known_hazards for cell in full_path):
-                    print(
-                        f"[HAZARD] Agent {agent_id} path to {cmd} intersects known hazards "
-                        f"{known_hazards}. Cancelling path."
-                    )
+                    # print(
+                    #     f"[HAZARD] Agent {agent_id} path to {cmd} intersects known hazards "
+                    #     f"{known_hazards}. Cancelling path."
+                    # )
                     
                     full_path = None  # invalidate the path
+
+                    planner_logger.debug(
+                        f"t={t} agent={agent_id} command='{cmd}' "
+                        f"path_intersects_hazards={known_hazards}; cancelling_path"
+                    )
             # ---------------------------------------------------------------
 
 
             if full_path is None:
                 print(f"[WARN] No path for agent {agent_id} to '{cmd}'. Forcing replanning.")
+                planner_logger.warning(
+                    f"t={t} agent={agent_id} command='{cmd}' no_path_found; forcing_replan"
+                )
                 agent_commands[agent_id] = "stay"
                 last_external_events = None # force replan next time
                 full_paths.append([])
@@ -339,6 +321,8 @@ def run(cfg: DictConfig):
             print(f"t={t} all agents staying. Waiting for next stimulus.")
             continue
 
+
+        ## This is A* planner
         max_substeps = max(len(p) for p in paths)
         for step in range(max_substeps):
 
@@ -400,6 +384,24 @@ def run(cfg: DictConfig):
                         desc = desc + " " + " ".join(dialogue_lines)
                 #------------------------------------------------------------------
 
+                sm = agent.config.spatial_memory
+                spatial_info = None
+
+                if sm:
+                    x, y = int(agent.x), int(agent.y)
+                    sm_info = sm.elements_at_position(env, x, y)
+                    contents = sm_info["contents"]
+
+                    if contents:
+                        rooms_here = list(contents.keys())
+                        spatial_info = (
+                            f"cell='{sm_info['cell_name']}', "
+                            f"lookup_key='{sm_info.get('lookup_key')}', "
+                            f"rooms={rooms_here}"
+                        )
+                    else:
+                        spatial_info = f"cell='{sm_info['cell_name']}'"
+
                 log_agent_step(
                     log_file=agent_logs[agent_id],
                     agent_id=agent_id,
@@ -408,27 +410,8 @@ def run(cfg: DictConfig):
                     agent=agent,
                     action=int(action[agent_id]),
                     desc=desc,
+                    spatial_info=spatial_info,
                 )
-
-                sm = agent.config.spatial_memory
-                if sm:
-                    x, y = int(agent.x), int(agent.y)
-                    sm_info = sm.elements_at_position(env, x, y)
-                    contents = sm_info["contents"]
-
-                    if contents:
-                        rooms_here = list(contents.keys())
-                        print(
-                            f"[SM] Agent {agent_id} at ({x}, {y}) -> "
-                            f"cell='{sm_info['cell_name']}', lookup_key='{sm_info.get('lookup_key')}', rooms={rooms_here}"
-                        )
-                    else:
-                        print(
-                            f"[SM] Agent {agent_id} at ({x}, {y}) -> "
-                            f"cell='{sm_info['cell_name']}'"
-                        )
-
-                print(f"[Agent {agent_id}] {desc}")
 
             env.render()
             time.sleep(0.5)
