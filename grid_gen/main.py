@@ -44,7 +44,7 @@ def run(cfg: DictConfig):
     """
     map_path = to_absolute_path(cfg.map.file)
     personas_path = to_absolute_path(cfg.personas.file)
-    priors_path = to_absolute_path(cfg.memory.route_choice_priors_file)
+    priors_path = to_absolute_path(cfg.data.route_choice_priors_file)
 
     agent_configs = load_agent_configs(personas_path, cfg.personas.personas_in_sim)
     map_spec = load_map(map_path)

@@ -13,8 +13,8 @@ personas:
 map:
   file: "configs/maps/urbanWorld.json"
 
-memory:
-  route_choice_priors_file: "persona/memory/route_choice_priors.json"
+data:
+  route_choice_priors_file: "data/route_choice_priors.json"
 
 openai:
 

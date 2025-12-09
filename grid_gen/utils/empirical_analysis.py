@@ -1,4 +1,3 @@
-# persona/memory/empirical_analysis.py
 
 import pandas as pd
 import numpy as np
@@ -6,13 +5,14 @@ import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-DATA_DIR = ROOT / "persona" / "prompt" / "evacuation_data"
-OUT_PATH = ROOT / "persona" / "memory" / "route_choice_priors.json"
+ROOT = Path(__file__).resolve().parents[1]
+print(f"[INFO] ROOT path: {ROOT}")
+DATA_DIR = ROOT / "data" / "evacuation_data"
+OUT_PATH = ROOT / "data" / "route_choice_priors.json"
 
 def main():
-    resp = pd.read_csv("persona/memory/evacuation_data/responses.csv")
-    parts = pd.read_csv("persona/memory/evacuation_data/participants.csv")
+    resp = pd.read_csv(DATA_DIR / "responses.csv")
+    parts = pd.read_csv(DATA_DIR / "participants.csv")
 
     # Extract left/right codes
     pat = re.compile(r".*L-([^_]+)_R-([^_]+)")
