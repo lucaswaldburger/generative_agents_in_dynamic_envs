@@ -187,7 +187,9 @@ def neighbors(env, node: Coord) -> List[Tuple[Coord, Action]]:
         if action == Action.STAY:
             continue
         nx, ny = x + dx, y + dy
-        if is_traversable(env, nx, ny):
+        # if is_traversable(env, nx, ny):
+        #     result.append(((nx, ny), action))
+        if env._can_move_to(nx, ny):
             result.append(((nx, ny), action))
     return result
 

@@ -22,7 +22,7 @@ class MultiHumanGridEnv(gym.Env):
         render_mode: str | None = "human",
         fire_spread_rate: float = 0.05,
         traffic_disappear_mode: bool = True,
-        traffic_disappear_rate: float = 0.01,
+        traffic_disappear_rate: float = 0.02,
     ):
         super().__init__()
         self.map_spec = map_spec
@@ -573,6 +573,7 @@ class MultiHumanGridEnv(gym.Env):
             # 2. Randomly Spawn New Traffic (to maintain the block count)
             if len(self.traffic_locations) < self.max_traffic_locations:
                 self._spawn_new_traffic()
+                self._spawn_new_traffic()  # Spawn two blocks per step for more dynamics
 
     def _spawn_new_traffic(self):
         """Finds a random, valid location and adds a new traffic block."""
