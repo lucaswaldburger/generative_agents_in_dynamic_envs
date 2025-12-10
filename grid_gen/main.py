@@ -23,6 +23,8 @@ from persona.cognitive.plan import get_accessible_locations, high_level_planner,
 from env.constants import SemanticMap
 from persona.cognitive.perceive import describe_perception, is_intersection, valid_move_actions, action_names, get_local_hazards, agents_in_fov, get_local_traffic_cells
 
+from persona.control_state import AgentControlState, PlannerLevel
+
 # load social memory
 from persona.memory.associative_memory import add_social_memory, hazard_to_dialogue, is_friend
 
@@ -142,11 +144,24 @@ def run(cfg: DictConfig):
     active_goal_cmd = {aid: None for aid in range(env.num_agents)} 
     planned_paths = {aid: [] for aid in range(env.num_agents)}
 
-    for a in env.agents:
+    control_states = {
+        aid: AgentControlState()
+        for aid in range(env.num_agents)
+    }
+
+    for aid, a in enumerate(env.agents):
         a.known_hazard_cells = set()
-        a.traffic_memory = {} 
-        a.social_ignored_friends = set() 
-        a.local_fire_smoke_seen = False 
+        a.traffic_memory = {}
+        a.social_ignored_friends = set()
+        a.local_fire_smoke_seen = False
+
+        # Optional: attach for debugging
+        a.control_state = control_states[aid]
+
+        # Initialize state
+        control_states[aid].high_intent = "routine"
+        control_states[aid].high_command = "stay"
+        control_states[aid].next_level = PlannerLevel.LOW
 
     for t in range(cfg.sim.steps):
         clock_time = sim_time_str(cfg, t)
@@ -171,7 +186,7 @@ def run(cfg: DictConfig):
                     external_events=external_events,
                     clock_time=clock_time,
                     valid_locations=valid_locations,
-                    current_location=plan_item["location"],
+                    current_location=plan_item["location"] if plan_item else None,
                 )
 
                 print(f"[LLM HIGH-LEVEL GOAL] t={t} ({clock_time}) {agent.config.name} intent {decision['intent']}, action {decision['action']}")
@@ -192,6 +207,11 @@ def run(cfg: DictConfig):
                 agent_commands[agent_id] = cmd
                 active_goal_cmd[agent_id] = None if cmd == "stay" else cmd
                 planned_paths[agent_id] = []
+                cs = control_states[agent_id]
+                cs.set_new_high_command(
+                    intent=decision.get("intent", None),
+                    cmd=cmd,
+                )
 
                 # # If LLM intent is stay or command includes stay → force stay
                 # if decision["intent"] == "stay" or "stay" in cmd:
@@ -206,6 +226,7 @@ def run(cfg: DictConfig):
                 h for h in hazards
                 if ("fire" in h.lower()) or ("smoke" in h.lower())
             ]
+            cs = control_states[agent_id]
 
             if fire_smoke_hazards and not getattr(agent, "local_fire_smoke_seen", False):
                 new_cmd = react_to_local_fire_smoke(
@@ -220,7 +241,10 @@ def run(cfg: DictConfig):
                     intent_logger=intent_logger,
                     agent_commands=agent_commands,
                 )
-                planned_paths[agent_id] = []  # force replanning with new command
+                cs.set_new_high_command(intent="evacuate_local_fire", cmd=new_cmd)
+                agent_commands[agent_id] = new_cmd
+                planned_paths[agent_id] = []  # clear any low-level segment
+                agent.local_fire_smoke_seen = True
                 print(
                     f"[LOCAL FIRE/SMOKE REPLAN] t={t} agent={agent.config.name} "
                     f"updates command to '{new_cmd}'"
@@ -229,21 +253,31 @@ def run(cfg: DictConfig):
 
         # full_paths = []
         for agent_id in range(env.num_agents):
+            cs = control_states[agent_id]
             cmd = agent_commands.get(agent_id, "stay")
 
             # If staying, no path
             if cmd.strip().lower() == "stay":
                 planned_paths[agent_id] = []
+                cs.clear_segment()
+                cs.next_level = PlannerLevel.LOW
                 continue
 
-            # If we already have a path, keep following it
-            if planned_paths[agent_id]:
+            # 1) If we already have a low-level segment, keep executing it
+            if cs.has_segment():
+                # low-level execution; nothing to re-plan this step
+                cs.next_level = PlannerLevel.LOW
                 continue
 
             # this is so that we can give the LLM the valid directions at intersections
             # Need a new path from current tile for this command
             if is_intersection(env, agent_id):
-                # build valid dirs list for LLM
+                cs.next_level = PlannerLevel.MID
+            else:
+                cs.next_level = PlannerLevel.LOW
+
+            # 3) MID-level: only at intersections when there is no current segment
+            if cs.next_level == PlannerLevel.MID:
                 valid_moves = valid_move_actions(env, agent_id)
                 valid_dirs = action_names(valid_moves)
                 priors_for_agent = get_agent_route_priors(env.agents[agent_id].config, route_choice_priors)
@@ -274,9 +308,12 @@ def run(cfg: DictConfig):
                 try:
                     if local_reply == "stay":
                         planned_paths[agent_id] = []
+                        cs.clear_segment()
+                        cs.next_level = PlannerLevel.LOW
                         continue
 
                     chosen = local_reply["direction"]
+                    cs.last_mid_direction = chosen
                     chosen_action = Action[chosen]
 
                     # force first move by stepping to neighbor as new start
@@ -330,25 +367,36 @@ def run(cfg: DictConfig):
                     f"t={t} agent={agent_id} command='{cmd}' no_path_found"
                 )
                 planned_paths[agent_id] = []
+                cs.clear_segment()
                 continue
 
-            planned_paths[agent_id] = full_path
+            fov_range = env.agents[agent_id].config.fov.range_cells
+            segment_len = max(1, int(fov_range))
+            segment = full_path[:segment_len]
+
+            planned_paths[agent_id] = segment
+            cs.segment_actions = list(segment)
+            cs.next_level = PlannerLevel.LOW
             # ---------------------------------------------------------------
 
 
-        # Slice each agent path by their FOV
+
         # If everyone staying and no paths → skip env.step
-        if all(len(planned_paths[aid]) == 0 for aid in range(env.num_agents)):
+        if all(not cs.has_segment() and agent_commands[aid].strip().lower() == "stay"
+            for aid, cs in control_states.items()):
             print(f"t={t} all agents staying. Waiting for next stimulus.")
             continue
 
         # 4) EXECUTE ONE ACTION PER AGENT (single env.step)
         actions_this_step = []
         for agent_id in range(env.num_agents):
-            if planned_paths[agent_id]:
-                a = planned_paths[agent_id].pop(0)
+            cs = control_states[agent_id]
+
+            if cs.has_segment():
+                a = cs.pop_next_action()
             else:
                 a = Action.STAY
+
             actions_this_step.append(a)
 
         action = np.array(actions_this_step, dtype=np.int64)

@@ -261,11 +261,14 @@ def normalize_command_for_planner(decision, agent_cfg, env):
     decision: dict returned by llm_decide_intent
     Always returns a safe planner command.
     """
-    intent = (decision.get("intent") or "").lower()
+    raw_intent = (decision.get("intent") or "").lower()
+    # collapse things like "evacuate: ..." back to "evacuate"
+    intent = "evacuate" if "evacuate" in raw_intent else raw_intent
+
     target = decision.get("target_location")
 
     # stay = no movement
-    if intent == "stay" or (decision.get("command","").lower().strip() == "stay"):
+    if intent == "stay" or (decision.get("command", "").lower().strip() == "stay"):
         return "stay"
 
     # if model gave a target, trust it
@@ -281,7 +284,11 @@ def normalize_command_for_planner(decision, agent_cfg, env):
 
     # evacuate intent -> go to a safe region you define
     if intent == "evacuate":
-        return "go to streets"   # or "safe zone" if that's in regions
+        # if it forgot to set target but we know a home, prefer home
+        home = getattr(agent_cfg, "living_area", None)
+        if home:
+            return f"go to {home}"
+        return "go to streets"   # default safe zone
 
     # fallback
     return "stay"

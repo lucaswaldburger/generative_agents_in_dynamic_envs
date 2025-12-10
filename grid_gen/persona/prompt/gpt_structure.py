@@ -66,7 +66,33 @@ class LLMConversation:
 def _strip_code_fence(text: str):
     return text.replace("```json", "").replace("```", "").strip()
 
+def summarize_dependents(agent_cfg):
+    """
+    Return a natural-language description of dependents and where they are.
+    """
+    deps = getattr(agent_cfg, "dependents", []) or []
+    home = getattr(agent_cfg, "living_area", None)
 
+    if not deps:
+        return "This agent has no dependents."
+
+    parts = []
+    for d in deps:
+        dtype = d.get("type", "dependent")
+        name = d.get("name", "unknown")
+        # optional extra fields if you have them
+        age = d.get("age")
+        extra_bits = []
+        if age:
+            extra_bits.append(f"{age} years old")
+        if home:
+            extra_bits.append(f"currently at {home}")
+        extra = f" ({', '.join(extra_bits)})" if extra_bits else ""
+        parts.append(f"a {dtype} named {name}{extra}")
+
+    deps_str = "; ".join(parts)
+    home_str = f"Home location: {home}." if home else ""
+    return f"This agent has {deps_str}. {home_str}"
 
 def llm_decide_intent(
     conv,
@@ -85,40 +111,67 @@ def llm_decide_intent(
     persona = agent_cfg.persona_compact
     valid_locs = ",".join(valid_locations)
 
+    home_loc = getattr(agent_cfg, "living_area", None)
+    dependents_desc = summarize_dependents(agent_cfg)
+
     prompt = f"""
     HIGH-LEVEL INTENT PLANNER CALL
     (Triggered because a NEW external event occurred.)
 
-    Time:{clock_time}
-    External:{external_events or "none"}
+    Time: {clock_time}
+    External event: {external_events or "none"}
 
-    Persona:{persona}
+    Persona (compact): {persona}
 
-    Plan:{plan_text}@{plan_loc}
-    Current:{current_location},at_plan:{is_at_plan}
+    Daily plan: {plan_text} @ {plan_loc}
+    Current location: {current_location}
+    At planned location: {is_at_plan}
 
-    Perception:{perception_desc}
-    Valid_locs:{valid_locs}
+    Home location: {home_loc}
+    Dependents: {dependents_desc}
 
-    Choose intent:
-    - ignore
-    - evacuate: pack, check_on_dependent, go to <target_location> (choose one from Valid_locs)
+    Perception: {perception_desc}
+    Valid locations: {valid_locs}
 
+    You must choose exactly one intent from:
+    - "ignore"
+    - "evacuate"
 
-    Rules:
-    - If intent=ignore: action="stay", next_action = continue current plan, target_location=null
-    - If intent=evacuate and pack: action="stay", next_action = pack_belongings, target_location=null
-    - If intent=evacuate and check_on_dependent: action="stay", next_action = help dependent, target_location=null
-    - If intent=evacuate and go to <target_location>: action="go to <target_location>", next_action = "go to <target_location>", target_location=<target_location>
+    Semantics and constraints:
+    - Dependents (children, pets) are physically located at the home location, unless explicitly stated otherwise.
+    - The agent can only "pack" or "check_on_dependent" when they are physically at the same location as the dependent (usually Home_*).
+    - If the agent is at work and the dependent is at home, then to help the dependent they must first travel from work to home.
+    - When intent="ignore", the agent continues their current plan and stays where they are.
+    - When intent="evacuate", the agent should choose a concrete evacuation goal in Valid locations
+      (for example: Home_A to rescue a pet, or an open safe place like Park).
 
-    Return ONLY JSON:
+    Output JSON fields:
+
+    - "intent": must be exactly "ignore" or "evacuate".
+    - "target_location":
+        - If intent="ignore": null.
+        - If intent="evacuate": one of the valid locations (e.g., "Home_A", "Park", "Workplace_A", etc.).
+          If the agent has a dependent at home and wants to rescue them, target_location should usually be the home location.
+    - "action":
+        - If intent="ignore": "stay".
+        - If intent="evacuate": MUST be "go to <target_location>".
+    - "next_action":
+        - Brief natural-language description of what they will do next (e.g., "continue working",
+          "go home to rescue my pet", "go to the park to stay safe").
+        - It does NOT affect the planner, it is just an explanation.
+    - "command":
+        - Either "stay" or "go to <target_location>".
+        - This will be sent to the motion planner, so keep it simple.
+
+    Return ONLY valid JSON, no extra text. Example of a valid evacuate response from work to rescue a cat at Home_A:
+
     {{
-    "intent":"...",
-    "action":"...",
-    "next_action":"...",
-    "target_location":"... or null",
-    "command":"...",
-    "reason":"1-3 sentences"
+      "intent": "evacuate",
+      "action": "go to Home_A",
+      "next_action": "go home to rescue my cat and then follow further instructions",
+      "target_location": "Home_A",
+      "command": "go to Home_A",
+      "reason": "Explain briefly why this decision makes sense given the persona, plan, dependents, and the event."
     }}
     """
 
