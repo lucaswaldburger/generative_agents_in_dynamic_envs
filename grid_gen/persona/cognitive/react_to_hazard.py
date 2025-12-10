@@ -49,6 +49,7 @@ def react_to_local_fire_smoke(
         clock_time=clock_time,
         valid_locations=valid_locations,
         current_location=current_location,
+        t=t,
     )
 
     print(

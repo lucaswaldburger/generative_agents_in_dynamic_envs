@@ -1,9 +1,9 @@
 sim:
-  steps: 100
+  steps: 30
   seed: 0
   render_mode: "human" 
   start_time: "08:00"          # clock time at t = 0
-  seconds_per_step: 60         # 1 step = 1 minute 
+  seconds_per_step: 40         # 1 step = 1 minute 
 
 personas:
   file: "configs/personas/persona_spec.yaml"

@@ -4,6 +4,7 @@ from typing import Any
 from openai import OpenAI
 from omegaconf import DictConfig
 import json
+from dataclasses import dataclass, field
 
 _client_cache = None
 
@@ -43,24 +44,70 @@ def test_chat_completion(cfg: DictConfig, user_text: str) -> str:
 
     return resp.choices[0].message.content.strip()
 
+
+@dataclass
+class LLMCallRecord:
+    t: int | None
+    agent_name: str | None
+    call_type: str  # "intent", "mid_local", "social", etc.
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
 class LLMConversation:
-    def __init__(self, cfg: DictConfig, system_prompt: str):
+    def __init__(self, cfg, system_prompt: str, track_tokens: bool = True):
+        self.cfg = cfg
+        self.system_prompt = system_prompt
+        self.track_tokens = track_tokens
+
+        self.total_prompt_tokens = 0
+        self.total_completion_tokens = 0
+        self.total_calls = 0
+        self.call_log: list[LLMCallRecord] = []
         self.client = get_openai_client(cfg.openai.openai_api_key)
         self.messages = [
             {"role": "system", "content": system_prompt}
         ]
 
-    def ask_llm(self, user_text: str, model: str = "gpt-4.1-mini") -> str:
+    def ask_llm(self, user_text: str, model: str = "gpt-4.1-mini", meta: dict | None = None) -> str:
+        """
+        meta can contain:
+        - "t": simulation step
+        - "agent_name"
+        - "call_type": "intent" | "mid" | "social" | ...
+        """
         self.messages.append({"role": "user", "content": user_text})
 
         resp = self.client.chat.completions.create(
             model=model,
             messages=self.messages,
-            max_tokens=1000,
+            max_tokens=200,
         )
         answer = resp.choices[0].message.content.strip()
 
         self.messages.append({"role": "assistant", "content": answer})
+        usage = getattr(resp, "usage", None)
+        if self.track_tokens and usage is not None:
+            pt = usage.prompt_tokens
+            ct = usage.completion_tokens
+            tt = usage.total_tokens
+
+            self.total_prompt_tokens += pt
+            self.total_completion_tokens += ct
+            self.total_calls += 1
+
+            m = meta or {}
+            self.call_log.append(
+                LLMCallRecord(
+                    t=m.get("t"),
+                    agent_name=m.get("agent_name"),
+                    call_type=m.get("call_type", "unknown"),
+                    prompt_tokens=pt,
+                    completion_tokens=ct,
+                    total_tokens=tt,
+                )
+            )
         return answer
 
 def _strip_code_fence(text: str):
@@ -103,6 +150,7 @@ def llm_decide_intent(
     clock_time,
     valid_locations,
     current_location: str | None,
+    t: int = 0,
 ):
     plan_text = plan_item["activity"] if plan_item else "no scheduled activity"
     plan_loc  = plan_item["location"] if plan_item else None
@@ -175,7 +223,14 @@ def llm_decide_intent(
     }}
     """
 
-    raw = conv.ask_llm(prompt)
+    raw = conv.ask_llm(
+        prompt,
+        meta={
+            "t": t,
+            "agent_name": agent_cfg.name,
+            "call_type": "intent",
+        },
+    )
     cleaned = _strip_code_fence(raw)
     return json.loads(cleaned)
 
@@ -187,6 +242,7 @@ def llm_decide_local_direction(
     high_level_goal: str,
     valid_dirs: list[str],
     route_priors: dict | None = None,
+    t: int = 0,
     ):
     # Build a short natural-language summary of priors (if available)
     priors_text = ""
@@ -223,7 +279,15 @@ def llm_decide_local_direction(
     Reply JSON:
     {{"direction": "<ONE_OF_VALID>", "reason": "..."}}
     """
-    return json.loads(conv.ask_llm(prompt))
+    
+    return json.loads(conv.ask_llm(
+        prompt,
+        meta={
+            "t": t,
+            "agent_name": agent_cfg.name,
+            "call_type": "mid",
+        },
+    ))
 
 
 import json
@@ -236,6 +300,7 @@ def llm_decide_social(
     hazards: list[str],
     current_command: str,
     clock_time: str,
+    t: int,
     ):
     """
     SOCIAL-LEVEL decision: should ego agent talk to a nearby friend or keep following their goal?
@@ -283,7 +348,14 @@ def llm_decide_social(
     }}
     """
 
-    raw = conv.ask_llm(prompt)
+    raw = conv.ask_llm(
+        prompt,
+        meta={
+            "t": t,
+            "agent_name": ego_cfg.name,
+            "call_type": "social",
+        },
+    )
     try:
         cleaned = _strip_code_fence(raw)
         return json.loads(cleaned)

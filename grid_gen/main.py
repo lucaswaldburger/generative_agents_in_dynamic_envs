@@ -7,6 +7,7 @@ import json
 
 from omegaconf import DictConfig
 from hydra.utils import to_absolute_path
+from collections import defaultdict
 
 from pathlib import Path
 from typing import Dict, Any
@@ -187,6 +188,7 @@ def run(cfg: DictConfig):
                     clock_time=clock_time,
                     valid_locations=valid_locations,
                     current_location=plan_item["location"] if plan_item else None,
+                    t=t,
                 )
 
                 print(f"[LLM HIGH-LEVEL GOAL] t={t} ({clock_time}) {agent.config.name} intent {decision['intent']}, action {decision['action']}")
@@ -292,6 +294,7 @@ def run(cfg: DictConfig):
                     high_level_goal=cmd,
                     valid_dirs=valid_dirs,
                     route_priors=priors_for_agent,
+                    t=t,
                 )
 
                 local_logger.debug(
@@ -402,7 +405,7 @@ def run(cfg: DictConfig):
         action = np.array(actions_this_step, dtype=np.int64)
         obs, _, terminated, truncated, info = env.step(action)
 
-        print(f"\nStep {t + 1}, action={action}")
+        print(f"\nStep {t + 1}")
 
 
         # 5) Perception, social behavior, logging
@@ -440,6 +443,7 @@ def run(cfg: DictConfig):
                     hazards=hazards,
                     current_command=current_cmd,
                     clock_time=clock_time,
+                    t=t,
                 )
 
                 talk = bool(social_dec.get("talk", False))
@@ -548,6 +552,20 @@ def run(cfg: DictConfig):
     for f in agent_logs.values():
         f.close()
     env.close()
+    step_tokens = defaultdict(int)
+    for rec in conv.call_log:
+        if rec.t is not None:
+            step_tokens[rec.t] += rec.total_tokens
+
+    print("\n=== TOKEN USAGE PER STEP ===")
+    for t in sorted(step_tokens.keys()):
+        print(f"t={t}: {step_tokens[t]} tokens")
+
+    print("\n=== TOTAL TOKEN USAGE ===")
+    print(f"Total prompt tokens: {conv.total_prompt_tokens}")
+    print(f"Total completion tokens: {conv.total_completion_tokens}")
+    print(f"Total tokens: {conv.total_prompt_tokens + conv.total_completion_tokens}")
+    print(f"Total LLM calls: {conv.total_calls}")
    
 
 if __name__ == "__main__":
