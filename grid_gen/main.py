@@ -32,6 +32,7 @@ from utils.logs import  create_agent_logs, log_agent_step, setup_debug_loggers, 
 from utils.external_events import get_external_events_for_t
 
 from utils.persona_utils import encode_persona
+from utils.parse_route_choice_priors import get_agent_route_priors
 
 
 
@@ -55,7 +56,8 @@ def run(cfg: DictConfig):
     route_choice_priors = None
     try:
         with open(priors_path, "r") as f:
-            route_choice_priors = json.load(f)
+            priors_json = json.load(f)
+            route_choice_priors = priors_json.get("route_choice_priors", {})
     except Exception as e:
         print(f"[WARN] Could not load priors JSON at {priors_path}: {e}")
 
@@ -208,6 +210,7 @@ def run(cfg: DictConfig):
                 # build valid dirs list for LLM
                 valid_moves = valid_move_actions(env, agent_id)
                 valid_dirs = action_names(valid_moves)
+                priors_for_agent = get_agent_route_priors(env.agents[agent_id].config, route_choice_priors)
 
                 desc = describe_perception(env, agent_id, include_decision_info=True)
                 print("\n[LLM MID-LEVEL GOAL]")
@@ -218,6 +221,7 @@ def run(cfg: DictConfig):
                     perception_desc=desc,
                     high_level_goal=cmd,
                     valid_dirs=valid_dirs,
+                    route_priors=priors_for_agent,
                 )
 
                 local_logger.debug(

@@ -127,11 +127,44 @@ def llm_decide_intent(
     return json.loads(cleaned)
 
 
-def llm_decide_local_direction(conv, agent_cfg, perception_desc, high_level_goal, valid_dirs):
+def llm_decide_local_direction(
+    conv,
+    agent_cfg,
+    perception_desc: str,
+    high_level_goal: str,
+    valid_dirs: list[str],
+    route_priors: dict | None = None,
+    ):
+    # Build a short natural-language summary of priors (if available)
+    priors_text = ""
+    if route_priors is not None:
+        lines = [f"Route-choice priors for this agent (age group {route_priors['age_bucket']}, {route_priors['gender_key']}):"]
+
+        if route_priors.get("width_pref") is not None:
+            lines.append(
+                f"- Tends to choose the WIDER corridor with probability about {route_priors['width_pref']:.2f} when widths differ."
+            )
+        if route_priors.get("transition_pref") is not None:
+            lines.append(
+                f"- Tends to choose the corridor that contains a TRANSITION CUE (e.g., stairs/entrance) with probability about {route_priors['transition_pref']:.2f}."
+            )
+        cw = route_priors.get("conflict_follow_width")
+        ct = route_priors.get("conflict_follow_transition")
+        if cw is not None and ct is not None:
+            lines.append(
+                f"- When width and transition cues CONFLICT: follows WIDTH about {cw:.2f} vs TRANSITION CUE about {ct:.2f}."
+            )
+
+        lines.append(
+            "Use these as soft biases when the available directions differ in corridor width or transition cues. "
+            "If they do not differ in those ways, ignore these priors."
+        )
+        priors_text = "\n" + "\n".join(lines) + "\n"
+
     prompt = f"""You are controlling {agent_cfg.name}.
     High-level goal: {high_level_goal}.
     Perception: {perception_desc}
-    Valid directions: {valid_dirs}
+    Valid directions: {valid_dirs}{priors_text}
 
     Choose exactly ONE direction from Valid directions.
     Reply JSON:
