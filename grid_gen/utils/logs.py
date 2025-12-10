@@ -54,11 +54,11 @@ def create_agent_logs(run_dir, env):
 
     return logs
 
-def log_agent_step(log_file, agent_id, step, substep, agent, action, desc, spatial_info=None):
+def log_agent_step(log_file, agent_id, step, agent, action, desc, spatial_info=None):
     """
     Log one step for an agent, including optional spatial memory info.
     """
-    log_file.write(f"Step {step}, Sub-step {substep}\n")
+    log_file.write(f"Step {step}\n")
     log_file.write(f" Agent id: {agent_id}\n")
     log_file.write(f" Position: ({agent.x}, {agent.y})\n")
     log_file.write(f" Action: {action}\n")

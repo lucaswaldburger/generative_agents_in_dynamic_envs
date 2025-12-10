@@ -13,6 +13,7 @@ from typing import Dict, Any
 import yaml
 
 from env.load_map import load_map
+from persona.cognitive.react_to_hazard import react_to_local_fire_smoke
 from persona.load_personas import load_agent_configs
 from env.grid import MultiHumanGridEnv
 from env.constants import Action, DIR_TO_VEC 
@@ -139,11 +140,13 @@ def run(cfg: DictConfig):
     last_external_events = None
     agent_commands = {aid: "stay" for aid in range(env.num_agents)}
     active_goal_cmd = {aid: None for aid in range(env.num_agents)} 
+    planned_paths = {aid: [] for aid in range(env.num_agents)}
 
     for a in env.agents:
         a.known_hazard_cells = set()
         a.traffic_memory = {} 
         a.social_ignored_friends = set() 
+        a.local_fire_smoke_seen = False 
 
     for t in range(cfg.sim.steps):
         clock_time = sim_time_str(cfg, t)
@@ -188,24 +191,57 @@ def run(cfg: DictConfig):
                 cmd = normalize_command_for_planner(decision, agent.config, env)
                 agent_commands[agent_id] = cmd
                 active_goal_cmd[agent_id] = None if cmd == "stay" else cmd
+                planned_paths[agent_id] = []
 
-                # If LLM intent is stay or command includes stay → force stay
-                if decision["intent"] == "stay" or "stay" in cmd:
-                    agent_commands[agent_id] = "stay"
-                else:
-                    agent_commands[agent_id] = cmd
+                # # If LLM intent is stay or command includes stay → force stay
+                # if decision["intent"] == "stay" or "stay" in cmd:
+                #     agent_commands[agent_id] = "stay"
+                # else:
+                #     agent_commands[agent_id] = cmd
+
+        # 2) LOCAL FIRE/SMOKE perception 
+        for agent_id, agent in enumerate(env.agents):
+            hazards = get_local_hazards(env, agent_id)
+            fire_smoke_hazards = [
+                h for h in hazards
+                if ("fire" in h.lower()) or ("smoke" in h.lower())
+            ]
+
+            if fire_smoke_hazards and not getattr(agent, "local_fire_smoke_seen", False):
+                new_cmd = react_to_local_fire_smoke(
+                    t=t,
+                    clock_time=clock_time,
+                    agent_id=agent_id,
+                    agent=agent,
+                    fire_smoke_hazards=fire_smoke_hazards,
+                    env=env,
+                    conv=conv,
+                    valid_locations=valid_locations,
+                    intent_logger=intent_logger,
+                    agent_commands=agent_commands,
+                )
+                planned_paths[agent_id] = []  # force replanning with new command
+                print(
+                    f"[LOCAL FIRE/SMOKE REPLAN] t={t} agent={agent.config.name} "
+                    f"updates command to '{new_cmd}'"
+                )
 
 
-
-        full_paths = []
+        # full_paths = []
         for agent_id in range(env.num_agents):
             cmd = agent_commands.get(agent_id, "stay")
 
+            # If staying, no path
             if cmd.strip().lower() == "stay":
-                full_paths.append([])  # no movement for this agent
+                planned_paths[agent_id] = []
+                continue
+
+            # If we already have a path, keep following it
+            if planned_paths[agent_id]:
                 continue
 
             # this is so that we can give the LLM the valid directions at intersections
+            # Need a new path from current tile for this command
             if is_intersection(env, agent_id):
                 # build valid dirs list for LLM
                 valid_moves = valid_move_actions(env, agent_id)
@@ -236,166 +272,158 @@ def run(cfg: DictConfig):
                 print(f'[LLM MID-LEVEL GOAL REPLY] agent={env.agents[agent_id].config.name} chooses ={local_reply["direction"]} because {local_reply["reason"]}')
 
                 try:
-                    local_decision = local_reply
                     if local_reply == "stay":
-                        full_paths.append([])  # no movement
+                        planned_paths[agent_id] = []
                         continue
-                    chosen = local_decision["direction"]
-                    chosen_action = Action[chosen] 
+
+                    chosen = local_reply["direction"]
+                    chosen_action = Action[chosen]
 
                     # force first move by stepping to neighbor as new start
                     sx, sy = get_agent_tile(env, agent_id)
                     dx, dy = DIR_TO_VEC[chosen_action]
                     forced_start = (sx + dx, sy + dy)
 
-                    # if forced cell not traversable, ignore and fall back to normal A*
                     if env._can_move_to(*forced_start):
                         start, goal = high_level_planner(env, agent_id, cmd)
-                        # plan from forced_start to goal, and prepend chosen_action
                         tail = astar(env, forced_start, goal)
                         full_path = [chosen_action] + tail
-                        full_paths.append(full_path)
-                        continue
+                    else:
+                        # fall back to normal A*
+                        start, goal = high_level_planner(env, agent_id, cmd)
+                        full_path = astar(env, start, goal)
                 except Exception as e:
                     print("[WARN] local decision parse error:", e)
+                    start, goal = high_level_planner(env, agent_id, cmd)
+                    full_path = astar(env, start, goal)
 
-            start, goal = high_level_planner(env, agent_id=agent_id, command=cmd)
-            print(f"[LOW LEVEL PLANNER] t={t} Agent {agent_id} command='{cmd}' -> start={start}, goal={goal}")
-            planner_logger.debug(
-                f"t={t} agent={agent_id} command='{cmd}' "
-                f"start={start} goal={goal}"
-            )
+            else:
+                # Not at intersection, A* from current tile
+                start, goal = high_level_planner(env, agent_id=agent_id, command=cmd)
+                print(
+                    f"[LOW LEVEL PLANNER] t={t} Agent {agent_id} command='{cmd}' "
+                    f"-> start={start}, goal={goal}"
+                )
+                planner_logger.debug(
+                    f"t={t} agent={agent_id} command='{cmd}' "
+                    f"start={start} goal={goal}"
+                )
+                full_path = astar(env, start, goal)
 
 
-            full_path = astar(env, start, goal)
-
-            # ---------------------------------------------------------------
-            # hazard avoidance
-            # ---------------------------------------------------------------
-
+            # ---------------- Hazard avoidance on the new path, unsure if redundant -------------
             known_hazards = getattr(env.agents[agent_id], "known_hazard_cells", set())
             if full_path is not None and known_hazards:
-                # if the planned path includes any known hazard cell, cancel it
                 if any(cell in known_hazards for cell in full_path):
-                    
-                    full_path = None  # invalidate the path
-
+                    full_path = None
                     planner_logger.debug(
                         f"t={t} agent={agent_id} command='{cmd}' "
                         f"path_intersects_hazards={known_hazards}; cancelling_path"
                     )
+
+            if full_path is None:
+                print(
+                    f"[WARN] No path for agent {agent_id} to '{cmd}'. "
+                    f"Will stay and try again next step."
+                )
+                planner_logger.warning(
+                    f"t={t} agent={agent_id} command='{cmd}' no_path_found"
+                )
+                planned_paths[agent_id] = []
+                continue
+
+            planned_paths[agent_id] = full_path
             # ---------------------------------------------------------------
 
 
-            if full_path is None:
-                print(f"[WARN] No path for agent {agent_id} to '{cmd}'. Forcing replanning.")
-                planner_logger.warning(
-                    f"t={t} agent={agent_id} command='{cmd}' no_path_found; forcing_replan"
-                )
-                agent_commands[agent_id] = "stay"
-                last_external_events = None # force replan next time
-                full_paths.append([])
-                continue
-
-            full_paths.append(full_path)
-
         # Slice each agent path by their FOV
-        paths = []
-        for agent_id, agent in enumerate(env.agents):
-            fov = agent.config.fov.range_cells
-            paths.append(full_paths[agent_id][:fov])
-
-        # If everyone staying, skip movement
-        if all(len(p) == 0 for p in paths):
+        # If everyone staying and no paths → skip env.step
+        if all(len(planned_paths[aid]) == 0 for aid in range(env.num_agents)):
             print(f"t={t} all agents staying. Waiting for next stimulus.")
             continue
 
+        # 4) EXECUTE ONE ACTION PER AGENT (single env.step)
+        actions_this_step = []
+        for agent_id in range(env.num_agents):
+            if planned_paths[agent_id]:
+                a = planned_paths[agent_id].pop(0)
+            else:
+                a = Action.STAY
+            actions_this_step.append(a)
 
-        ## This is A* planner
-        max_substeps = max(len(p) for p in paths)
-        for step in range(max_substeps):
+        action = np.array(actions_this_step, dtype=np.int64)
+        obs, _, terminated, truncated, info = env.step(action)
 
-            actions_this_step = []
-            for agent_id in range(env.num_agents):
-                a = paths[agent_id][step] if step < len(paths[agent_id]) else Action.STAY
-                actions_this_step.append(a)
-
-
-            action = np.array(actions_this_step, dtype=np.int64)
-            obs, _, terminated, truncated, info = env.step(action)
-
-            print(f"\nStep {t + 1}, Sub-step {step + 1}, action={action}")
-
-            for agent_id in range(env.num_agents):
-                desc = describe_perception(env, agent_id, include_decision_info=False)
-                agent = env.agents[agent_id]
+        print(f"\nStep {t + 1}, action={action}")
 
 
-                hazards = get_local_hazards(env, agent_id)
+        # 5) Perception, social behavior, logging
+        for agent_id in range(env.num_agents):
+            desc = describe_perception(env, agent_id, include_decision_info=False)
+            agent = env.agents[agent_id]
 
-                if not hasattr(agent, "social_ignored_friends"): # this is so that i doesnt constantly trigger the social part
-                    agent.social_ignored_friends = set()
-                # which agents are within FOV radius
-                nearby_ids = agents_in_fov(env, agent_id)
+            # (a) social interactions
+            hazards = get_local_hazards(env, agent_id)
 
-                # filter to friends that we haven't already decided to ignore
-                friend_candidates = []
-                for other_id in nearby_ids:
-                    other = env.agents[other_id]
-                    if other_id in agent.social_ignored_friends:
-                        continue
-                    if is_friend(agent.config, other.config):
-                        friend_candidates.append(other_id)
+            if not hasattr(agent, "social_ignored_friends"):
+                agent.social_ignored_friends = set()
 
-                # if there is at least one friend in FOV, consider the first one
-                if friend_candidates:
-                    other_id = friend_candidates[0]
-                    other = env.agents[other_id]
+            nearby_ids = agents_in_fov(env, agent_id)
 
-                    current_cmd = agent_commands.get(agent_id, "stay")
+            friend_candidates = []
+            for other_id in nearby_ids:
+                other = env.agents[other_id]
+                if other_id in agent.social_ignored_friends:
+                    continue
+                if is_friend(agent.config, other.config):
+                    friend_candidates.append(other_id)
 
-                    social_dec = llm_decide_social(
-                        conv=conv,
-                        ego_cfg=agent.config,
-                        friend_cfg=other.config,
-                        perception_desc=desc,
-                        hazards=hazards,
-                        current_command=current_cmd,
-                        clock_time=clock_time,
-                    )
+            if friend_candidates:
+                other_id = friend_candidates[0]
+                other = env.agents[other_id]
 
-                    talk = bool(social_dec.get("talk", False))
-                    new_command = social_dec.get("new_command")
+                current_cmd = agent_commands.get(agent_id, "stay")
 
+                social_dec = llm_decide_social(
+                    conv=conv,
+                    ego_cfg=agent.config,
+                    friend_cfg=other.config,
+                    perception_desc=desc,
+                    hazards=hazards,
+                    current_command=current_cmd,
+                    clock_time=clock_time,
+                )
 
-                    if not talk:
-                        # remember we chose NOT to talk to this friend,
-                        # so we don't keep re-triggering for this pair
-                        agent.social_ignored_friends.add(other_id)
-                        # keep current_cmd
+                talk = bool(social_dec.get("talk", False))
+                new_command = social_dec.get("new_command")
+
+                if not talk:
+                    agent.social_ignored_friends.add(other_id)
+                else:
+                    if new_command and isinstance(new_command, str):
+                        agent_commands[agent_id] = new_command.strip()
+                        planned_paths[agent_id] = []  # replan next step
+                        print(
+                            f"[SOCIAL] t={t} agent={agent.config.name} "
+                            f"talks with {other.config.name}, "
+                            f"new_command='{agent_commands[agent_id]}' "
+                            f"reason={social_dec.get('reason')}"
+                        )
                     else:
-                        # We decided to talk to the friend
-                        # If LLM gives a new command, override the high-level one
-                        if new_command and isinstance(new_command, str):
-                            agent_commands[agent_id] = new_command.strip()
-                            print(
-                                f"[SOCIAL] t={t} agent={agent.config.name} "
-                                f"talks with {other.config.name}, new_command='{agent_commands[agent_id]}' "
-                                f"reason={social_dec.get('reason')}"
-                            )
-                        else:
-                            print(
-                                f"[SOCIAL] t={t} agent={agent.config.name} "
-                                f"talks with {other.config.name} but keeps command='{current_cmd}' "
-                                f"reason={social_dec.get('reason')}"
-                            )
-                            add_social_memory(
-                                agent,
-                                info=f"Talked with {other.config.name} about: {', '.join(hazards) or 'no hazards'}"
-                            )
-                            
-                        #  mark as ignored so we don't keep asking about same friend
-                        agent.social_ignored_friends.add(other_id)
+                        print(
+                            f"[SOCIAL] t={t} agent={agent.config.name} "
+                            f"talks with {other.config.name} but keeps command='{current_cmd}' "
+                            f"reason={social_dec.get('reason')}"
+                        )
+                        add_social_memory(
+                            agent,
+                            info=(
+                                f"Talked with {other.config.name} about: "
+                                f"{', '.join(hazards) or 'no hazards'}"
+                            ),
+                        )
+
+                    agent.social_ignored_friends.add(other_id)
 
                 # hazards = get_local_hazards(env, agent_id)
                 # if hazards:
@@ -435,40 +463,39 @@ def run(cfg: DictConfig):
                 #         desc = desc + " " + " ".join(dialogue_lines)
                 #------------------------------------------------------------------
 
-                sm = agent.config.spatial_memory
-                spatial_info = None
+            sm = agent.config.spatial_memory
+            spatial_info = None
 
-                if sm:
-                    x, y = int(agent.x), int(agent.y)
-                    sm_info = sm.elements_at_position(env, x, y)
-                    contents = sm_info["contents"]
+            if sm:
+                x, y = int(agent.x), int(agent.y)
+                sm_info = sm.elements_at_position(env, x, y)
+                contents = sm_info["contents"]
 
-                    if contents:
-                        rooms_here = list(contents.keys())
-                        spatial_info = (
-                            f"cell='{sm_info['cell_name']}', "
-                            f"lookup_key='{sm_info.get('lookup_key')}', "
-                            f"rooms={rooms_here}"
-                        )
-                    else:
-                        spatial_info = f"cell='{sm_info['cell_name']}'"
+                if contents:
+                    rooms_here = list(contents.keys())
+                    spatial_info = (
+                        f"cell='{sm_info['cell_name']}', "
+                        f"lookup_key='{sm_info.get('lookup_key')}', "
+                        f"rooms={rooms_here}"
+                    )
+                else:
+                    spatial_info = f"cell='{sm_info['cell_name']}'"
 
-                log_agent_step(
-                    log_file=agent_logs[agent_id],
-                    agent_id=agent_id,
-                    step=t + 1,
-                    substep=step + 1,
-                    agent=agent,
-                    action=int(action[agent_id]),
-                    desc=desc,
-                    spatial_info=spatial_info,
-                )
+            log_agent_step(
+                log_file=agent_logs[agent_id],
+                agent_id=agent_id,
+                step=t + 1,
+                agent=agent,
+                action=int(action[agent_id]),
+                desc=desc,
+                spatial_info=spatial_info,
+            )
 
-            env.render()
-            time.sleep(0.5)
+        env.render()
+        time.sleep(0.5)
 
-            if terminated or truncated:
-                break
+        if terminated or truncated:
+            break
             
     for f in agent_logs.values():
         f.close()
