@@ -112,7 +112,32 @@ def find_object_from_command(env, place_token: str) -> Coord:
                     if env._can_move_to(xx, yy):
                         return (xx, yy)
 
-            return (x0 + w // 2, y0 + h // 2)
+            # If no traversable cell found in region, search for nearest traversable cell
+            # Start from center and expand outward
+            center_x = x0 + w // 2
+            center_y = y0 + h // 2
+            
+            # Try center first
+            if env._can_move_to(center_x, center_y):
+                return (center_x, center_y)
+            
+            # Expand outward in a spiral pattern
+            max_radius = max(w, h) + 5  # Search a bit beyond the region
+            for radius in range(1, max_radius + 1):
+                for dx in range(-radius, radius + 1):
+                    for dy in range(-radius, radius + 1):
+                        # Only check cells on the perimeter of current radius
+                        if abs(dx) == radius or abs(dy) == radius:
+                            nx, ny = center_x + dx, center_y + dy
+                            if env._can_move_to(nx, ny):
+                                return (nx, ny)
+            
+            # If still no traversable cell found, raise an error with details
+            raise RuntimeError(
+                f"[Planner] No traversable cell found for region '{name}' "
+                f"at ({x0}, {y0}) size ({w}, {h}). "
+                f"Region may be blocked or inaccessible."
+            )
         
 
     raise KeyError(f"[Planner] No object matched place token: '{place_token}'")
@@ -201,14 +226,40 @@ def astar(env, start: Coord, goal: Coord) -> List[Action]:
     if start == goal:
         return []
 
+    # Validate start and goal are traversable
+    original_start = start
+    if not env._can_move_to(*start):
+        print(f"[Astar error] Start position {start} is not traversable")
+        # Try to find nearest traversable cell to start
+        new_start = _find_nearest_traversable(env, start)
+        if new_start is None:
+            print(f"[Astar error] Could not find traversable cell near start {original_start}")
+            return []
+        start = new_start
+        print(f"[Astar] Using alternative start {start} instead of original {original_start}")
+    
+    original_goal = goal
+    if not env._can_move_to(*goal):
+        print(f"[Astar warning] Goal position {goal} is not traversable, searching for nearest traversable cell")
+        # Try to find nearest traversable cell to goal
+        new_goal = _find_nearest_traversable(env, goal)
+        if new_goal is None:
+            print(f"[Astar error] Could not find traversable cell near goal {goal}")
+            return []
+        goal = new_goal
+        print(f"[Astar] Using alternative goal {goal} instead of original {original_goal}")
+
     pq = []
     heapq.heappush(pq, (manhattan(start, goal), 0, start))
 
     came_from = {}   # node -> (prev_node, action)
     g_score = {start: 0}
     closed = set()
+    max_iterations = env.map_spec.width * env.map_spec.height * 2  # Prevent infinite loops
+    iterations = 0
 
-    while pq:
+    while pq and iterations < max_iterations:
+        iterations += 1
         f, g, node = heapq.heappop(pq)
 
         if node in closed:
@@ -226,8 +277,50 @@ def astar(env, start: Coord, goal: Coord) -> List[Action]:
                 f_nb = new_g + manhattan(nb, goal)
                 heapq.heappush(pq, (f_nb, new_g, nb))
 
-    print(f"[Astar bug] No path from {start} to {goal}")
+    # If we exhausted the search space, try to find nearest reachable cell to goal
+    if not pq or iterations >= max_iterations:
+        print(f"[Astar warning] No direct path from {start} to {goal}, searching for nearest reachable cell to goal")
+        # Find the closest node we reached to the goal
+        if closed:
+            closest_node = min(closed, key=lambda n: manhattan(n, goal))
+            closest_dist = manhattan(closest_node, goal)
+            if closest_dist <= 3:  # If we got close, use that path
+                print(f"[Astar] Using path to nearest reachable cell {closest_node} (distance {closest_dist} from goal)")
+                return reconstruct_actions(came_from, closest_node)
+    
+    print(f"[Astar error] No path from {start} to {goal} (searched {iterations} iterations, explored {len(closed)} nodes)")
     return []
+
+
+def _find_nearest_traversable(env, pos: Coord, max_radius: int = 10) -> Coord | None:
+    """
+    Find the nearest traversable cell to the given position.
+    Returns None if no traversable cell is found within max_radius.
+    """
+    x, y = pos
+    
+    # Check the position itself first
+    if env._can_move_to(x, y):
+        return (x, y)
+    
+    # Search in expanding radius
+    for radius in range(1, max_radius + 1):
+        # Check all cells at this radius
+        candidates = []
+        for dx in range(-radius, radius + 1):
+            for dy in range(-radius, radius + 1):
+                if abs(dx) == radius or abs(dy) == radius:  # Only perimeter
+                    nx, ny = x + dx, y + dy
+                    if env._can_move_to(nx, ny):
+                        dist = manhattan((x, y), (nx, ny))
+                        candidates.append(((nx, ny), dist))
+        
+        if candidates:
+            # Return the closest one
+            candidates.sort(key=lambda c: c[1])
+            return candidates[0][0]
+    
+    return None
 
 
 

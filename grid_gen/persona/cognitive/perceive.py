@@ -118,11 +118,20 @@ def blocks_vision(env, x: int, y: int, agent_id: int) -> bool:
 def get_agent_pose(env, agent_id: int) -> Tuple[int, int, int, int, int]:
     """
     Returns (x, y, heading_deg, fov_range, fov_angle_deg) for the given agent.
+    Uses dynamic FOV range that accounts for proximity to fire and smoke.
     """
     agent = env.agents[agent_id]
     x, y = int(agent.x), int(agent.y)
     heading_deg = int(agent.heading_deg)
-    fov_range = int(agent.config.fov.range_cells)
+    base_fov_range = int(agent.config.fov.range_cells)
+    
+    # Use dynamic FOV range that considers fire and smoke proximity
+    if hasattr(env, '_get_dynamic_fov_range'):
+        fov_range = env._get_dynamic_fov_range(x, y, base_fov_range)
+    else:
+        # Fallback to base range if method doesn't exist
+        fov_range = base_fov_range
+    
     fov_angle_deg = int(agent.config.fov.angle_deg)
     return x, y, heading_deg, fov_range, fov_angle_deg
 
@@ -326,6 +335,11 @@ def get_local_hazards(env, agent_id, radius: int = 3):
     reported_smoke = set()
     reported_traffic = set()
 
+    # Initialize known_hazard_cells if it doesn't exist
+    agent = env.agents[agent_id]
+    if not hasattr(agent, "known_hazard_cells"):
+        agent.known_hazard_cells = set()
+
     for dx in range(-radius, radius + 1):
         for dy in range(-radius, radius + 1):
             x, y = ax + dx, ay + dy
@@ -340,6 +354,9 @@ def get_local_hazards(env, agent_id, radius: int = 3):
                     continue
                 reported_fire.add(key)
 
+                # Add fire location to known_hazard_cells
+                agent.known_hazard_cells.add((x, y))
+
                 if place:
                     hazards.append(f"{place} is on fire at ({x},{y}).")
                 else:
@@ -351,6 +368,9 @@ def get_local_hazards(env, agent_id, radius: int = 3):
                 if key in reported_smoke:
                     continue
                 reported_smoke.add(key)
+
+                # Add smoke location to known_hazard_cells
+                agent.known_hazard_cells.add((x, y))
 
                 if place:
                     hazards.append(f"I see smoke near {place} at ({x},{y}).")
@@ -481,12 +501,18 @@ def get_local_traffic_cells(env, agent_id: int, radius: int = 3):
 def agents_in_fov(env, agent_id: int):
     """
     Return list of other agent_ids that are within this agent's FOV radius
-    (very rough: Manhattan distance <= fov.range_cells).
+    (very rough: Manhattan distance <= dynamic FOV range).
     """
     me = env.agents[agent_id]
     fx = me.x
     fy = me.y
-    r = me.config.fov.range_cells
+    base_r = me.config.fov.range_cells
+    
+    # Use dynamic FOV range that accounts for fire and smoke proximity
+    if hasattr(env, '_get_dynamic_fov_range'):
+        r = env._get_dynamic_fov_range(fx, fy, base_r)
+    else:
+        r = base_r
 
     nearby = []
     for other_id, other in enumerate(env.agents):
