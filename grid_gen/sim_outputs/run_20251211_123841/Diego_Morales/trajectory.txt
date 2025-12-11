@@ -1,0 +1,73 @@
+Log for Diego Morales
+========================================
+
+Step 11
+ Agent id: 3
+ Position: (21, 12)
+ Action: 4
+ Observation: I am at the street. I see B7. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 12
+ Agent id: 3
+ Position: (21, 13)
+ Action: 3
+ Observation: I am at the street. I see B11, B12. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 13
+ Agent id: 3
+ Position: (21, 14)
+ Action: 3
+ Observation: I am at the street. I see B11, B12. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 14
+ Agent id: 3
+ Position: (20, 14)
+ Action: 4
+ Observation: I am at the street. I see B11, B7, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 15
+ Agent id: 3
+ Position: (19, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B11, B7, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 16
+ Agent id: 3
+ Position: (18, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B11, B7, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 17
+ Agent id: 3
+ Position: (17, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B11, B7, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 18
+ Agent id: 3
+ Position: (16, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 19
+ Agent id: 3
+ Position: (15, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 20
+ Agent id: 3
+ Position: (14, 14)
+ Action: 4
+ Observation: I am at the street. I see B10, B5, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
