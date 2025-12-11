@@ -90,6 +90,7 @@ class MultiHumanGridEnv(gym.Env):
         self.fire_locations : set[Tuple[int,int]] = set()
         self.smoke_locations : set[Tuple[int,int]] = set()
         self.fire_spread_rate = fire_spread_rate
+        self.fire_start_time: int | None = None  # Track when fire first appears
 
     def reset(
         self, *, seed: int | None = None, options: Dict[str, Any] | None = None
@@ -101,6 +102,7 @@ class MultiHumanGridEnv(gym.Env):
         self.fire_locations.clear()
         if 0 <= self.fire_start_loc[0] < self.map_spec.width and 0 <= self.fire_start_loc[1] < self.map_spec.height:
              self.fire_locations.add(self.fire_start_loc)
+             self.fire_start_time = 0  # Fire starts at step 0
         self.traffic_locations.clear()
         self.smoke_locations.clear()
         self._spawn_new_traffic()
@@ -230,7 +232,9 @@ class MultiHumanGridEnv(gym.Env):
 
         for agent in self.agents:
             fov_cfg = agent.config.fov
-            rng = int(fov_cfg.range_cells)
+            base_rng = int(fov_cfg.range_cells)
+            # Use dynamic FOV range that accounts for fire and smoke proximity
+            rng = self._get_dynamic_fov_range(agent.x, agent.y, base_rng)
             angle_deg = float(fov_cfg.angle_deg)
 
             # Heading convention: 0° = right, 90° = down (screen coordinates)
@@ -389,6 +393,10 @@ class MultiHumanGridEnv(gym.Env):
             return False
         if (x, y) in self.traffic_locations:
             return False
+        if (x, y) in self.fire_locations:
+            return False
+        if (x, y) in self.smoke_locations:
+            return False
         code = int(self.map_spec.access_grid[y, x])
         return self._can_enter.get(code, False)
 
@@ -430,10 +438,15 @@ class MultiHumanGridEnv(gym.Env):
         
         for agent in self.agents:
             fov_cfg = agent.config.fov
-            rng = int(fov_cfg.range_cells)
+            # MODIFIED: Use the dynamic range calculated here
+            base_rng = int(fov_cfg.range_cells)
+            rng = self._get_dynamic_fov_range(agent.x, agent.y, base_rng) 
+            
             angle_deg = float(fov_cfg.angle_deg)
             
             # Heading calculation for FOV cone
+            # ... (rest of the FOV cone logic remains the same, using the new 'rng' variable)
+            
             heading_rad = math.radians(agent.heading_deg)
             hx, hy = math.cos(heading_rad), math.sin(heading_rad)
             ax, ay = agent.x, agent.y
@@ -449,7 +462,7 @@ class MultiHumanGridEnv(gym.Env):
                     dy = gy - ay
                     dist = math.hypot(dx, dy)
                     
-                    # Check range
+                    # Check range (uses the dynamic 'rng')
                     if dist <= 0 or dist > rng:
                         continue
                         
@@ -460,8 +473,7 @@ class MultiHumanGridEnv(gym.Env):
                     cell_angle = math.degrees(math.acos(dot))
 
                     if cell_angle <= angle_deg / 2.0:
-                        visible_mask[gy, gx] = 1 # Mark cell as visible to at least one agent
-
+                        visible_mask[gy, gx] = 1 # Mark cell as visible to at least one agen
 
         # 4. Apply Mask to Global Grids
         
@@ -479,7 +491,7 @@ class MultiHumanGridEnv(gym.Env):
         }
 
     def _update_fire(self):
-        """Logic for fire to spread and for smoke generation, restricted to movable tiles."""
+        """Logic for fire to spread and for smoke generation. Fire can spread to all tiles."""
         new_fire_locations = self.fire_locations.copy()
         new_smoke_locations = set()
         
@@ -501,13 +513,13 @@ class MultiHumanGridEnv(gym.Env):
                 if not (0 <= nx < W and 0 <= ny < H):
                     continue
 
-                # Check if the potential cell is valid for agent movement (ignoring current fire status)
+                # Check if the potential cell is valid for agent movement (for smoke generation)
                 # We use the helper _can_move_to_dynamic_check, which checks static rules and traffic.
                 is_movable_tile = self._can_move_to_dynamic_check(nx, ny)
                 
                 # --- 1. Fire Spreading Logic ---
-                # Fire can only spread to a movable tile that is not already on fire.
-                if is_movable_tile and pos not in self.fire_locations:
+                # Fire can spread to any tile (including buildings/blocks) that is not already on fire.
+                if pos not in self.fire_locations:
                     if self.np_random.random() < self.fire_spread_rate:
                         new_fire_locations.add(pos)
                 
@@ -584,10 +596,20 @@ class MultiHumanGridEnv(gym.Env):
         for x in range(W):
             for y in range(H):
                 pos = (x, y)
-                if self._is_street(x, y) and pos not in self.fire_locations and pos not in self.traffic_locations:
-                    # Also check no agent is currently occupying it
-                    if not any(a.x == x and a.y == y for a in self.agents):
-                        potential_locs.append(pos)
+                
+                # Check 1: Static map rules (is it a street, not home/park, etc.)
+                if not self._is_street(x, y):
+                    continue
+                
+                # Check 2: Dynamic state rules (not fire, not existing traffic, not agent occupied)
+                if pos in self.fire_locations or pos in self.traffic_locations:
+                    continue
+                if any(a.x == x and a.y == y for a in self.agents):
+                    continue
+
+                # NEW CHECK: Must be at least 5 tiles away from the nearest fire
+                if self._is_safe_distance_from_fire(x, y, min_safe_dist=5):
+                    potential_locs.append(pos)
         
         if potential_locs:
             # Randomly select a spot using numpy's random state for determinism
@@ -596,12 +618,119 @@ class MultiHumanGridEnv(gym.Env):
             
             # Add to state (no timer needed)
             self.traffic_locations.add((tx, ty))
-            
-            # NOTE: Removed the line self.traffic_timers[(tx, ty)] = self.traffic_duration_steps
 
     def _is_street(self, x: int, y: int) -> bool:
-        """Helper to check if a tile is one where movement is usually allowed."""
+        """Helper to check if a tile is one where movement is usually allowed and is valid for traffic spawn."""
         if not (0 <= x < self.map_spec.width and 0 <= y < self.map_spec.height):
              return False
+             
         code = int(self.map_spec.access_grid[y, x])
-        return self._can_enter.get(code, False) and (x,y) not in self.fire_locations # Assuming fire uses a specific code
+        can_enter = self._can_enter.get(code, False)
+        
+        # New Logic: Check if the tile is part of a restricted region for traffic spawn
+        # We assume map_spec.region_grid holds the type of region for the tile.
+        # This requires accessing the map_spec.regions data structure. 
+        # Since the provided code doesn't show a 'region_grid', we'll rely on the access code 
+        # and ensure the can_enter check is sufficient, but we must infer the logic.
+        
+        # Standard check: must be a tile agents can enter (street, work, park, home)
+        if not can_enter:
+            return False
+            
+        # Search the map regions to exclude 'home' and 'park'
+        # This is a potentially slow check, but necessary without a pre-computed region_type grid.
+        
+        is_home_or_park_or_work = False
+        for r in self.map_spec.regions:
+            x_start, y_start = r['x'], r['y']
+            x_end, y_end = x_start + r['w'], y_start + r['h']
+            
+            # Check if the coordinate (x, y) is inside this region
+            if x_start <= x < x_end and y_start <= y < y_end:
+                if r['type'] in ('home', 'park', 'work'):
+                    is_home_or_park_or_work = True
+                    break
+        
+        if is_home_or_park_or_work:
+            return False
+            
+        # Final check against dynamic fire obstacles
+        return (x, y) not in self.fire_locations
+    
+    def _get_dynamic_fov_range(self, agent_x: int, agent_y: int, base_range: int) -> int:
+        """
+        Calculates the effective FOV range based on the agent's proximity to the nearest fire and smoke.
+        Returns a reduced range if the agent is too close (modeling smoke/stress).
+        Smoke has a more gradual impact on visibility than fire.
+        """
+        # Calculate minimum distance to fire
+        fire_dist = float('inf')
+        if self.fire_locations:
+            for fx, fy in self.fire_locations:
+                # Using Manhattan distance for simplicity in a grid environment
+                dist = abs(agent_x - fx) + abs(agent_y - fy)
+                fire_dist = min(fire_dist, dist)
+        
+        # Calculate minimum distance to smoke
+        smoke_dist = float('inf')
+        smoke_locs = getattr(self, "smoke_locations", set())
+        if smoke_locs:
+            for sx, sy in smoke_locs:
+                dist = abs(agent_x - sx) + abs(agent_y - sy)
+                smoke_dist = min(smoke_dist, dist)
+
+        # Dynamic FOV reduction logic:
+        # Fire has immediate severe impact, smoke has more gradual impact
+        # Calculate reduction from both and use the most restrictive (minimum FOV)
+        
+        fire_reduced_range = base_range
+        smoke_reduced_range = base_range
+        
+        # Fire proximity: severe reduction
+        if fire_dist <= 1:
+            fire_reduced_range = 1  # Can only see own tile and maybe immediate neighbors
+        elif fire_dist <= 2:
+            fire_reduced_range = 2  # Reduced visibility
+        elif fire_dist <= 4:
+            # Moderate reduction for nearby fire
+            fire_reduced_range = max(3, base_range // 2)
+        
+        # Smoke proximity: more gradual reduction
+        if smoke_dist <= 1:
+            # Very close smoke: significant reduction
+            smoke_reduced_range = max(2, base_range // 2)
+        elif smoke_dist <= 2:
+            # Close smoke: moderate reduction
+            smoke_reduced_range = max(3, int(base_range * 0.7))
+        elif smoke_dist <= 3:
+            # Nearby smoke: slight reduction
+            smoke_reduced_range = max(4, int(base_range * 0.85))
+        elif smoke_dist <= 4:
+            # Distant smoke: minimal reduction
+            smoke_reduced_range = max(5, int(base_range * 0.9))
+        
+        # Use the most restrictive (minimum) FOV from fire or smoke
+        return min(fire_reduced_range, smoke_reduced_range, base_range)
+        
+    def _get_min_fire_distance(self, x: int, y: int) -> float:
+        """Calculates the Manhattan distance from (x, y) to the nearest fire location."""
+        if not self.fire_locations:
+            return float('inf')
+        
+        min_dist = float('inf')
+        for fx, fy in self.fire_locations:
+            # Using Manhattan distance (L1 norm)
+            dist = abs(x - fx) + abs(y - fy)
+            min_dist = min(min_dist, dist)
+            
+        return min_dist
+
+    def _is_safe_distance_from_fire(self, x: int, y: int, min_safe_dist: int = 5) -> bool:
+        """Checks if the location is at least 'min_safe_dist' away from the nearest fire."""
+        # If there's no fire, it's safe
+        if not self.fire_locations:
+            return True
+        
+        distance = self._get_min_fire_distance(x, y)
+        
+        return distance >= min_safe_dist

@@ -151,6 +151,7 @@ def llm_decide_intent(
     valid_locations,
     current_location: str | None,
     t: int = 0,
+    urgency_assessment: str | None = None,
 ):
     plan_text = plan_item["activity"] if plan_item else "no scheduled activity"
     plan_loc  = plan_item["location"] if plan_item else None
@@ -161,6 +162,11 @@ def llm_decide_intent(
 
     home_loc = getattr(agent_cfg, "living_area", None)
     dependents_desc = summarize_dependents(agent_cfg)
+
+    # Build urgency section separately to avoid f-string backslash issue
+    urgency_section = ""
+    if urgency_assessment:
+        urgency_section = f"\nURGENCY ASSESSMENT:\n{urgency_assessment}\n"
 
     prompt = f"""
     HIGH-LEVEL INTENT PLANNER CALL
@@ -180,6 +186,7 @@ def llm_decide_intent(
 
     Perception: {perception_desc}
     Valid locations: {valid_locs}
+    {urgency_section}
 
     You must choose exactly one intent from:
     - "ignore"
@@ -192,6 +199,13 @@ def llm_decide_intent(
     - When intent="ignore", the agent continues their current plan and stays where they are.
     - When intent="evacuate", the agent should choose a concrete evacuation goal in Valid locations
       (for example: Home_A to rescue a pet, or an open safe place like Park).
+    - IMPORTANT: Consider the urgency assessment carefully. 
+      - If urgency is CRITICAL or HIGH: You MUST choose "evacuate" - staying is not safe.
+      - If urgency is MEDIUM: You should strongly consider "evacuate" unless there are compelling reasons to stay (e.g., 
+        immediate danger to dependents at current location that requires staying briefly).
+      - If urgency is LOW: You may choose "ignore" if the fire is distant and not spreading toward you.
+      - Safety assessments indicating "in_danger" or "critical_danger" require evacuation.
+      - Always prioritize safety over routine activities when urgency is medium or higher.
 
     Output JSON fields:
 
@@ -210,18 +224,25 @@ def llm_decide_intent(
     - "command":
         - Either "stay" or "go to <target_location>".
         - This will be sent to the motion planner, so keep it simple.
+    - "reason": REQUIRED - A clear explanation of why this decision was made.
+        - If intent="ignore" (staying): MUST explain why the agent chooses to stay despite the situation.
+          Include: (1) assessment of the urgency/safety level, (2) why staying is appropriate given the urgency,
+          (3) how the agent's persona traits influence this decision, (4) what they will do while staying.
+          Example: "The urgency is low and fire is distant. Isabella tends to underestimate risks and is skeptical
+          of authority warnings, so she will continue working while monitoring the situation."
+        - If intent="evacuate": Explain why evacuation is necessary and why the chosen target location was selected.
 
     Return ONLY valid JSON, no extra text. Example of a valid evacuate response from work to rescue a cat at Home_A:
 
-    {{
-      "intent": "evacuate",
-      "action": "go to Home_A",
-      "next_action": "go home to rescue my cat and then follow further instructions",
-      "target_location": "Home_A",
-      "command": "go to Home_A",
-      "reason": "Explain briefly why this decision makes sense given the persona, plan, dependents, and the event."
-    }}
-    """
+    # {{
+    #   "intent": "evacuate",
+    #   "action": "go to Home_A",
+    #   "next_action": "go home to rescue my cat and then follow further instructions",
+    #   "target_location": "Home_A",
+    #   "command": "go to Home_A",
+    #   "reason": "Explain briefly why this decision makes sense given the persona, plan, dependents, and the event."
+    # }}
+    # """
 
     raw = conv.ask_llm(
         prompt,

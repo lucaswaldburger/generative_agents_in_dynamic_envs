@@ -1,6 +1,7 @@
 from persona.prompt.gpt_structure import llm_decide_intent
 from persona.cognitive.plan import normalize_command_for_planner, get_plan_for_time
 from persona.cognitive.perceive import describe_perception
+from persona.cognitive.reflect import assess_urgency
 from utils.logs import setup_debug_loggers
 
 def react_to_local_fire_smoke(
@@ -15,6 +16,7 @@ def react_to_local_fire_smoke(
     valid_locations,
     intent_logger,
     agent_commands,
+    urgency_assessment: str | None = None,
 ):
     """
     Called when THIS agent newly perceives fire/smoke.
@@ -50,6 +52,7 @@ def react_to_local_fire_smoke(
         valid_locations=valid_locations,
         current_location=current_location,
         t=t,
+        urgency_assessment=urgency_assessment,
     )
 
     print(
@@ -57,6 +60,23 @@ def react_to_local_fire_smoke(
         f"{agent.config.name} sees fire/smoke, intent={decision.get('intent')}, "
         f"action={decision.get('action')}"
     )
+    
+    # Explicitly print reasoning when agent chooses to stay despite seeing fire/smoke
+    if decision.get('intent') == 'ignore' or decision.get('action') == 'stay':
+        reason = decision.get('reason', 'No reason provided')
+        # Get urgency assessment for context
+        urgency_assessment = assess_urgency(
+            env=env,
+            agent_id=agent_id,
+            agent=agent,
+            t=t,
+            fire_start_time=getattr(env, "fire_start_time", None),
+        )
+        print(f"[STAY DECISION - FIRE/SMOKE] t={t} ({clock_time}) {agent.config.name} chooses to STAY despite seeing fire/smoke")
+        print(f"  Reason: {reason}")
+        print(f"  Urgency: {urgency_assessment.urgency_level.upper()} (score: {urgency_assessment.urgency_score:.2f})")
+        print(f"  Safety: {urgency_assessment.safety_assessment}")
+        print(f"  Hazards seen: {fire_smoke_hazards}")
 
     intent_logger.debug(
         f"t={t} ({clock_time}) [LOCAL_FIRE_SMOKE] agent={agent.config.name} "

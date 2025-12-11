@@ -15,6 +15,7 @@ import yaml
 
 from env.load_map import load_map
 from persona.cognitive.react_to_hazard import react_to_local_fire_smoke
+from persona.cognitive.reflect import assess_urgency, format_urgency_for_llm
 from persona.load_personas import load_agent_configs
 from env.grid import MultiHumanGridEnv
 from env.constants import Action, DIR_TO_VEC 
@@ -155,6 +156,8 @@ def run(cfg: DictConfig):
         a.traffic_memory = {}
         a.social_ignored_friends = set()
         a.local_fire_smoke_seen = False
+        a.last_urgency_level = "low"
+        a.current_urgency_assessment = None
 
         # Optional: attach for debugging
         a.control_state = control_states[aid]
@@ -170,6 +173,20 @@ def run(cfg: DictConfig):
         external_events = get_external_events_for_t(t)
         stimulus_triggered = (external_events is not None and external_events != last_external_events)
 
+        # Assess urgency for all agents at every time step
+        for agent_id, agent in enumerate(env.agents):
+            urgency_assessment = assess_urgency(
+                env=env,
+                agent_id=agent_id,
+                agent=agent,
+                t=t,
+                fire_start_time=getattr(env, "fire_start_time", None),
+            )
+            print(f"[URGENCY] t={t} {agent.config.name}: {urgency_assessment.urgency_level.upper()} urgency (score: {urgency_assessment.urgency_score:.2f})")
+            
+            # Store urgency assessment for later use
+            agent.current_urgency_assessment = urgency_assessment
+
         if stimulus_triggered:
             last_external_events = external_events
 
@@ -179,6 +196,17 @@ def run(cfg: DictConfig):
                 if plan_item:
                     print(f"[PLAN] t={t} ({clock_time}) {agent.config.name} plan is", plan_item["activity"], "in", plan_item["location"])
                 desc = describe_perception(env, agent_id)
+                
+                # Assess urgency and reflect on situation (for LLM decision)
+                urgency_assessment = assess_urgency(
+                    env=env,
+                    agent_id=agent_id,
+                    agent=agent,
+                    t=t,
+                    fire_start_time=getattr(env, "fire_start_time", None),
+                )
+                urgency_text = format_urgency_for_llm(urgency_assessment)
+                
                 decision = llm_decide_intent(
                     conv=conv,
                     agent_cfg=agent.config,
@@ -189,9 +217,18 @@ def run(cfg: DictConfig):
                     valid_locations=valid_locations,
                     current_location=plan_item["location"] if plan_item else None,
                     t=t,
+                    urgency_assessment=urgency_text,
                 )
 
                 print(f"[LLM HIGH-LEVEL GOAL] t={t} ({clock_time}) {agent.config.name} intent {decision['intent']}, action {decision['action']}")
+                
+                # Explicitly print reasoning when agent chooses to stay
+                if decision.get('intent') == 'ignore' or decision.get('action') == 'stay':
+                    reason = decision.get('reason', 'No reason provided')
+                    print(f"[STAY DECISION] t={t} ({clock_time}) {agent.config.name} chooses to STAY")
+                    print(f"  Reason: {reason}")
+                    print(f"  Urgency: {urgency_assessment.urgency_level.upper()} (score: {urgency_assessment.urgency_score:.2f})")
+                    print(f"  Safety: {urgency_assessment.safety_assessment}")
 
                 intent_logger.debug(
                     f"t={t} ({clock_time}) agent={agent.config.name} "
@@ -230,7 +267,48 @@ def run(cfg: DictConfig):
             ]
             cs = control_states[agent_id]
 
+            # Get current urgency assessment (already computed above)
+            urgency_assessment = getattr(agent, "current_urgency_assessment", None)
+            if urgency_assessment is None:
+                urgency_assessment = assess_urgency(
+                    env=env,
+                    agent_id=agent_id,
+                    agent=agent,
+                    t=t,
+                    fire_start_time=getattr(env, "fire_start_time", None),
+                )
+
+            # Check if we need to react to fire/smoke
+            should_react = False
+            react_reason = ""
+            
             if fire_smoke_hazards and not getattr(agent, "local_fire_smoke_seen", False):
+                # First time seeing fire/smoke - always react
+                should_react = True
+                react_reason = "first_time_seeing_fire"
+            elif fire_smoke_hazards and getattr(agent, "local_fire_smoke_seen", False):
+                # Already seen fire/smoke, but check if urgency has increased
+                current_cmd = agent_commands.get(agent_id, "stay")
+                urgency_level = urgency_assessment.urgency_level.lower()
+                
+                # Re-evaluate if urgency is medium or high and agent is currently staying
+                if urgency_level in ["medium", "high", "critical"]:
+                    if current_cmd.strip().lower() == "stay":
+                        should_react = True
+                        react_reason = f"urgency_{urgency_level}_while_staying"
+                    else:
+                        # Agent is already moving, but check if urgency increased significantly
+                        last_urgency = getattr(agent, "last_urgency_level", "low")
+                        if urgency_level in ["high", "critical"] and last_urgency not in ["high", "critical"]:
+                            should_react = True
+                            react_reason = f"urgency_escalated_to_{urgency_level}"
+
+            # Always update last_urgency_level to track changes
+            agent.last_urgency_level = urgency_assessment.urgency_level.lower()
+            
+            if should_react:
+                urgency_text = format_urgency_for_llm(urgency_assessment)
+                
                 new_cmd = react_to_local_fire_smoke(
                     t=t,
                     clock_time=clock_time,
@@ -242,6 +320,7 @@ def run(cfg: DictConfig):
                     valid_locations=valid_locations,
                     intent_logger=intent_logger,
                     agent_commands=agent_commands,
+                    urgency_assessment=urgency_text,
                 )
                 cs.set_new_high_command(intent="evacuate_local_fire", cmd=new_cmd)
                 agent_commands[agent_id] = new_cmd
@@ -249,7 +328,7 @@ def run(cfg: DictConfig):
                 agent.local_fire_smoke_seen = True
                 print(
                     f"[LOCAL FIRE/SMOKE REPLAN] t={t} agent={agent.config.name} "
-                    f"updates command to '{new_cmd}'"
+                    f"updates command to '{new_cmd}' (reason: {react_reason})"
                 )
 
 
