@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import time
 import json
+import csv
 
 from omegaconf import DictConfig
 from hydra.utils import to_absolute_path
@@ -39,6 +40,8 @@ from utils.external_events import get_external_events_for_t
 from utils.persona_utils import encode_persona
 from utils.parse_route_choice_priors import get_agent_route_priors
 
+import os
+
 
 
 
@@ -71,6 +74,7 @@ def run(cfg: DictConfig):
         agent_configs=agent_configs,
         max_steps=cfg.sim.steps,
         render_mode=cfg.sim.render_mode,
+        traffic_mode=True
     )
 
     print("[Env] Resetting...")
@@ -111,7 +115,7 @@ def run(cfg: DictConfig):
         "- Empirical route-choice priors (by age, gender, etc.)\n"
         "- Each agent's persona (innate traits, learned traits, lifestyle, dependents)\n"
         "- The current situation (time of day, hazards like smoke/fire, congestion, alerts)\n\n"
-        "In emergencies, safety and survival are more important than routine preferences or habits. "
+        "In emergencies, safety and survival are more important than rouxtine preferences or habits. "
         "When in doubt, favor routes that avoid known hazards and reflect the agent's risk attitude and responsibilities "
         "(e.g., protecting dependents).\n"
         "All outputs must follow the requested JSON schema exactly when prompted (no extra text).\n"
@@ -138,7 +142,8 @@ def run(cfg: DictConfig):
     agent_logs = create_agent_logs(run_dir, env)
     intent_logger, local_logger, planner_logger = setup_debug_loggers(run_dir)
 
-    
+    # Initialize list to store urgency data for all agents at each time step
+    urgency_data = []
 
     # initializing variables for simulation loop
     last_external_events = None
@@ -186,6 +191,22 @@ def run(cfg: DictConfig):
             
             # Store urgency assessment for later use
             agent.current_urgency_assessment = urgency_assessment
+            
+            # Store urgency data for output file
+            urgency_data.append({
+                'time_step': t,
+                'clock_time': clock_time,
+                'agent_id': agent_id,
+                'agent_name': agent.config.name,
+                'urgency_level': urgency_assessment.urgency_level,
+                'urgency_score': urgency_assessment.urgency_score,
+                'safety_assessment': urgency_assessment.safety_assessment,
+                'fire_proximity': urgency_assessment.fire_proximity if urgency_assessment.fire_proximity != float('inf') else None,
+                'smoke_proximity': urgency_assessment.smoke_proximity if urgency_assessment.smoke_proximity != float('inf') else None,
+                'visibility_impact': urgency_assessment.visibility_impact,
+                'time_since_awareness': urgency_assessment.time_since_awareness,
+                'primary_factors': ', '.join(urgency_assessment.primary_factors) if urgency_assessment.primary_factors else None,
+            })
 
         if stimulus_triggered:
             last_external_events = external_events
@@ -631,15 +652,45 @@ def run(cfg: DictConfig):
     for f in agent_logs.values():
         f.close()
     env.close()
+    
+    # Write urgency data to CSV file
+    urgency_file_path = os.path.join(run_dir, "agent_urgency.csv")
+    if urgency_data:
+        with open(urgency_file_path, 'w', newline='') as csvfile:
+            fieldnames = ['time_step', 'clock_time', 'agent_id', 'agent_name', 'urgency_level', 
+                         'urgency_score', 'safety_assessment', 'fire_proximity', 'smoke_proximity',
+                         'visibility_impact', 'time_since_awareness', 'primary_factors']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(urgency_data)
+        print(f"\n[Output] Urgency data written to {urgency_file_path}")
+    else:
+        print("\n[WARN] No urgency data collected")
+    
     step_tokens = defaultdict(int)
     for rec in conv.call_log:
         if rec.t is not None:
             step_tokens[rec.t] += rec.total_tokens
 
+    # Write token usage to file
+    token_usage_file_path = os.path.join(run_dir, "token_usage.txt")
+    with open(token_usage_file_path, 'w') as f:
+        f.write("=== TOKEN USAGE PER STEP ===\n")
+        for t in sorted(step_tokens.keys()):
+            line = f"t={t}: {step_tokens[t]} tokens\n"
+            f.write(line)
+
+        f.write("\n=== TOTAL TOKEN USAGE ===\n")
+        f.write(f"Total prompt tokens: {conv.total_prompt_tokens}\n")
+        f.write(f"Total completion tokens: {conv.total_completion_tokens}\n")
+        f.write(f"Total tokens: {conv.total_prompt_tokens + conv.total_completion_tokens}\n")
+        f.write(f"Total LLM calls: {conv.total_calls}\n")
+    
     print("\n=== TOKEN USAGE PER STEP ===")
     for t in sorted(step_tokens.keys()):
         print(f"t={t}: {step_tokens[t]} tokens")
-
+    
+    print(f"\n[Output] Token usage written to {token_usage_file_path}")
     print("\n=== TOTAL TOKEN USAGE ===")
     print(f"Total prompt tokens: {conv.total_prompt_tokens}")
     print(f"Total completion tokens: {conv.total_completion_tokens}")

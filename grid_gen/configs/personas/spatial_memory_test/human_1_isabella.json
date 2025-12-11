@@ -1,0 +1,51 @@
+{
+  "urbanWorld": {
+    "Home_A": {
+      "main room": [
+        "sofa",
+        "coffee table",
+        "bookshelf",
+        "small dining table",
+        "coat rack",
+        "cat bed"
+      ],
+      "kitchen": [
+        "kitchen counter",
+        "stove",
+        "refrigerator",
+        "kitchen sink",
+        "cupboard",
+        "cat food bowl",
+        "cat water bowl"
+      ],
+      "bedroom": [
+        "bed",
+        "nightstand",
+        "dresser",
+        "closet",
+        "bedside lamp",
+        "laundry basket"
+      ],
+      "bathroom": [
+        "toilet",
+        "shower",
+        "bathroom sink",
+        "bathroom mirror",
+        "towel rack"
+      ],
+      "balcony or entry": [
+        "apartment door",
+        "shoe rack",
+        "umbrella stand"
+      ]
+    },
+
+    "Fire": {
+      "fire zone": [
+        "burning buildings",
+        "dense smoke plume",
+        "glowing horizon"
+      ]
+    }
+  }
+}

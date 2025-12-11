@@ -1,0 +1,17 @@
+Log for Isabello Rodriguez
+========================================
+
+Step 11
+ Agent id: 0
+ Position: (19, 9)
+ Action: 2
+ Observation: I am at the street. I see Home_B.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 12
+ Agent id: 0
+ Position: (19, 8)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions. I see smoke near walkable at (16,9).
+ Spatial memory: cell='walkable'
+------------------------------

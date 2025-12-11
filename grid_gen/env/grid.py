@@ -21,6 +21,7 @@ class MultiHumanGridEnv(gym.Env):
         max_steps: int = DEFAULT_MAX_STEPS,
         render_mode: str | None = "human",
         fire_spread_rate: float = 0.05,
+        traffic_mode: int = True,
         traffic_disappear_mode: bool = True,
         traffic_disappear_rate: float = 0.02,
     ):
@@ -78,11 +79,13 @@ class MultiHumanGridEnv(gym.Env):
         self.clock: pygame.time.Clock | None = None
         self.cell_size: int = 40  # pixels per grid cell, this can change how big the window is
     
+        self.traffic_mode = traffic_mode
+        if traffic_mode:
+            self.max_traffic_locations: int = 20
+        else:
+            self.max_traffic_locations: int = 0
         self.traffic_locations : set[Tuple[int,int]] = set()
-        self.max_traffic_locations: int = 20
-        self.traffic_disappear_mode = traffic_disappear_mode
-        self.traffic_disappear_rate = traffic_disappear_rate 
-
+        self.traffic_disappear_rate = traffic_disappear_rate
         for r in map_spec.regions:
             if r['type'] == 'fire':
                 fire_start_loc = (r['x'],r['y'])
@@ -105,7 +108,8 @@ class MultiHumanGridEnv(gym.Env):
              self.fire_start_time = 0  # Fire starts at step 0
         self.traffic_locations.clear()
         self.smoke_locations.clear()
-        self._spawn_new_traffic()
+        if self.traffic_mode:
+            self._spawn_new_traffic()
         obs = self._get_obs()
         info: Dict[str, Any] = {}
         return obs, info
@@ -134,7 +138,8 @@ class MultiHumanGridEnv(gym.Env):
                     agent.heading_deg = ACTION_TO_HEADING[act]
 
         self._update_fire()
-        self._update_traffic()
+        if self.traffic_mode:
+            self._update_traffic()
 
         reward = 0.0
         for agent in self.agents:

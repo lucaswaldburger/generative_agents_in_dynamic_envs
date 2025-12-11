@@ -1,0 +1,90 @@
+{
+  "width": 23,
+  "height": 19,
+
+  "palette": {
+    "block": [110, 130, 140],          
+    "park": [0, 220, 0],               
+    "home": [230, 0, 230],             
+    "fire": [255, 165, 0, 120],        
+    "human": [255, 255, 255],          
+    "fov": [120, 180, 255, 90],
+    "work": [0, 0, 255],
+    "traffic": [255, 0, 0, 255]
+  },
+
+  "access_codes": {
+    "blocked": 0,          
+    "walkable": 1,         
+    "park_walkable": 2,    
+    "home_walkable": 3,    
+    "hazard_fire": 4,
+    "work_walkable": 5,
+    "hazard_smoke": 6
+  },
+
+  "grid_theme": {
+    "draw_blocks": true,
+    "draw_streets": true
+  },
+
+  "groups": [
+    { "id": "row_top",    "name": "North Blocks" },
+    { "id": "row_mid",    "name": "Central Blocks" },
+    { "id": "row_bot",    "name": "South Blocks" },
+    { "id": "col_west",   "name": "West Column" },
+    { "id": "col_cw",     "name": "Central-West Column" },
+    { "id": "col_ce",     "name": "Central-East Column" },
+    { "id": "col_east",   "name": "East Column" }
+  ],
+
+  "regions": [
+    { "name": "Fire", "group_ids": [], "type": "fire", "access_code": 4, "render": "fire",
+      "shape": "rect", "x": 11, "y": 9, "w": 1, "h": 1
+    },
+    { 
+      "name": "Home_A",
+      "group_ids": ["row_bot","col_west"],
+      "type": "home",
+      "access_code": 3,
+      "render": "home",
+      "shape": "rect",
+      "x": 0,
+      "y": 8,
+      "w": 2,
+      "h": 3,
+      "residents": ["human_1"]
+    },
+    { 
+      "name": "Home_B",
+      "group_ids": ["row_bot","col_west"],
+      "type": "home",
+      "access_code": 3,
+      "render": "home",
+      "shape": "rect",
+      "x": 21,
+      "y": 8,
+      "w": 2,
+      "h": 3,
+      "residents": ["human_2"]
+    }
+  ],
+
+  "background_access": 1,   
+  "block_fill": true,      
+
+  "rendering": {
+    "draw_fov": true,            
+    "draw_region_borders": true,
+    "label_blocks": true,
+    "label_regions": true
+  },
+
+  "semantics": {
+    "can_enter": {
+      "0": false, "1": true, "2": true, "3": true, "4": false
+    },
+    "blocks_vision": { "0": true, "1": false, "2": false, "3": true, "4": true, "5": true },
+    "is_hazard": { "4": true }
+  }
+}

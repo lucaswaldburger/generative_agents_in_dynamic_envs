@@ -1,0 +1,59 @@
+Log for Klaus Mueller
+========================================
+
+Step 11
+ Agent id: 1
+ Position: (5, 8)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 12
+ Agent id: 1
+ Position: (4, 8)
+ Action: 4
+ Observation: I am at the street. I see Home_A.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 13
+ Agent id: 1
+ Position: (3, 8)
+ Action: 4
+ Observation: I am at the street. I see Home_A.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 14
+ Agent id: 1
+ Position: (2, 8)
+ Action: 4
+ Observation: I am at the street. I see Home_A.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 15
+ Agent id: 1
+ Position: (1, 8)
+ Action: 4
+ Observation: I am at Home_A. I see Home_A.
+ Spatial memory: cell='Home_A'
+------------------------------
+Step 16
+ Agent id: 1
+ Position: (0, 8)
+ Action: 4
+ Observation: I am at Home_A. I don't see any labeled regions.
+ Spatial memory: cell='Home_A'
+------------------------------
+Step 17
+ Agent id: 1
+ Position: (0, 8)
+ Action: 0
+ Observation: I am at Home_A. I don't see any labeled regions.
+ Spatial memory: cell='Home_A'
+------------------------------
+Step 18
+ Agent id: 1
+ Position: (0, 8)
+ Action: 0
+ Observation: I am at Home_A. I don't see any labeled regions.
+ Spatial memory: cell='Home_A'
+------------------------------

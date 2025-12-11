@@ -1,0 +1,73 @@
+Log for Klaus Mueller
+========================================
+
+Step 11
+ Agent id: 1
+ Position: (10, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 12
+ Agent id: 1
+ Position: (9, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 13
+ Agent id: 1
+ Position: (8, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 14
+ Agent id: 1
+ Position: (7, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 15
+ Agent id: 1
+ Position: (6, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 16
+ Agent id: 1
+ Position: (5, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 17
+ Agent id: 1
+ Position: (4, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 18
+ Agent id: 1
+ Position: (3, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 19
+ Agent id: 1
+ Position: (2, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 20
+ Agent id: 1
+ Position: (1, 0)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------

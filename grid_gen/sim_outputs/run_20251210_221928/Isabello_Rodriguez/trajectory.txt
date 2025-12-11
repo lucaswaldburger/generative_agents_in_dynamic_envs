@@ -1,0 +1,66 @@
+Log for Isabello Rodriguez
+========================================
+
+Step 11
+ Agent id: 0
+ Position: (18, 9)
+ Action: 2
+ Observation: I am at the street. I see Home_B.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 12
+ Agent id: 0
+ Position: (18, 8)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 13
+ Agent id: 0
+ Position: (19, 8)
+ Action: 2
+ Observation: I am at the street. I see Home_B.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 14
+ Agent id: 0
+ Position: (20, 8)
+ Action: 2
+ Observation: I am at the street. I see Home_B.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 15
+ Agent id: 0
+ Position: (21, 8)
+ Action: 2
+ Observation: I am at Home_B. I see Home_B.
+ Spatial memory: cell='Home_B'
+------------------------------
+Step 16
+ Agent id: 0
+ Position: (21, 8)
+ Action: 0
+ Observation: I am at Home_B. I see Home_B.
+ Spatial memory: cell='Home_B'
+------------------------------
+Step 17
+ Agent id: 0
+ Position: (21, 8)
+ Action: 0
+ Observation: I am at Home_B. I see Home_B.
+ Spatial memory: cell='Home_B'
+------------------------------
+Step 18
+ Agent id: 0
+ Position: (21, 8)
+ Action: 0
+ Observation: I am at Home_B. I see Home_B.
+ Spatial memory: cell='Home_B'
+------------------------------
+Step 19
+ Agent id: 0
+ Position: (21, 8)
+ Action: 0
+ Observation: I am at Home_B. I see Home_B.
+ Spatial memory: cell='Home_B'
+------------------------------

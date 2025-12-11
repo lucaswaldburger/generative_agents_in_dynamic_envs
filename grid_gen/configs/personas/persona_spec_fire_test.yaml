@@ -1,0 +1,89 @@
+human_1:
+  id: "human_1"
+  kind: "human"
+  gender: "male"
+  start: {x: 11, y: 18}
+  heading_deg: 270
+  fov: {range_cells: 7, angle_deg: 90, shade_color: "fov"}
+  color: "red"
+  att_bandwidth: 8
+  retention: 8
+  name: "Isabello Rodriguez"
+  first_name: "Isabello"
+  last_name: "Rodriguez"
+  spatial_memory_file: "spatial_memory_test/human_1_isabella.json"
+  age: 30
+  innate: "friendly, outgoing, hospitable"
+  risk_perception: "highly risk prone."
+  authority_trust: ""
+  threat_response: ""
+  learned: ""
+  lifestyle: ""
+  living_area: ""
+  living_area_detail: ""
+  daily_plan:
+    - time: "08:00"
+      activity: "walk to Home_A"
+      location: "Home_A"
+      activity: "go to Home_A"
+  likelihood_to_help_others: "Lower toward strangers."
+  chatting_likelihood: "only if needed"
+  concept_forget: 100
+  daily_reflection_time: 180
+  daily_reflection_size: 5
+  overlap_reflect_th: 4
+  kw_strg_event_reflect_th: 10
+  kw_strg_thought_reflect_th: 9
+  recency_w: 1
+  relevance_w: 1
+  importance_w: 1
+  recency_decay: 0.995
+  importance_trigger_max: 150
+  importance_trigger_curr: 142
+  importance_ele_n: 8
+  thought_count: 5
+
+human_2:
+  id: "human_2"
+  kind: "human"
+  gender: "male"
+  start: {x: 11, y: 0}
+  heading_deg: 90
+  color: "blue"
+  fov: {range_cells: 7, angle_deg: 90, shade_color: "fov"}
+  att_bandwidth: 8
+  retention: 8
+  name: "Klaus Mueller"
+  first_name: "Klaus"
+  last_name: "Mueller"
+  spatial_memory_file: "spatial_memory_test/human_2_klaus.json"
+  age: 30
+  innate: "friendly, serious, responsible"
+  risk_perception: "highly risk averse."
+  authority_trust: ""
+  threat_response: ""
+  learned: ""
+  lifestyle: ""
+  living_area: ""
+  living_area_detail: ""
+  daily_plan:
+    - time: "08:00"
+      activity: "walk to Home_B"
+      location: "Home_B"
+      activity: "go to Home_B"
+  likelihood_to_help_others: "High for his family, medium for others."
+  chatting_likelihood: "high"
+  concept_forget: 100
+  daily_reflection_time: 180
+  daily_reflection_size: 5
+  overlap_reflect_th: 4
+  kw_strg_event_reflect_th: 10
+  kw_strg_thought_reflect_th: 9
+  recency_w: 1
+  relevance_w: 1
+  importance_w: 1
+  recency_decay: 0.995
+  importance_trigger_max: 150
+  importance_trigger_curr: 142
+  importance_ele_n: 8
+  thought_count: 5

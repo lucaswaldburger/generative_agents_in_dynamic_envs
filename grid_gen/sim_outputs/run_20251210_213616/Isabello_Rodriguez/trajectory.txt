@@ -1,0 +1,122 @@
+Log for Isabello Rodriguez
+========================================
+
+Step 1
+ Agent id: 0
+ Position: (13, 9)
+ Action: 0
+ Observation: I am at the street. I don't see any labeled regions. I see smoke near walkable at (10,8). walkable is on fire at (10,10).
+ Spatial memory: cell='walkable'
+------------------------------
+Step 2
+ Agent id: 0
+ Position: (12, 9)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (9,8). walkable is on fire at (10,9).
+ Spatial memory: cell='walkable'
+------------------------------
+Step 3
+ Agent id: 0
+ Position: (12, 9)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (9,8). walkable is on fire at (10,9).
+ Spatial memory: cell='walkable'
+------------------------------
+Step 4
+ Agent id: 0
+ Position: (12, 8)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (9,8). walkable is on fire at (10,9).
+ Spatial memory: cell='walkable'
+------------------------------
+Step 5
+ Agent id: 0
+ Position: (12, 7)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (9,7). walkable is on fire at (9,10).
+ Spatial memory: cell='walkable'
+------------------------------
+Step 6
+ Agent id: 0
+ Position: (11, 7)
+ Action: 4
+ Observation: I am at the street. I see Fire. Fire is on fire at (9,9). I see smoke near walkable at (8,7). There is heavy traffic near walkable at (8,5). walkable is on fire at (8,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 7
+ Agent id: 0
+ Position: (10, 7)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (7,5). walkable is on fire at (7,10). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 8
+ Agent id: 0
+ Position: (10, 6)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (7,5). walkable is on fire at (7,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 9
+ Agent id: 0
+ Position: (10, 7)
+ Action: 3
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (7,5). walkable is on fire at (7,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 10
+ Agent id: 0
+ Position: (10, 6)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (7,5). walkable is on fire at (7,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 11
+ Agent id: 0
+ Position: (9, 6)
+ Action: 4
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (6,8). There is heavy traffic near walkable at (7,5). walkable is on fire at (6,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 12
+ Agent id: 0
+ Position: (10, 6)
+ Action: 2
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (7,5). walkable is on fire at (7,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 13
+ Agent id: 0
+ Position: (10, 7)
+ Action: 3
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (7,5). walkable is on fire at (7,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 14
+ Agent id: 0
+ Position: (10, 7)
+ Action: 2
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (7,5). walkable is on fire at (7,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 15
+ Agent id: 0
+ Position: (10, 7)
+ Action: 2
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (8,5). walkable is on fire at (7,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 16
+ Agent id: 0
+ Position: (10, 7)
+ Action: 2
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (8,5). walkable is on fire at (7,9).
+ Spatial memory: cell='walkable'
+------------------------------
+Step 17
+ Agent id: 0
+ Position: (10, 7)
+ Action: 2
+ Observation: I am at the street. I don't see any labeled regions. Fire is on fire at (9,9). I see smoke near walkable at (7,7). There is heavy traffic near walkable at (8,5). walkable is on fire at (7,8).
+ Spatial memory: cell='walkable'
+------------------------------
