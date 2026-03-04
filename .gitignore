@@ -7,3 +7,8 @@ grid_gen/persona/prompt/__pycache__/*
 grid_gen/persona/memory/__pycache__/*
 grid_gen/utils/__pycache__/*
 grid_gen/utils/__pycache__/*
+*pyc
+*mp4
+*.pyc
+*.mp4
+*.mp4

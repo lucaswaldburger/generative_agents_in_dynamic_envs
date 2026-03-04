@@ -1,4 +1,6 @@
-from persona.prompt.gpt_structure import llm_decide_intent
+from __future__ import annotations
+
+from agent.decisions import decide_intent
 from persona.cognitive.plan import normalize_command_for_planner, get_plan_for_time
 from persona.cognitive.perceive import describe_perception
 from persona.cognitive.reflect import assess_urgency
@@ -12,7 +14,7 @@ def react_to_local_fire_smoke(
     agent,
     fire_smoke_hazards,
     env,
-    conv,
+    sim_llm,
     valid_locations,
     intent_logger,
     agent_commands,
@@ -42,12 +44,12 @@ def react_to_local_fire_smoke(
     # Simple description (no valid_dirs); enough for high-level intent.
     intent_desc = describe_perception(env, agent_id, include_decision_info=False)
 
-    decision = llm_decide_intent(
-        conv=conv,
+    decision = decide_intent(
+        sim_llm=sim_llm,
         agent_cfg=agent.config,
         plan_item=plan_item,
         perception_desc=intent_desc,
-        external_events=local_external_events,   
+        external_events=local_external_events,
         clock_time=clock_time,
         valid_locations=valid_locations,
         current_location=current_location,

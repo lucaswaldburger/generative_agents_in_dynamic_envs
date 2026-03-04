@@ -1,0 +1,46 @@
+[2026-03-03 14:50:25,987][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:26,376][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:26,764][intent_mw][DEBUG] - t=0 agent=Isabella Rodriguez decision={'intent': 'ignore', 'action': 'stay', 'next_action': 'continue working while monitoring the situation for updates on the fire.', 'target_location': None, 'command': 'stay', 'reason': 'The urgency is low, and fire is distant. Isabella tends to underestimate risks and is skeptical of authority warnings, so she will continue working while monitoring the situation.'} perception=I am in Hallway_Main (position x=1.0, z=5.0, facing North). Nearby fire: fire at (4.2,9.0), 5.2m away. Rooms with fire: Office_D. Exit is 7.1m away, to the ahead. Klaus Mueller is 2.0m away. Nearby rooms: Office_B (3m, right), Lobby (5m, ahead), Office_D (5m, behind), Office_A (5m, left). events=humans receive an alert text: there is a fire, but no need to evacuate yet
+[2026-03-03 14:50:27,077][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:27,455][intent_mw][DEBUG] - t=0 agent=Klaus Mueller decision={'intent': 'evacuate', 'action': 'go to Home_B', 'next_action': 'ensure my family is safe before we leave the building', 'target_location': None, 'command': 'go to Home_B', 'reason': 'As a responsible person, I must evacuate the fire to ensure my wife, child, and mother-in-law are safe. With no immediate danger, staying at work might not be wise.'} perception=I am in Hallway_Main (position x=-1.0, z=5.0, facing North). Nearby fire: fire at (4.2,9.0), 6.6m away. Rooms with fire: Office_D. Exit is 7.1m away, to the ahead. Isabella Rodriguez is 2.0m away. Nearby rooms: Office_A (3m, left), Lobby (5m, ahead), Office_C (5m, left), Office_B (5m, right). events=humans receive an alert text: there is a fire, but no need to evacuate yet
+[2026-03-03 14:50:27,918][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:28,289][planner_mw][DEBUG] - t=0 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=1
+[2026-03-03 14:50:28,289][planner_mw][DEBUG] - t=0 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=1
+[2026-03-03 14:50:28,492][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:28,985][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:29,820][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:30,201][intent_mw][DEBUG] - t=10 agent=Isabella Rodriguez decision={'intent': 'evacuate', 'action': 'go to Lobby', 'next_action': 'check on Klaus for any additional information while we wait for the evacuation order to be processed', 'target_location': None, 'command': 'go to Lobby', 'reason': 'Given the growing urgency of the situation, I should prioritize evacuating the building and ensure my safety and that of those around me before following official instructions.'} perception=I am in Hallway_Main (position x=1.0, z=3.5, facing North). Nearby fire: fire at (4.2,9.0), 6.4m away. Rooms with fire: Office_D. Rooms with smoke: Office_D. Exit is 5.6m away, to the ahead. Klaus Mueller is 1.9m away. Nearby rooms: Office_B (4m, right), Lobby (4m, ahead), Office_A (5m, left), Office_D (6m, behind). events=the fire alarm sounds loudly, evacuation is now required. Isabella sees smoke outside of the building.
+[2026-03-03 14:50:30,814][httpx][INFO] - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+[2026-03-03 14:50:31,285][intent_mw][DEBUG] - t=10 agent=Klaus Mueller decision={'intent': 'evacuate', 'action': 'go to Home_B', 'next_action': 'check on my family members at home for any updates or needs before following further instructions', 'target_location': None, 'command': 'go to Home_B', 'reason': 'As a responsible parent, I must prioritize the safety of my child and spouse who are currently at home. Evacuating to our residence allows me to provide immediate assistance and support while also ensuring their well-being during this emergency.'} perception=I am in Hallway_Main (position x=-0.9, z=3.8, facing North). Nearby fire: fire at (4.2,9.0), 7.3m away. Rooms with fire: Office_D. Rooms with smoke: Office_D. Exit is 5.9m away, to the ahead. Isabella Rodriguez is 1.9m away. Nearby rooms: Office_A (4m, left), Lobby (4m, ahead), Office_B (5m, right), Office_C (6m, behind). events=the fire alarm sounds loudly, evacuation is now required. Isabella sees smoke outside of the building.
+[2026-03-03 14:50:31,286][planner_mw][DEBUG] - t=10 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=1
+[2026-03-03 14:50:31,286][planner_mw][DEBUG] - t=10 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=1
+[2026-03-03 14:50:31,309][planner_mw][DEBUG] - t=26 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,310][planner_mw][DEBUG] - t=27 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,310][planner_mw][DEBUG] - t=27 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,312][planner_mw][DEBUG] - t=28 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,312][planner_mw][DEBUG] - t=28 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,314][planner_mw][DEBUG] - t=29 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,314][planner_mw][DEBUG] - t=29 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,315][planner_mw][DEBUG] - t=30 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,315][planner_mw][DEBUG] - t=30 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,317][planner_mw][DEBUG] - t=31 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,318][planner_mw][DEBUG] - t=31 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,319][planner_mw][DEBUG] - t=32 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,320][planner_mw][DEBUG] - t=32 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,322][planner_mw][DEBUG] - t=33 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,322][planner_mw][DEBUG] - t=33 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,324][planner_mw][DEBUG] - t=34 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,324][planner_mw][DEBUG] - t=34 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,326][planner_mw][DEBUG] - t=35 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,326][planner_mw][DEBUG] - t=35 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,328][planner_mw][DEBUG] - t=36 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,329][planner_mw][DEBUG] - t=36 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,330][planner_mw][DEBUG] - t=37 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,331][planner_mw][DEBUG] - t=37 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,333][planner_mw][DEBUG] - t=38 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,333][planner_mw][DEBUG] - t=38 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,335][planner_mw][DEBUG] - t=39 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,335][planner_mw][DEBUG] - t=39 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,336][planner_mw][DEBUG] - t=40 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=0
+[2026-03-03 14:50:31,353][imageio_ffmpeg][WARNING] - IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=16, resizing from (160, 120) to (160, 128) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+[2026-03-03 14:50:31,394][imageio_ffmpeg][WARNING] - IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=16, resizing from (160, 120) to (160, 128) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).

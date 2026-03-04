@@ -1,0 +1,76 @@
+=== TOKEN USAGE PER STEP ===
+t=0: 7635 tokens
+t=4: 3439 tokens
+t=6: 3737 tokens
+t=8: 4030 tokens
+t=10: 12396 tokens
+t=12: 4076 tokens
+t=14: 4121 tokens
+t=16: 4113 tokens
+t=18: 3225 tokens
+t=19: 6848 tokens
+t=20: 3884 tokens
+t=22: 4099 tokens
+t=24: 4092 tokens
+t=26: 4151 tokens
+t=28: 8254 tokens
+t=30: 4127 tokens
+t=32: 3250 tokens
+t=34: 3536 tokens
+t=36: 12097 tokens
+t=38: 3939 tokens
+t=40: 3928 tokens
+t=42: 3922 tokens
+t=44: 3919 tokens
+t=45: 3957 tokens
+t=46: 2929 tokens
+t=48: 3226 tokens
+t=50: 3514 tokens
+t=52: 3799 tokens
+t=54: 8135 tokens
+t=56: 4003 tokens
+t=57: 4090 tokens
+t=58: 4079 tokens
+t=60: 4075 tokens
+t=61: 4125 tokens
+t=62: 4083 tokens
+t=63: 4121 tokens
+t=64: 4112 tokens
+t=66: 4095 tokens
+t=68: 4087 tokens
+t=70: 8116 tokens
+t=72: 8026 tokens
+t=74: 7951 tokens
+t=76: 8045 tokens
+t=78: 7842 tokens
+t=80: 7867 tokens
+t=82: 7888 tokens
+t=84: 7919 tokens
+t=86: 7941 tokens
+t=88: 7984 tokens
+t=90: 7998 tokens
+t=92: 7992 tokens
+t=94: 12164 tokens
+t=95: 8223 tokens
+t=96: 3195 tokens
+t=97: 4146 tokens
+t=98: 12085 tokens
+t=99: 4111 tokens
+t=100: 10756 tokens
+t=101: 3837 tokens
+t=102: 10800 tokens
+t=103: 4136 tokens
+t=104: 7881 tokens
+t=105: 6914 tokens
+t=106: 4181 tokens
+t=107: 12307 tokens
+t=109: 4145 tokens
+t=110: 3263 tokens
+t=111: 6972 tokens
+t=113: 4002 tokens
+
+=== TOTAL TOKEN USAGE ===
+Total prompt tokens: 396731
+Total completion tokens: 5204
+Total tokens: 401935
+Total LLM calls: 104

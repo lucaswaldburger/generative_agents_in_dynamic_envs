@@ -1,0 +1,3 @@
+t=0 agent=Klaus Mueller reply={'direction': 'EAST', 'reason': 'Klaus tends to choose the corridor that contains a transition cue, which is Stairwell_NE in this case.'} cmd=go to Exit
+t=7 agent=Klaus Mueller reply={'direction': 'EAST', 'reason': 'The Stairwell_NE corridor contains a transition cue and is likely the safest option given its width and priority.'} cmd=go to Exit
+t=8 agent=Klaus Mueller reply={'direction': 'WEST', 'reason': 'The Stairwell_SW corridor contains a transition cue and is likely the safest option given its width and priority.'} cmd=go to Exit

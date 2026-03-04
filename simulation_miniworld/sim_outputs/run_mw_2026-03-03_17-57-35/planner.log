@@ -1,0 +1,3 @@
+t=0 agent=Isabella Rodriguez cmd='go to Lobby' goal_room=Lobby waypoints=1
+t=0 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=1
+t=1 agent=Isabella Rodriguez cmd='stay and check on Klaus before proceeding to Lobby.' goal_room=Lobby waypoints=1

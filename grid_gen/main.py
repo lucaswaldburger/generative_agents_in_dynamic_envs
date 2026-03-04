@@ -31,7 +31,14 @@ from persona.control_state import AgentControlState, PlannerLevel
 # load social memory
 from persona.memory.associative_memory import add_social_memory, hazard_to_dialogue, is_friend
 
-from persona.prompt.gpt_structure import test_chat_completion, LLMConversation, llm_decide_intent, llm_decide_local_direction, llm_decide_social
+from agent import (
+    SimulationLLM,
+    test_connection,
+    decide_intent,
+    decide_local_direction,
+    decide_social,
+    SIMULATION_SYSTEM_PROMPT,
+)
 
 # logging imports
 from utils.logs import  create_agent_logs, log_agent_step, setup_debug_loggers, setup_sim_output_dir, sim_time_str
@@ -44,6 +51,18 @@ import os
 
 
 
+
+
+def _save_video(frames: list, output_path: str, fps: int = 4) -> None:
+    """Write frames to MP4 video using imageio."""
+    if not frames:
+        return
+    import imageio.v3 as iio
+    arr = np.stack(frames, axis=0)
+    if arr.dtype != np.uint8:
+        arr = np.clip(arr, 0, 255).astype(np.uint8)
+    iio.imwrite(output_path, arr, fps=fps, codec="libx264")
+    print(f"[Output] Simulation video saved to {output_path}")
 
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
@@ -69,74 +88,36 @@ def run(cfg: DictConfig):
     except Exception as e:
         print(f"[WARN] Could not load priors JSON at {priors_path}: {e}")
 
+    save_video = getattr(cfg.sim, "save_video", False)
+    render_mode = "rgb_array" if save_video else cfg.sim.render_mode
+    video_frames: list = [] if save_video else []
+
     env = MultiHumanGridEnv(
         map_spec=map_spec,
         agent_configs=agent_configs,
         max_steps=cfg.sim.steps,
-        render_mode=cfg.sim.render_mode,
+        render_mode=render_mode,
         traffic_mode=True
     )
 
     print("[Env] Resetting...")
     obs, info = env.reset()
     print("Initial state:")
-    env.render()
+    frame = env.render()
+    if save_video and frame is not None:
+        video_frames.append(frame)
 
 
     valid_locations = ['Home_A', 'Home_B', 'Park', 'Workplace_A', 'fire', 'park']
 
 
-    # testing connecting
     try:
-        reply = test_chat_completion(
-            cfg,
-            "Say: 'OpenAI comms successful.'"
-        )
+        reply = test_connection(cfg)
         print("[OpenAI] Response:", reply)
     except Exception as e:
         print("[OpenAI] Error while testing API:", e)
 
-    # Create ONE conversation for this simulation
-    # let's move this somewhere else later
-    conv = LLMConversation(
-        cfg,
-        system_prompt=(
-        "You are the cognitive model for multiple human agents in a fire evacuation simulation. "
-        "You never control the environment directly; instead, you provide decisions for each agent.\n\n"
-        "You will be called at multiple decision levels:\n"
-        "1) HIGH-LEVEL INTENT: Triggered when a NEW external event occurs (e.g., alerts, visible smoke, alarms). Given an agent's persona, daily plan, current time, perception, and external events, "
-        "   decide their high-level intent (e.g., ignore, shelter in place, evacuate) and a high-level goal "
-        "   such as 'go to Home_A', 'go to Workplace_A', or 'stay'.\n"
-        "2) MID-LEVEL LOCAL ROUTE CHOICE: Triggered at intersections or navigating, given the agent's current high-level goal, local perception, "
-        "   and a list of valid directions, choose a single direction from the allowed options (e.g., LEFT, RIGHT, FORWARD, BACK, STAY).\n"
-        "3) SOCIAL-LEVEL RESPONSES: Optionally, you may later be asked to generate brief messages the agent might "
-        "   say to others about hazards or guidance.\n\n"
-        "Your decisions must combine data provided in each prompt, for example:\n"
-        "- Empirical route-choice priors (by age, gender, etc.)\n"
-        "- Each agent's persona (innate traits, learned traits, lifestyle, dependents)\n"
-        "- The current situation (time of day, hazards like smoke/fire, congestion, alerts)\n\n"
-        "In emergencies, safety and survival are more important than rouxtine preferences or habits. "
-        "When in doubt, favor routes that avoid known hazards and reflect the agent's risk attitude and responsibilities "
-        "(e.g., protecting dependents).\n"
-        "All outputs must follow the requested JSON schema exactly when prompted (no extra text).\n"
-        "PERSONA ENCODING SCHEMA:\n"
-        "N|A|G|I|R|T|X|L|F|D|H\n"
-        "Where:\n"
-        "- N=name\n"
-        "- A=age\n"
-        "- G=gender(M/F)\n"
-        "- I=innate traits\n"
-        "- R=risk perception summary\n"
-        "- T=authority trust summary\n"
-        "- X=threat style summary\n"
-        "- L=learned summary\n"
-        "- F=lifestyle summary\n"
-        "- D=dependents\n"
-        "- H=home area\n"
-        "\n"
-        "Different decision leevel might use some of these encoding schema. All responses must strictly follow the JSON schema when asked."
-        ),
-    )
+    sim_llm = SimulationLLM(cfg, system_prompt=SIMULATION_SYSTEM_PROMPT)
 
     run_dir = setup_sim_output_dir()
     agent_logs = create_agent_logs(run_dir, env)
@@ -228,8 +209,8 @@ def run(cfg: DictConfig):
                 )
                 urgency_text = format_urgency_for_llm(urgency_assessment)
                 
-                decision = llm_decide_intent(
-                    conv=conv,
+                decision = decide_intent(
+                    sim_llm=sim_llm,
                     agent_cfg=agent.config,
                     plan_item=plan_item,
                     perception_desc=desc,
@@ -337,7 +318,7 @@ def run(cfg: DictConfig):
                     agent=agent,
                     fire_smoke_hazards=fire_smoke_hazards,
                     env=env,
-                    conv=conv,
+                    sim_llm=sim_llm,
                     valid_locations=valid_locations,
                     intent_logger=intent_logger,
                     agent_commands=agent_commands,
@@ -387,8 +368,8 @@ def run(cfg: DictConfig):
                 desc = describe_perception(env, agent_id, include_decision_info=True)
                 print("\n[LLM MID-LEVEL GOAL]")
                 print(f"agent={env.agents[agent_id].config.name}, perception:{desc}, high_level_goal:{cmd}, valid_dirs:{valid_dirs}")
-                local_reply = llm_decide_local_direction(
-                    conv=conv,
+                local_reply = decide_local_direction(
+                    sim_llm=sim_llm,
                     agent_cfg=env.agents[agent_id].config,
                     perception_desc=desc,
                     high_level_goal=cmd,
@@ -535,8 +516,8 @@ def run(cfg: DictConfig):
 
                 current_cmd = agent_commands.get(agent_id, "stay")
 
-                social_dec = llm_decide_social(
-                    conv=conv,
+                social_dec = decide_social(
+                    sim_llm=sim_llm,
                     ego_cfg=agent.config,
                     friend_cfg=other.config,
                     perception_desc=desc,
@@ -643,8 +624,11 @@ def run(cfg: DictConfig):
                 spatial_info=spatial_info,
             )
 
-        env.render()
-        time.sleep(0.5)
+        frame = env.render()
+        if save_video and frame is not None:
+            video_frames.append(frame)
+        if not save_video:
+            time.sleep(0.5)
 
         if terminated or truncated:
             break
@@ -652,7 +636,16 @@ def run(cfg: DictConfig):
     for f in agent_logs.values():
         f.close()
     env.close()
-    
+
+    if save_video and video_frames:
+        from hydra.core.hydra_config import HydraConfig
+        video_fps = getattr(cfg.sim, "video_fps", 4)
+        hydra_out = HydraConfig.get().runtime.output_dir
+        video_path = os.path.join(hydra_out, "simulation.mp4")
+        _save_video(video_frames, video_path, fps=video_fps)
+        run_video_path = os.path.join(run_dir, "simulation.mp4")
+        _save_video(video_frames, run_video_path, fps=video_fps)
+
     # Write urgency data to CSV file
     urgency_file_path = os.path.join(run_dir, "agent_urgency.csv")
     if urgency_data:
@@ -668,7 +661,7 @@ def run(cfg: DictConfig):
         print("\n[WARN] No urgency data collected")
     
     step_tokens = defaultdict(int)
-    for rec in conv.call_log:
+    for rec in sim_llm.call_log:
         if rec.t is not None:
             step_tokens[rec.t] += rec.total_tokens
 
@@ -681,10 +674,10 @@ def run(cfg: DictConfig):
             f.write(line)
 
         f.write("\n=== TOTAL TOKEN USAGE ===\n")
-        f.write(f"Total prompt tokens: {conv.total_prompt_tokens}\n")
-        f.write(f"Total completion tokens: {conv.total_completion_tokens}\n")
-        f.write(f"Total tokens: {conv.total_prompt_tokens + conv.total_completion_tokens}\n")
-        f.write(f"Total LLM calls: {conv.total_calls}\n")
+        f.write(f"Total prompt tokens: {sim_llm.total_prompt_tokens}\n")
+        f.write(f"Total completion tokens: {sim_llm.total_completion_tokens}\n")
+        f.write(f"Total tokens: {sim_llm.total_prompt_tokens + sim_llm.total_completion_tokens}\n")
+        f.write(f"Total LLM calls: {sim_llm.total_calls}\n")
     
     print("\n=== TOKEN USAGE PER STEP ===")
     for t in sorted(step_tokens.keys()):
@@ -692,10 +685,10 @@ def run(cfg: DictConfig):
     
     print(f"\n[Output] Token usage written to {token_usage_file_path}")
     print("\n=== TOTAL TOKEN USAGE ===")
-    print(f"Total prompt tokens: {conv.total_prompt_tokens}")
-    print(f"Total completion tokens: {conv.total_completion_tokens}")
-    print(f"Total tokens: {conv.total_prompt_tokens + conv.total_completion_tokens}")
-    print(f"Total LLM calls: {conv.total_calls}")
+    print(f"Total prompt tokens: {sim_llm.total_prompt_tokens}")
+    print(f"Total completion tokens: {sim_llm.total_completion_tokens}")
+    print(f"Total tokens: {sim_llm.total_prompt_tokens + sim_llm.total_completion_tokens}")
+    print(f"Total LLM calls: {sim_llm.total_calls}")
    
 
 if __name__ == "__main__":

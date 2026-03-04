@@ -1,0 +1,11 @@
+t=0 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=1 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=2 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=3 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=4 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=5 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=6 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=7 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=8 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=9 agent=Klaus Mueller cmd='go to Office_B' goal_room=Office_B waypoints=0
+t=10 agent=Klaus Mueller cmd='go to Lobby' goal_room=Lobby waypoints=1

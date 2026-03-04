@@ -1,0 +1,38 @@
+Log for Klaus Mueller
+========================================
+
+Step 1
+ Agent id: 1
+ Position: (6, 19)
+ Action: 2
+ Observation: I am at Home_B. I see B10. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 2
+ Agent id: 1
+ Position: (5, 19)
+ Action: 4
+ Observation: I am at Home_B. I see B9, Home_B. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 3
+ Agent id: 1
+ Position: (4, 19)
+ Action: 4
+ Observation: I am at Home_B. I see B9. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 4
+ Agent id: 1
+ Position: (4, 18)
+ Action: 1
+ Observation: I am at Home_B. I see B9. There is heavy traffic near walkable at (7,21). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 5
+ Agent id: 1
+ Position: (4, 19)
+ Action: 3
+ Observation: I am at Home_B. I don't see any labeled regions. There is heavy traffic near walkable at (7,21). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------

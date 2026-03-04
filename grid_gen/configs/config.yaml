@@ -2,8 +2,16 @@ sim:
   steps: 30
   seed: 0
   render_mode: "human" 
+  save_video: true              # save simulation.mp4 to outputs
+  video_fps: 8                  # frames per second in output video
   start_time: "08:00"          # clock time at t = 0
   seconds_per_step: 40         # 1 step = 1 minute 
+
+llm:
+  provider: "ollama"          # "ollama" or "openai"
+  model: "llama3.2:latest"
+  base_url: "http://localhost:11434"
+  max_tokens: 200
 
 personas:
   file: "configs/personas/persona_spec.yaml"

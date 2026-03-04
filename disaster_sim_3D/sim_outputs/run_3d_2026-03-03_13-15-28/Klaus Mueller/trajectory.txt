@@ -1,0 +1,10 @@
+step=1 pos=(6,14,F2) action=2 | I am on Floor_2 (floor 2, position (6,14)).
+step=2 pos=(7,14,F2) action=2 | I am on Floor_2 (floor 2, position (7,14)).
+step=3 pos=(8,14,F2) action=2 | I am on Floor_2 (floor 2, position (8,14)).
+step=4 pos=(9,14,F2) action=2 | I am on Floor_2 (floor 2, position (9,14)).
+step=5 pos=(10,14,F2) action=2 | I am on Floor_2 (floor 2, position (10,14)).
+step=6 pos=(11,14,F2) action=2 | I am on Floor_2 (floor 2, position (11,14)).
+step=7 pos=(12,14,F2) action=2 | I am on Floor_2 (floor 2, position (12,14)).
+step=8 pos=(13,14,F2) action=2 | I am on Floor_2 (floor 2, position (13,14)). Smoke at (10,11) on floor 1.
+step=9 pos=(13,13,F2) action=1 | I am on Stairwell_SE (floor 2, position (13,13)). Fire at (10,10) on floor 1. Smoke at (10,10) on this floor. Smoke at (10,11) on floor 1. Smoke at (11,10) on floor 1. Smoke at (11,11) on floor 1.
+step=10 pos=(13,13,F1) action=6 | I am on Stairwell_SE (floor 1, position (13,13)). Fire at (10,10) on this floor. Smoke at (10,10) on floor 2. Smoke at (10,11) on this floor. Smoke at (11,10) on this floor. Smoke at (11,11) on this floor.

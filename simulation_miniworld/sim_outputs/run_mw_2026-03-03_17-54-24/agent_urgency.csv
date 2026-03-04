@@ -1,0 +1,6 @@
+time_step,clock_time,agent_id,agent_name,urgency_level,urgency_score,nearest_fire,nearest_smoke
+0,08:00,0,Isabella Rodriguez,medium,0.25,7.3,7.7
+0,08:00,1,Klaus Mueller,high,0.5,2.6,1.5
+1,08:00,1,Klaus Mueller,critical,0.85,1.9,1.5
+2,08:01,1,Klaus Mueller,critical,0.85,1.9,1.3
+3,08:02,1,Klaus Mueller,critical,1.0,0.9,1.3

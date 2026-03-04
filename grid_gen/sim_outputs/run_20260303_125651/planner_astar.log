@@ -1,0 +1,6 @@
+2026-03-03 12:58:24 [planner] DEBUG: t=111 agent=0 command='go to Isabella Rodriguez's apartment: Home_A' start=(4, 16) goal=(4, 15)
+2026-03-03 12:58:24 [planner] DEBUG: t=112 agent=0 command='go to Isabella Rodriguez's apartment: Home_A' start=(4, 15) goal=(4, 15)
+2026-03-03 12:58:24 [planner] DEBUG: t=113 agent=0 command='go to Isabella Rodriguez's apartment: Home_A' start=(4, 15) goal=(4, 15)
+2026-03-03 12:58:25 [planner] DEBUG: t=114 agent=0 command='go to Isabella Rodriguez's apartment: Home_A' start=(4, 15) goal=(4, 15)
+2026-03-03 12:58:25 [planner] DEBUG: t=115 agent=0 command='go to Isabella Rodriguez's apartment: Home_A' start=(4, 15) goal=(4, 15)
+2026-03-03 12:58:25 [planner] DEBUG: t=115 agent=1 command='go to Klaus Mueller's house: Home_B' start=(4, 18) goal=(4, 18)

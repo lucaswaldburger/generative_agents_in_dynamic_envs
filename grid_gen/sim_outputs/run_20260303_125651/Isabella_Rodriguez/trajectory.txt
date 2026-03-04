@@ -1,0 +1,815 @@
+Log for Isabella Rodriguez
+========================================
+
+Step 1
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 2
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 3
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 4
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 5
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 6
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 7
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 8
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 9
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 10
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 11
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 12
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 13
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 14
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 15
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 16
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 17
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 18
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 19
+ Agent id: 0
+ Position: (23, 9)
+ Action: 0
+ Observation: I am at Workplace_A. I see B4, B8, Workplace_A. B4 is on fire at (26,6). There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 20
+ Agent id: 0
+ Position: (24, 9)
+ Action: 2
+ Observation: I am at Workplace_A. I see B8, Workplace_A. B4 is on fire at (26,6). I see smoke near walkable at (25,7). There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 21
+ Agent id: 0
+ Position: (23, 9)
+ Action: 4
+ Observation: I am at Workplace_A. I see B7. B4 is on fire at (23,6). I see smoke near walkable at (25,7). There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Workplace_A', lookup_key='Workplace_A', rooms=['front counter', 'customer area', 'back room']
+------------------------------
+Step 22
+ Agent id: 0
+ Position: (22, 9)
+ Action: 4
+ Observation: I am at the street. I see B7. B4 is on fire at (23,6). I see smoke near walkable at (22,7). There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 23
+ Agent id: 0
+ Position: (21, 9)
+ Action: 4
+ Observation: I am at the street. I see B3, B7. B4 is on fire at (23,6). I see smoke near walkable at (21,6). There is heavy traffic near walkable at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 24
+ Agent id: 0
+ Position: (21, 10)
+ Action: 3
+ Observation: I am at the street. I see B12, B7, B8. I see smoke near walkable at (22,7). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 25
+ Agent id: 0
+ Position: (21, 11)
+ Action: 3
+ Observation: I am at the street. I see B11, B12, B7, B8. There is heavy traffic near walkable at (20,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 26
+ Agent id: 0
+ Position: (21, 12)
+ Action: 3
+ Observation: I am at the street. I see B11, B12, B7. There is heavy traffic near walkable at (20,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 27
+ Agent id: 0
+ Position: (21, 13)
+ Action: 3
+ Observation: I am at the street. I see B11, B12. There is heavy traffic near walkable at (20,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 28
+ Agent id: 0
+ Position: (21, 14)
+ Action: 3
+ Observation: I am at the street. I see B11, B12. There is heavy traffic near walkable at (20,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 29
+ Agent id: 0
+ Position: (22, 14)
+ Action: 2
+ Observation: I am at the street. I see B12, B8. There is heavy traffic near walkable at (20,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 30
+ Agent id: 0
+ Position: (21, 14)
+ Action: 4
+ Observation: I am at the street. I see B11, B7. There is heavy traffic near walkable at (20,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 31
+ Agent id: 0
+ Position: (21, 13)
+ Action: 1
+ Observation: I am at the street. I see B4, B7, B8, Workplace_A. There is heavy traffic near walkable at (20,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 32
+ Agent id: 0
+ Position: (21, 12)
+ Action: 1
+ Observation: I am at the street. I see B3, B4, B7, B8, Workplace_A. I see smoke near Workplace_A at (24,9). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 33
+ Agent id: 0
+ Position: (21, 11)
+ Action: 1
+ Observation: I am at the street. I see B3, B4, B7, B8, Workplace_A. I see smoke near Workplace_A at (23,9). I see smoke near walkable at (23,8). walkable is on fire at (24,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 34
+ Agent id: 0
+ Position: (21, 10)
+ Action: 1
+ Observation: I am at the street. I see B3, B4, B7. I see smoke near Workplace_A at (23,9). I see smoke near walkable at (22,7). walkable is on fire at (24,7). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 35
+ Agent id: 0
+ Position: (21, 9)
+ Action: 1
+ Observation: I am at the street. I see B3, B4. B4 is on fire at (23,6). I see smoke near Workplace_A at (23,9). I see smoke near walkable at (21,6). walkable is on fire at (22,6). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 36
+ Agent id: 0
+ Position: (21, 8)
+ Action: 1
+ Observation: I am at the street. I don't see any labeled regions. B4 is on fire at (23,5). I see smoke near Workplace_A at (23,9). I see smoke near walkable at (21,7). walkable is on fire at (21,5). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 37
+ Agent id: 0
+ Position: (20, 8)
+ Action: 4
+ Observation: I am at the street. I see B3, B7. B4 is on fire at (23,5). I see smoke near walkable at (20,7). Workplace_A is on fire at (23,9). walkable is on fire at (21,5). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 38
+ Agent id: 0
+ Position: (19, 8)
+ Action: 4
+ Observation: I am at the street. I see B3, B7. I see smoke near walkable at (20,7). walkable is on fire at (21,5). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 39
+ Agent id: 0
+ Position: (18, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, B3, B7, Park. I see smoke near walkable at (20,7). There is heavy traffic near walkable at (15,7). walkable is on fire at (21,5). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 40
+ Agent id: 0
+ Position: (17, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, B7, Park. I see smoke near walkable at (20,7). There is heavy traffic near walkable at (15,7). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 41
+ Agent id: 0
+ Position: (16, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, Park. There is heavy traffic near walkable at (15,7). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 42
+ Agent id: 0
+ Position: (15, 8)
+ Action: 4
+ Observation: I am at the street. I see B2, Park. There is heavy traffic near walkable at (15,7). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 43
+ Agent id: 0
+ Position: (14, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. There is heavy traffic near walkable at (11,7). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 44
+ Agent id: 0
+ Position: (13, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. There is heavy traffic near walkable at (10,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 45
+ Agent id: 0
+ Position: (12, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. There is heavy traffic near walkable at (10,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 46
+ Agent id: 0
+ Position: (13, 8)
+ Action: 2
+ Observation: I am at the street. I see B3, B7. There is heavy traffic near walkable at (10,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 47
+ Agent id: 0
+ Position: (12, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. There is heavy traffic near walkable at (10,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 48
+ Agent id: 0
+ Position: (11, 8)
+ Action: 4
+ Observation: I am at the street. I see B1, B2, B5, Park. There is heavy traffic near walkable at (10,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 49
+ Agent id: 0
+ Position: (11, 9)
+ Action: 3
+ Observation: I am at Park. I see B10, B11, B9, Home_A, Park. There is heavy traffic near walkable at (8,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Park', lookup_key='Park', rooms=['park']
+------------------------------
+Step 50
+ Agent id: 0
+ Position: (10, 9)
+ Action: 4
+ Observation: I am at Park. I see B1, B5, Park. There is heavy traffic near walkable at (7,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Park', lookup_key='Park', rooms=['park']
+------------------------------
+Step 51
+ Agent id: 0
+ Position: (9, 9)
+ Action: 4
+ Observation: I am at Park. I see B1, B5. There is heavy traffic near walkable at (7,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Park', lookup_key='Park', rooms=['park']
+------------------------------
+Step 52
+ Agent id: 0
+ Position: (8, 9)
+ Action: 4
+ Observation: I am at the street. I see B1, B5. There is heavy traffic near walkable at (7,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 53
+ Agent id: 0
+ Position: (7, 9)
+ Action: 4
+ Observation: I am at the street. I see B1, B5. There is heavy traffic near walkable at (7,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 54
+ Agent id: 0
+ Position: (7, 10)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park. There is heavy traffic near walkable at (7,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 55
+ Agent id: 0
+ Position: (7, 9)
+ Action: 1
+ Observation: I am at the street. I see B1, B2. There is heavy traffic near walkable at (7,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 56
+ Agent id: 0
+ Position: (7, 10)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park. There is heavy traffic near walkable at (7,8). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 57
+ Agent id: 0
+ Position: (7, 11)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Home_A, Park. There is heavy traffic near walkable at (8,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 58
+ Agent id: 0
+ Position: (7, 12)
+ Action: 3
+ Observation: I am at the street. I see B10, B5, B9, Home_A. There is heavy traffic near walkable at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 59
+ Agent id: 0
+ Position: (7, 13)
+ Action: 3
+ Observation: I am at the street. I see B10, B9, Home_A. There is heavy traffic near walkable at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 60
+ Agent id: 0
+ Position: (8, 13)
+ Action: 2
+ Observation: I am at the street. I see B10, B11, B7, Park. There is heavy traffic near walkable at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 61
+ Agent id: 0
+ Position: (8, 14)
+ Action: 3
+ Observation: I am at the street. I see B10, B9, Home_A, Home_B. There is heavy traffic near walkable at (8,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 62
+ Agent id: 0
+ Position: (8, 15)
+ Action: 3
+ Observation: I am at the street. I see B10, B9, Home_B. There is heavy traffic near walkable at (8,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 63
+ Agent id: 0
+ Position: (8, 16)
+ Action: 3
+ Observation: I am at the street. I see B10, B9, Home_B. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 64
+ Agent id: 0
+ Position: (8, 17)
+ Action: 3
+ Observation: I am at the street. I see B10, B9, Home_B. There is heavy traffic near walkable at (9,20). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 65
+ Agent id: 0
+ Position: (7, 17)
+ Action: 4
+ Observation: I am at the street. I see B5, B9, Home_A, Home_B. There is heavy traffic near walkable at (9,20). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 66
+ Agent id: 0
+ Position: (7, 16)
+ Action: 1
+ Observation: I am at the street. I see B5, B9, Home_A, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 67
+ Agent id: 0
+ Position: (6, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9, Home_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 68
+ Agent id: 0
+ Position: (5, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9, Home_A. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 69
+ Agent id: 0
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 70
+ Agent id: 0
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 71
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 72
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 73
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 74
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 75
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 76
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 77
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 78
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 79
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 80
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 81
+ Agent id: 0
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 82
+ Agent id: 0
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 83
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 84
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 85
+ Agent id: 0
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. There is heavy traffic near walkable at (8,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 86
+ Agent id: 0
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 87
+ Agent id: 0
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B10, B9, Home_A, Park. I see smoke near walkable at (8,12). There is heavy traffic near walkable at (8,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 88
+ Agent id: 0
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 89
+ Agent id: 0
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 90
+ Agent id: 0
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 91
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near walkable at (7,17). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 92
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. There is heavy traffic near walkable at (1,18). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 93
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. There is heavy traffic near walkable at (7,17). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 94
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near walkable at (7,12). There is heavy traffic near walkable at (1,18). walkable is on fire at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 95
+ Agent id: 0
+ Position: (4, 14)
+ Action: 1
+ Observation: I am at the street. I see B5. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (7,17). walkable is on fire at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='walkable'
+------------------------------
+Step 96
+ Agent id: 0
+ Position: (4, 15)
+ Action: 3
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,18). walkable is on fire at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 97
+ Agent id: 0
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (7,17). walkable is on fire at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 98
+ Agent id: 0
+ Position: (5, 15)
+ Action: 0
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). walkable is on fire at (7,15).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 99
+ Agent id: 0
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,18). walkable is on fire at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 100
+ Agent id: 0
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). walkable is on fire at (7,15).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 101
+ Agent id: 0
+ Position: (4, 15)
+ Action: 4
+ Observation: I am at Home_A. I see B5, B9. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,18). walkable is on fire at (7,15). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 102
+ Agent id: 0
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). walkable is on fire at (7,12).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 103
+ Agent id: 0
+ Position: (5, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). walkable is on fire at (7,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 104
+ Agent id: 0
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,14). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 105
+ Agent id: 0
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 106
+ Agent id: 0
+ Position: (5, 15)
+ Action: 2
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). walkable is on fire at (7,12).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 107
+ Agent id: 0
+ Position: (5, 15)
+ Action: 0
+ Observation: I am at Home_A. I see B9, Home_A. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). walkable is on fire at (7,12).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 108
+ Agent id: 0
+ Position: (5, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9. I see smoke near Home_A at (6,15). I see smoke near walkable at (6,14). walkable is on fire at (7,13). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 109
+ Agent id: 0
+ Position: (4, 16)
+ Action: 4
+ Observation: I am at Home_A. I see B9. I see smoke near Home_A at (6,15). I see smoke near Home_B at (6,18). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,13). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 110
+ Agent id: 0
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5. B5 is on fire at (4,12). Home_A is on fire at (6,16). I see smoke near Home_A at (6,15). I see smoke near Home_B at (6,18). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 111
+ Agent id: 0
+ Position: (4, 16)
+ Action: 3
+ Observation: I am at Home_A. I see B9. Home_A is on fire at (6,16). I see smoke near Home_A at (5,15). I see smoke near Home_B at (6,18). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,13).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 112
+ Agent id: 0
+ Position: (4, 15)
+ Action: 1
+ Observation: I am at Home_A. I see B5. B5 is on fire at (3,12). Home_A is on fire at (6,16). I see smoke near Home_A at (5,15). I see smoke near Home_B at (6,18). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 113
+ Agent id: 0
+ Position: (4, 15)
+ Action: 0
+ Observation: I am at Home_A. I see B5. B5 is on fire at (3,12). Home_A is on fire at (6,16). I see smoke near Home_A at (5,15). I see smoke near Home_B at (6,18). I see smoke near walkable at (6,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,12). I see heavy traffic near walkable right now.
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 114
+ Agent id: 0
+ Position: (4, 15)
+ Action: 0
+ Observation: I am at Home_A. I see B5. B5 is on fire at (2,12). Home_A is on fire at (6,15). Home_B is on fire at (6,18). I see smoke near Home_A at (5,15). I see smoke near walkable at (2,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (7,12).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 115
+ Agent id: 0
+ Position: (4, 15)
+ Action: 0
+ Observation: I am at Home_A. I see B5. B5 is on fire at (2,12). Home_A is on fire at (5,16). Home_B is on fire at (6,18). I see smoke near Home_A at (5,15). I see smoke near Home_B at (5,18). I see smoke near walkable at (1,12). There is heavy traffic near walkable at (1,13). walkable is on fire at (6,14).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 116
+ Agent id: 0
+ Position: (4, 15)
+ Action: 0
+ Observation: I am at Home_A. I don't see any labeled regions. B5 is on fire at (2,12). B9 is on fire at (5,17). Home_A is on fire at (4,15). Home_B is on fire at (6,18). I see smoke near Home_A at (4,16). I see smoke near Home_B at (5,18). I see smoke near walkable at (2,14). There is heavy traffic near walkable at (1,13). walkable is on fire at (1,12).
+ Spatial memory: cell='Home_A', lookup_key='Home_A', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
