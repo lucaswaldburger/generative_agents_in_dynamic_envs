@@ -1,0 +1,1 @@
+python main.py --steps 1000 --sprites --output simulation_sprites.mp4

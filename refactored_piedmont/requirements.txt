@@ -1,0 +1,11 @@
+osmnx
+scikit-image
+numpy
+pygame
+gymnasium
+imageio
+imageio-ffmpeg
+openai
+shapely
+geopandas
+Pillow

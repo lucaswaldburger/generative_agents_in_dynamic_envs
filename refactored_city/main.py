@@ -1,12 +1,12 @@
 """
-Refactored SmallVille – Pygame-based simulation with LLM-driven agents.
+Refactored City – Pygame-based urban simulation with LLM-driven agents.
 
 Uses Llama 3.2 (via Ollama) to decide agent actions each cycle.
 Records frames to an mp4 video.
 
 Usage:
     conda activate cs294
-    python main.py --steps 1000
+    python main.py --steps 100
 
 Controls (in human mode):
     Arrow keys / mouse drag  – pan the map
@@ -18,73 +18,70 @@ from __future__ import annotations
 
 import argparse
 import datetime
-import json
-import os
 import random
-import re
-import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import imageio
 import numpy as np
 from openai import OpenAI
 
-from env.grid import SmallVilleEnv, Action
-from env.path_finder import closest_coordinate
+from env.grid import CityEnv, Action
 
 PERSONAS: Dict[str, Dict[str, Any]] = {
-    "Isabella Rodriguez": {
-        "innate": "friendly, outgoing, hospitable",
-        "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome.",
-        "currently": "Isabella is planning a Valentine's Day party at Hobbs Cafe.",
-        "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
-        "daily_plan": "Opens Hobbs Cafe at 8am, works the counter until 8pm, then closes.",
-        "lifestyle": "Goes to bed around 11pm, wakes up around 6am.",
+    "Alex Chen": {
+        "innate": "analytical, focused, friendly",
+        "learned": "Alex Chen is a software developer at TechHub Office. He spends most of his day coding and reviewing pull requests.",
+        "currently": "Alex is working on a deadline for a product launch next week.",
+        "living_area": "the City:Block A:Sunrise Apartments",
+        "work_area": "the City:Block B:TechHub Office",
+        "daily_plan": "Wakes up at 7am, grabs coffee at Bean & Leaf Cafe, works at TechHub until 6pm, hits the gym, then goes home.",
+        "lifestyle": "Goes to bed around 11pm, wakes up at 7am.",
     },
-    "Klaus Mueller": {
-        "innate": "kind, inquisitive, passionate",
-        "learned": "Klaus Mueller is a student at Oak Hill College studying sociology, passionate about social justice.",
-        "currently": "Klaus is writing a research paper on gentrification in low-income communities.",
-        "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
-        "daily_plan": "Goes to the library early, writes all day, eats at Hobbs Cafe.",
-        "lifestyle": "Student schedule, up early, studies late.",
+    "Maya Johnson": {
+        "innate": "warm, creative, sociable",
+        "learned": "Maya Johnson is a barista and shift manager at Bean & Leaf Cafe. She knows everyone in the neighborhood.",
+        "currently": "Maya is training a new hire and experimenting with seasonal drink recipes.",
+        "living_area": "the City:Block F:Downtown Lofts",
+        "work_area": "the City:Block B:Bean & Leaf Cafe",
+        "daily_plan": "Opens the cafe at 6:30am, works until 2pm, then paints at Art Studio or relaxes in the park.",
+        "lifestyle": "Early riser, in bed by 10pm.",
     },
-    "Maria Lopez": {
-        "innate": "energetic, enthusiastic, inquisitive",
-        "learned": "Maria Lopez is a physics student at Oak Hill College and part-time Twitch streamer.",
-        "currently": "Maria is working on her physics degree and streaming games on Twitch.",
-        "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
-        "daily_plan": "Spends at least 6 hours a day streaming or gaming. Visits Hobbs Cafe daily.",
-        "lifestyle": "College student, streams in the evening.",
+    "David Kim": {
+        "innate": "patient, inspiring, thoughtful",
+        "learned": "David Kim is an art teacher at Greenfield School. He also volunteers at the Community Center on weekends.",
+        "currently": "David is organizing a student art exhibition at the Community Center.",
+        "living_area": "the City:Block E:Riverside Condos",
+        "work_area": "the City:Block C:Greenfield School",
+        "daily_plan": "Teaches from 8am to 3pm, visits the art studio, then walks through Central Park before heading home.",
+        "lifestyle": "Steady routine, enjoys evenings reading at the library.",
     },
-    "Abigail Chen": {
-        "innate": "open-minded, curious, determined",
-        "learned": "Abigail Chen is a digital artist and animator exploring art and technology.",
-        "currently": "Abigail is working on an animation project and experimenting with interactive art.",
-        "living_area": "the Ville:artist's co-living space:Abigail Chen's room",
-        "daily_plan": "Works on art projects, visits the cafe and park for inspiration.",
-        "lifestyle": "Creative schedule, works in bursts.",
+    "Sarah Torres": {
+        "innate": "energetic, motivating, disciplined",
+        "learned": "Sarah Torres is a fitness trainer at Quick Gym. She also teaches yoga at FitLife Yoga on weekends.",
+        "currently": "Sarah is preparing for a charity fitness marathon she's organizing.",
+        "living_area": "the City:Block I:Harbor View Apts",
+        "work_area": "the City:Block A:Quick Gym",
+        "daily_plan": "Morning run at 5:30am, trains clients 7am-4pm, grabs lunch at Metro Diner, evening at home.",
+        "lifestyle": "Very early riser, in bed by 9:30pm.",
     },
-    "John Lin": {
-        "innate": "patient, kind, organized",
-        "learned": "John Lin runs the pharmacy at Willow Market and Pharmacy. Lives with wife Mei and son Eddy.",
-        "currently": "John is shop keeping and asking around about the upcoming mayor election.",
-        "living_area": "the Ville:Lin family's house:Mei and John Lin's bedroom",
-        "daily_plan": "Opens pharmacy at 9am, works counter until 5pm, goes home.",
-        "lifestyle": "Family man, steady routine.",
+    "Marcus Williams": {
+        "innate": "quiet, knowledgeable, helpful",
+        "learned": "Marcus Williams is the head librarian at City Library. He curates the reading programs and hosts community events.",
+        "currently": "Marcus is setting up a new digital lending program at the library.",
+        "living_area": "the City:Block A:Sunrise Apartments",
+        "work_area": "the City:Block E:City Library",
+        "daily_plan": "Opens library at 9am, works until 5pm, stops by City Bookstore, then dinner at Noodle House.",
+        "lifestyle": "Bookworm, stays up late reading, wakes at 8am.",
     },
 }
 
 
-def build_location_list(env: SmallVilleEnv) -> List[str]:
-    """Get a deduplicated list of human-readable locations from the maze."""
-    seen = set()
-    locations = []
+def build_location_list(env: CityEnv) -> List[str]:
+    seen: set[str] = set()
+    locations: List[str] = []
     for addr in sorted(env.maze.address_tiles.keys()):
-        if addr.startswith("<spawn_loc>"):
-            continue
         parts = addr.split(":")
         if len(parts) >= 2:
             short = " > ".join(parts[1:])
@@ -95,7 +92,7 @@ def build_location_list(env: SmallVilleEnv) -> List[str]:
 
 
 def format_time(step: int, seconds_per_step: int = 60) -> str:
-    base = datetime.datetime(2023, 2, 13, 6, 0)
+    base = datetime.datetime(2025, 6, 16, 6, 0)
     dt = base + datetime.timedelta(seconds=step * seconds_per_step)
     return dt.strftime("%I:%M %p")
 
@@ -110,14 +107,11 @@ def ask_llm_for_action(
     sim_time: str,
     model: str = "llama3.2",
 ) -> Optional[str]:
-    """Ask the LLM where the agent should go next. Returns an address string or None."""
-
     loc_sample = random.sample(available_locations, min(15, len(available_locations)))
     loc_list = "\n".join(f"  - {a}" for a in loc_sample)
-
     nearby_str = ", ".join(nearby_people) if nearby_people else "nobody"
 
-    prompt = f"""You are {agent_name} in the town of SmallVille.
+    prompt = f"""You are {agent_name} in an urban city.
 
 Personality: {persona['innate']}
 Background: {persona['learned']}
@@ -127,7 +121,7 @@ Daily routine: {persona['daily_plan']}
 It is currently {sim_time}. You are at: {current_location}
 People nearby: {nearby_str}
 
-Some available locations in town:
+Some available locations in the city:
 {loc_list}
 
 Based on your personality, routine, and the current time, where should you go next?
@@ -148,50 +142,12 @@ Do not explain, just output the location."""
         return None
 
 
-def ask_llm_for_emoji(
-    client: OpenAI,
-    action_description: str,
-    model: str = "llama3.2",
-) -> str:
-    """Ask the LLM to convert an action description to 1-2 emojis."""
-    prompt = (
-        "Convert the following action description to an emoji "
-        "(important: respond with one or two emojis only, nothing else).\n\n"
-        f"Action description: {action_description}\n"
-        "Emoji:"
-    )
-    try:
-        resp = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=8,
-            temperature=0.5,
-        )
-        raw = resp.choices[0].message.content.strip()
-        emojis = re.findall(
-            r"[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0000FE00-\U0000FE0F"
-            r"\U0000200D\U00002702-\U000027B0\U0001F900-\U0001F9FF"
-            r"\U00002190-\U000021FF\U00002B05-\U00002B07\U00002934-\U00002935"
-            r"\U000023CF\U000023E9-\U000023F3\U000023F8-\U000023FA"
-            r"\U0000231A-\U0000231B\U00002328\U000025AA-\U000025AB"
-            r"\U000025B6\U000025C0\U000025FB-\U000025FE]+",
-            raw,
-        )
-        result = "".join(emojis)[:2] if emojis else ""
-        if result:
-            return result
-    except Exception as e:
-        print(f"  Emoji LLM error: {e}")
-    return "🚶"
-
-
 def resolve_llm_answer(
-    env: SmallVilleEnv,
+    env: CityEnv,
     answer: str,
     agent_idx: int,
     available_locations: List[str],
 ) -> bool:
-    """Try to match the LLM answer to a known address and move the agent. Returns True if moved."""
     if not answer or answer.upper() == "STAY":
         return False
 
@@ -211,15 +167,15 @@ def resolve_llm_answer(
     return False
 
 
-def get_agent_location_str(env: SmallVilleEnv, agent_idx: int) -> str:
+def get_agent_location_str(env: CityEnv, agent_idx: int) -> str:
     agent = env.agents[agent_idx]
     tile = env.maze.access_tile((agent.x, agent.y))
     parts = [tile.get("sector", ""), tile.get("arena", ""), tile.get("game_object", "")]
     parts = [p for p in parts if p]
-    return " > ".join(parts) if parts else "outdoors"
+    return " > ".join(parts) if parts else "on the street"
 
 
-def get_nearby_agents(env: SmallVilleEnv, agent_idx: int, radius: int = 5) -> List[str]:
+def get_nearby_agents(env: CityEnv, agent_idx: int, radius: int = 5) -> List[str]:
     agent = env.agents[agent_idx]
     nearby = []
     for j, other in enumerate(env.agents):
@@ -231,13 +187,13 @@ def get_nearby_agents(env: SmallVilleEnv, agent_idx: int, radius: int = 5) -> Li
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="SmallVille (Pygame + LLM)")
+    parser = argparse.ArgumentParser(description="Urban City Simulation (Pygame + LLM)")
     parser.add_argument(
-        "--assets-dir",
+        "--config",
         type=str,
-        default=str(Path(__file__).parent / "assets"),
+        default=str(Path(__file__).parent / "configs" / "city_map.json"),
     )
-    parser.add_argument("--steps", type=int, default=1000)
+    parser.add_argument("--steps", type=int, default=100)
     parser.add_argument("--render-mode", type=str, default="rgb_array")
     parser.add_argument("--agents", nargs="*", default=None)
     parser.add_argument("--window-w", type=int, default=1280)
@@ -252,12 +208,24 @@ def parse_args() -> argparse.Namespace:
         default=30,
         help="How many steps between LLM decisions per agent",
     )
-    parser.add_argument("--zoom", type=float, default=0.30)
+    parser.add_argument("--zoom", type=float, default=1.5)
     parser.add_argument(
         "--sprites",
         action="store_true",
         default=False,
-        help="Use character sprite sheets instead of colored dots",
+        help="Use character sprite sheets instead of colored dots (requires sprite assets)",
+    )
+    parser.add_argument(
+        "--detailed",
+        action="store_true",
+        default=False,
+        help="Use RPG pixel-art-style rendering inspired by SmallVille",
+    )
+    parser.add_argument(
+        "--assets-dir",
+        type=str,
+        default=str(Path(__file__).parent / "assets"),
+        help="Path to assets directory containing character sprites",
     )
     return parser.parse_args()
 
@@ -268,13 +236,15 @@ def main():
 
     client = OpenAI(base_url=args.ollama_url, api_key="ollama")
 
-    env = SmallVilleEnv(
-        assets_dir=args.assets_dir,
+    env = CityEnv(
+        config_path=args.config,
         agent_names=agent_names,
         render_mode=args.render_mode,
         window_w=args.window_w,
         window_h=args.window_h,
         use_sprites=args.sprites,
+        use_detailed=args.detailed,
+        assets_dir=args.assets_dir,
     )
 
     obs, info = env.reset()
@@ -283,13 +253,20 @@ def main():
     env._camera_y = -(env.renderer.pixel_height * args.zoom - args.window_h) / 2
 
     available_locations = build_location_list(env)
-    print(f"SmallVille loaded: {env.maze.maze_width}x{env.maze.maze_height} tiles")
+    print(f"City loaded: {env.maze.maze_width}x{env.maze.maze_height} tiles")
     print(f"Agents: {[a.name for a in env.agents]}")
+    print(f"Cars: {len(env.cars)}")
     print(f"Available locations: {len(available_locations)}")
     print(f"LLM model: {args.llm_model} @ {args.ollama_url}")
     print(f"Recording to: {args.output} ({args.fps} fps)")
     print(f"Decision interval: every {args.decision_interval} steps")
     print()
+
+    for i, agent in enumerate(env.agents):
+        persona = PERSONAS.get(agent.name, {})
+        if persona.get("living_area"):
+            env.move_agent_to_address(i, persona["living_area"])
+            agent.description = "at home"
 
     w_out = args.window_w if args.window_w % 2 == 0 else args.window_w + 1
     h_out = args.window_h if args.window_h % 2 == 0 else args.window_h + 1
@@ -300,26 +277,6 @@ def main():
         quality=8,
         macro_block_size=1,
     )
-
-    emoji_map = {
-        "cafe": "☕", "library": "📚", "pharmacy": "💊",
-        "apartment": "🏠", "room": "🛏️", "park": "🌳",
-        "store": "🏪", "dorm": "🏫", "pub": "🍺",
-        "kitchen": "🍳", "bathroom": "🚿", "garden": "🌻",
-    }
-
-    for i, agent in enumerate(env.agents):
-        persona = PERSONAS.get(agent.name, {})
-        if persona.get("living_area"):
-            env.move_agent_to_address(i, persona["living_area"])
-            agent.description = "at home"
-            loc = persona["living_area"].lower()
-            for key, emoji in emoji_map.items():
-                if key in loc:
-                    agent.pronunciatio = emoji
-                    break
-            else:
-                agent.pronunciatio = "🚶"
 
     step = 0
     t_start = time.time()
@@ -366,21 +323,25 @@ def main():
                             agent.description = f"staying ({desc})"
                             print(f"           → could not match: {desc}")
 
-                    action_desc = (
-                        f"{agent.name} is at {loc}"
-                        + (f", heading to {agent.description[2:]}" if agent.description.startswith("→") else "")
-                    )
-                    emoji = ask_llm_for_emoji(
-                        client, action_desc, model=args.llm_model
-                    )
-                    agent.pronunciatio = emoji
-                    print(f"           emoji: {emoji}")
+                    emoji_map = {
+                        "cafe": "☕", "library": "📚", "gym": "🏋️",
+                        "apartment": "🏠", "office": "💼", "park": "🌳",
+                        "school": "🏫", "diner": "🍔", "bar": "🍺",
+                        "hospital": "🏥", "hotel": "🏨", "station": "🚉",
+                        "mall": "🛍️", "cinema": "🎬", "yoga": "🧘",
+                        "pharmacy": "💊", "pizza": "🍕", "noodle": "🍜",
+                        "bookstore": "📖", "studio": "🎨",
+                    }
+                    for key, emoji in emoji_map.items():
+                        if key in loc.lower():
+                            agent.pronunciatio = emoji
+                            break
+                    else:
+                        agent.pronunciatio = "🚶"
 
             actions = [Action.STAY] * len(env.agents)
             obs, reward, terminated, truncated, info = env.step(actions)
 
-            env.sim_step = step
-            env.sim_time = format_time(step)
             frame = env.render()
             if frame is not None:
                 if frame.shape[0] != h_out or frame.shape[1] != w_out:
@@ -396,12 +357,12 @@ def main():
 
             step += 1
 
-            if step % 100 == 0:
+            if step % 50 == 0:
                 elapsed = time.time() - t_start
                 print(
                     f"  --- step {step}/{args.steps} "
                     f"({elapsed:.0f}s elapsed, "
-                    f"{step/elapsed:.1f} steps/s) ---"
+                    f"{step / elapsed:.1f} steps/s) ---"
                 )
 
     except KeyboardInterrupt:

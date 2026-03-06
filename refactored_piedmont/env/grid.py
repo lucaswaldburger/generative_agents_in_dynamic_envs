@@ -1,13 +1,11 @@
 """
-SmallVilleEnv – a Gymnasium environment that renders the SmallVille map
-through Pygame, replacing the original Django/Phaser frontend.
-
-Modeled after grid_gen/env/grid.py (MultiHumanGridEnv).
+PiedmontEnv – a Gymnasium environment that renders an OSM-derived map of
+Piedmont, CA through Pygame.  Adapted from refactored_city's CityEnv.
 """
 from __future__ import annotations
 
-import json
 import math
+import random
 from dataclasses import dataclass, field
 from enum import IntEnum
 from typing import Any, Dict, List, Optional, Tuple
@@ -19,9 +17,33 @@ from gymnasium import spaces
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
-from .maze import Maze
+from .osm_map import OSMMap
+from .osm_renderer import OSMRenderer, PALETTE, BUILDING_TYPE_COLORS
 from .path_finder import closest_coordinate, path_finder
-from .tiled_renderer import TiledRenderer
+
+LEGEND_ENTRIES = [
+    ("Background", PALETTE["background"]),
+    ("Street (narrow)", PALETTE["street_narrow"]),
+    ("Street", PALETTE["street"]),
+    ("Street (wide)", PALETTE["street_wide"]),
+    ("Traffic signal", PALETTE["traffic_signals"]),
+    ("Stop sign", PALETTE["stop_sign"]),
+    ("Safe zone (park)", PALETTE["safe_zone"]),
+    ("Water", PALETTE["water"]),
+    ("Railway", PALETTE["railway"]),
+    ("Residential", BUILDING_TYPE_COLORS["residential"]),
+    ("Commercial", BUILDING_TYPE_COLORS["commercial"]),
+    ("Office", BUILDING_TYPE_COLORS["office"]),
+    ("School", BUILDING_TYPE_COLORS["school"]),
+    ("Hospital", BUILDING_TYPE_COLORS["hospital"]),
+    ("Restaurant", BUILDING_TYPE_COLORS["restaurant"]),
+    ("Cafe", BUILDING_TYPE_COLORS["cafe"]),
+    ("Church", BUILDING_TYPE_COLORS["church"]),
+    ("Library", BUILDING_TYPE_COLORS["library"]),
+    ("Pharmacy", BUILDING_TYPE_COLORS["pharmacy"]),
+    ("Park (bldg)", BUILDING_TYPE_COLORS["park"]),
+    ("Other building", PALETTE["building_default"]),
+]
 
 _EMOJI_FONT_PATH = "/usr/share/fonts/noto/NotoColorEmoji.ttf"
 _EMOJI_NATIVE_SIZE = 109
@@ -43,11 +65,6 @@ DIR_TO_VEC: Dict[Action, Tuple[int, int]] = {
     Action.LEFT: (-1, 0),
 }
 
-SPRITE_FRAME_W = 32
-SPRITE_FRAME_H = 32
-SPRITE_DIR_ROW = {"down": 0, "left": 1, "right": 2, "up": 3}
-SPRITE_WALK_COLS = [0, 1, 2, 1]
-
 
 @dataclass
 class AgentState:
@@ -55,7 +72,6 @@ class AgentState:
     x: int
     y: int
     color: Tuple[int, int, int] = (255, 80, 80)
-    portrait: Optional[pygame.Surface] = None
     description: str = ""
     pronunciatio: str = ""
     path: List[Tuple[int, int]] = field(default_factory=list)
@@ -65,44 +81,56 @@ class AgentState:
     prev_y: int = 0
 
 
-AGENT_COLORS = [
-    (220, 60, 60),
-    (60, 120, 220),
-    (60, 200, 80),
-    (230, 180, 40),
-    (180, 80, 220),
-    (40, 200, 200),
-    (255, 140, 60),
-    (200, 200, 200),
-]
+def _generate_agent_colors(n: int) -> List[Tuple[int, int, int]]:
+    """Generate *n* visually distinct, saturated colors via HSV hue rotation."""
+    import colorsys
+    colors = []
+    for i in range(n):
+        hue = (i * 0.618033988749895) % 1.0  # golden-ratio spacing
+        sat = 0.7 + (i % 3) * 0.1
+        val = 0.85 + (i % 2) * 0.1
+        r, g, b = colorsys.hsv_to_rgb(hue, sat, val)
+        colors.append((int(r * 255), int(g * 255), int(b * 255)))
+    return colors
+
+
+AGENT_COLORS = _generate_agent_colors(100)
 
 DEFAULT_WINDOW_W = 1280
 DEFAULT_WINDOW_H = 800
 
 
-class SmallVilleEnv(gym.Env):
-    """Gymnasium environment wrapping the SmallVille tile map with Pygame rendering."""
+class PiedmontEnv(gym.Env):
+    """Gymnasium environment wrapping the OSM-derived Piedmont map."""
 
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 8}
+    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 12}
 
     def __init__(
         self,
-        assets_dir: str | Path,
+        place_name: str = "Piedmont, California, USA",
+        grid_size: int = 250,
         agent_names: Optional[List[str]] = None,
         render_mode: str = "human",
         window_w: int = DEFAULT_WINDOW_W,
         window_h: int = DEFAULT_WINDOW_H,
-        use_sprites: bool = False,
+        cache_dir: Optional[str | Path] = None,
+        osm_map: Optional[OSMMap] = None,
+        spawn_mode: str = "street",
     ):
         super().__init__()
-        self.assets_dir = Path(assets_dir)
         self.render_mode = render_mode
         self.window_w = window_w
         self.window_h = window_h
-        self.use_sprites = use_sprites
 
-        self.maze = Maze(self.assets_dir)
-        self.renderer = TiledRenderer(self.assets_dir)
+        if osm_map is not None:
+            self.maze = osm_map
+        else:
+            self.maze = OSMMap(
+                place_name=place_name,
+                grid_size=grid_size,
+                cache_dir=cache_dir,
+            )
+        self.renderer = OSMRenderer(self.maze)
 
         n_agents = len(agent_names) if agent_names else 0
         self.action_space = spaces.MultiDiscrete([len(Action)] * max(n_agents, 1))
@@ -118,13 +146,13 @@ class SmallVilleEnv(gym.Env):
         )
 
         self._agent_names = agent_names or []
+        self._spawn_mode = spawn_mode
         self.agents: List[AgentState] = []
-        self._portraits: Dict[str, pygame.Surface] = {}
-        self._sprite_sheets: Dict[str, pygame.Surface] = {}
 
         self._camera_x: float = 0.0
         self._camera_y: float = 0.0
         self._zoom: float = 1.0
+        self._base_scale: float = 1.0
         self._dragging: bool = False
         self._drag_start: Tuple[int, int] = (0, 0)
         self._cam_start: Tuple[float, float] = (0.0, 0.0)
@@ -135,12 +163,38 @@ class SmallVilleEnv(gym.Env):
         self._map_surface: Optional[pygame.Surface] = None
         self._font: Optional[pygame.font.Font] = None
         self._small_font: Optional[pygame.font.Font] = None
+        self._hud_font: Optional[pygame.font.Font] = None
 
         self._emoji_font: Optional[ImageFont.FreeTypeFont] = None
         self._emoji_cache: Dict[Tuple[str, int], pygame.Surface] = {}
 
         self.sim_step: int = 0
         self.sim_time: str = ""
+
+    @property
+    def _effective_zoom(self) -> float:
+        """Actual pixel scale: base_scale makes zoom=1.0 fit the grid."""
+        return self._base_scale * self._zoom
+
+    def _compute_base_scale(self):
+        pw = self.renderer.pixel_width
+        ph = self.renderer.pixel_height
+        if pw > 0 and ph > 0:
+            self._base_scale = min(self.window_w / pw, self.window_h / ph)
+        else:
+            self._base_scale = 1.0
+
+    def center_camera(self):
+        """Center the map in the window at the current zoom level."""
+        ez = self._effective_zoom
+        map_w = self.renderer.pixel_width * ez
+        map_h = self.renderer.pixel_height * ez
+        self._camera_x = (self.window_w - map_w) / 2
+        self._camera_y = (self.window_h - map_h) / 2
+
+    # ------------------------------------------------------------------
+    # Pygame init
+    # ------------------------------------------------------------------
 
     def _ensure_pygame(self):
         if self._pygame_inited:
@@ -154,7 +208,7 @@ class SmallVilleEnv(gym.Env):
             self._window = pygame.display.set_mode(
                 (self.window_w, self.window_h), pygame.RESIZABLE
             )
-            pygame.display.set_caption("SmallVille – Pygame")
+            pygame.display.set_caption("Piedmont, CA – Agent Simulation")
         else:
             pygame.display.set_mode((1, 1))
             self._window = pygame.Surface((self.window_w, self.window_h))
@@ -169,53 +223,15 @@ class SmallVilleEnv(gym.Env):
         except (OSError, IOError):
             self._emoji_font = None
         self._map_surface = self.renderer.build_map_surface()
-        self._load_portraits()
-        if self.use_sprites:
-            self._load_sprite_sheets()
+        self._compute_base_scale()
+        self.center_camera()
         self._pygame_inited = True
 
-    def _load_portraits(self):
-        chars_dir = self.assets_dir / "characters"
-        if not chars_dir.exists():
-            return
-        for agent in self._agent_names:
-            fname = agent.replace(" ", "_") + ".png"
-            path = chars_dir / fname
-            if path.exists():
-                img = pygame.image.load(str(path)).convert_alpha()
-                self._portraits[agent] = pygame.transform.smoothscale(img, (28, 28))
-
-    def _load_sprite_sheets(self):
-        chars_dir = self.assets_dir / "characters"
-        if not chars_dir.exists():
-            return
-        for agent in self._agent_names:
-            fname = agent.replace(" ", "_") + ".png"
-            path = chars_dir / fname
-            if path.exists():
-                sheet = pygame.image.load(str(path)).convert_alpha()
-                self._sprite_sheets[agent] = sheet
-
-    def _get_sprite_frame(
-        self, agent_name: str, direction: str, anim_tick: int, moving: bool
-    ) -> Optional[pygame.Surface]:
-        sheet = self._sprite_sheets.get(agent_name)
-        if sheet is None:
-            return None
-        row = SPRITE_DIR_ROW.get(direction, 0)
-        if moving:
-            col = SPRITE_WALK_COLS[anim_tick % len(SPRITE_WALK_COLS)]
-        else:
-            col = 1
-        src = pygame.Rect(
-            col * SPRITE_FRAME_W, row * SPRITE_FRAME_H,
-            SPRITE_FRAME_W, SPRITE_FRAME_H,
-        )
-        frame = sheet.subsurface(src).copy()
-        return frame
+    # ------------------------------------------------------------------
+    # Emoji rendering (via Pillow -> pygame Surface)
+    # ------------------------------------------------------------------
 
     def _render_emoji(self, text: str, size: int) -> pygame.Surface:
-        """Render emoji text via Pillow and return a pygame Surface."""
         key = (text, size)
         cached = self._emoji_cache.get(key)
         if cached is not None:
@@ -244,7 +260,6 @@ class SmallVilleEnv(gym.Env):
     def _draw_speech_bubble(
         self, text: str, cx: float, anchor_y: float, tile_sz: float
     ):
-        """Draw a speech bubble with emoji above an agent."""
         emoji_px = max(16, int(tile_sz * 0.7))
         emoji_surf = self._render_emoji(text, emoji_px)
         ew, eh = emoji_surf.get_size()
@@ -282,27 +297,34 @@ class SmallVilleEnv(gym.Env):
 
         self._window.blit(emoji_surf, (bx + pad_x, by + pad_y))
 
+    # ------------------------------------------------------------------
+    # Agent spawning
+    # ------------------------------------------------------------------
+
     def _spawn_agents(self):
         self.agents = []
-        spawn_locs = [
-            (k, v)
-            for k, v in self.maze.address_tiles.items()
-            if k.startswith("<spawn_loc>")
-        ]
-        used: set[Tuple[int, int]] = set()
 
+        if self._spawn_mode == "building":
+            self._spawn_agents_building()
+        else:
+            self._spawn_agents_street()
+
+    def _spawn_agents_street(self):
+        street_tiles: List[Tuple[int, int]] = []
+        for y in range(self.maze.maze_height):
+            for x in range(self.maze.maze_width):
+                if self.maze.tiles[y][x]["tile_type"] == "street":
+                    street_tiles.append((x, y))
+
+        used: set[Tuple[int, int]] = set()
         for idx, name in enumerate(self._agent_names):
             color = AGENT_COLORS[idx % len(AGENT_COLORS)]
 
             tile: Optional[Tuple[int, int]] = None
-            for key, coords in spawn_locs:
-                for c in coords:
-                    if c not in used:
-                        tile = c
-                        break
-                if tile:
-                    break
-
+            if street_tiles:
+                candidates = [t for t in street_tiles if t not in used]
+                if candidates:
+                    tile = random.choice(candidates)
             if tile is None:
                 tile = (self.maze.maze_width // 2, self.maze.maze_height // 2)
             used.add(tile)
@@ -313,11 +335,53 @@ class SmallVilleEnv(gym.Env):
                     x=tile[0],
                     y=tile[1],
                     color=color,
-                    portrait=self._portraits.get(name),
                     prev_x=tile[0],
                     prev_y=tile[1],
                 )
             )
+
+    def _spawn_agents_building(self):
+        """Spawn agents at building tiles, weighted by each building's population."""
+        building_tiles: List[Tuple[int, int, int]] = []
+        for y in range(self.maze.maze_height):
+            for x in range(self.maze.maze_width):
+                t = self.maze.tiles[y][x]
+                if t["tile_type"] == "building":
+                    pop = t.get("population", 1)
+                    building_tiles.append((x, y, pop))
+
+        if not building_tiles:
+            self._spawn_agents_street()
+            return
+
+        coords = [(x, y) for x, y, _ in building_tiles]
+        weights = [p for _, _, p in building_tiles]
+
+        used: set[Tuple[int, int]] = set()
+        for idx, name in enumerate(self._agent_names):
+            color = AGENT_COLORS[idx % len(AGENT_COLORS)]
+            available = [(c, w) for c, w in zip(coords, weights) if c not in used]
+            if not available:
+                available = list(zip(coords, weights))
+
+            av_coords, av_weights = zip(*available)
+            tile = random.choices(av_coords, weights=av_weights, k=1)[0]
+            used.add(tile)
+
+            self.agents.append(
+                AgentState(
+                    name=name,
+                    x=tile[0],
+                    y=tile[1],
+                    color=color,
+                    prev_x=tile[0],
+                    prev_y=tile[1],
+                )
+            )
+
+    # ------------------------------------------------------------------
+    # Gymnasium API
+    # ------------------------------------------------------------------
 
     def reset(
         self, *, seed: Optional[int] = None, options: Optional[Dict[str, Any]] = None
@@ -380,16 +444,14 @@ class SmallVilleEnv(gym.Env):
         return obs, 0.0, False, False, {}
 
     def move_agent_to(self, agent_idx: int, target: Tuple[int, int]):
-        """Compute and assign a path for the given agent to the target tile."""
         agent = self.agents[agent_idx]
         path = path_finder(
-            self.maze.collision_maze, (agent.x, agent.y), target, "32125"
+            self.maze.collision_maze, (agent.x, agent.y), target, "1"
         )
         if path and len(path) > 1:
             agent.path = path[1:]
 
     def move_agent_to_address(self, agent_idx: int, address: str):
-        """Move agent to a tile matching the given address string."""
         tiles = self.maze.address_tiles.get(address)
         if not tiles:
             return
@@ -398,8 +460,11 @@ class SmallVilleEnv(gym.Env):
         if target:
             self.move_agent_to(agent_idx, target)
 
+    # ------------------------------------------------------------------
+    # Pygame event handling
+    # ------------------------------------------------------------------
+
     def handle_pygame_events(self) -> bool:
-        """Process pygame events. Returns False if the user closed the window."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
@@ -410,12 +475,13 @@ class SmallVilleEnv(gym.Env):
                         (self.window_w, self.window_h), pygame.RESIZABLE
                     )
             elif event.type == pygame.MOUSEWHEEL:
-                old_zoom = self._zoom
+                old_ez = self._effective_zoom
                 self._zoom *= 1.1 if event.y > 0 else 0.9
-                self._zoom = max(0.15, min(4.0, self._zoom))
+                self._zoom = max(0.15, min(6.0, self._zoom))
+                new_ez = self._effective_zoom
                 mx, my = pygame.mouse.get_pos()
-                self._camera_x = mx - (mx - self._camera_x) * (self._zoom / old_zoom)
-                self._camera_y = my - (my - self._camera_y) * (self._zoom / old_zoom)
+                self._camera_x = mx - (mx - self._camera_x) * (new_ez / old_ez)
+                self._camera_y = my - (my - self._camera_y) * (new_ez / old_ez)
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self._dragging = True
                 self._drag_start = event.pos
@@ -438,35 +504,36 @@ class SmallVilleEnv(gym.Env):
                 elif event.key == pygame.K_DOWN:
                     self._camera_y -= scroll_speed
                 elif event.key == pygame.K_PLUS or event.key == pygame.K_EQUALS:
-                    self._zoom = min(4.0, self._zoom * 1.15)
+                    self._zoom = min(6.0, self._zoom * 1.15)
                 elif event.key == pygame.K_MINUS:
                     self._zoom = max(0.15, self._zoom / 1.15)
                 elif event.key == pygame.K_HOME:
                     self._zoom = 1.0
-                    self._camera_x = 0.0
-                    self._camera_y = 0.0
+                    self.center_camera()
         return True
+
+    # ------------------------------------------------------------------
+    # Rendering
+    # ------------------------------------------------------------------
 
     def render(self) -> Optional[np.ndarray]:
         self._ensure_pygame()
         if self._map_surface is None:
             return None
 
-        self._window.fill((30, 30, 30))
+        self._window.fill((25, 25, 30))
 
-        scaled_w = int(self.renderer.pixel_width * self._zoom)
-        scaled_h = int(self.renderer.pixel_height * self._zoom)
+        ez = self._effective_zoom
+        scaled_w = int(self.renderer.pixel_width * ez)
+        scaled_h = int(self.renderer.pixel_height * ez)
 
-        if self._zoom != 1.0:
-            scaled_map = pygame.transform.smoothscale(
-                self._map_surface, (scaled_w, scaled_h)
-            )
-        else:
-            scaled_map = self._map_surface
+        scaled_map = pygame.transform.smoothscale(
+            self._map_surface, (scaled_w, scaled_h)
+        )
 
         self._window.blit(scaled_map, (self._camera_x, self._camera_y))
 
-        tile_sz = self.renderer.tile_w * self._zoom
+        tile_sz = self.renderer.tile_w * ez
         for agent in self.agents:
             sx = self._camera_x + agent.x * tile_sz
             sy = self._camera_y + agent.y * tile_sz
@@ -477,10 +544,7 @@ class SmallVilleEnv(gym.Env):
             ):
                 continue
 
-            if self.use_sprites and agent.name in self._sprite_sheets:
-                self._draw_agent_sprite(agent, sx, sy, tile_sz)
-            else:
-                self._draw_agent_dot(agent, sx, sy, tile_sz)
+            self._draw_agent_dot(agent, sx, sy, tile_sz)
 
         self._draw_hud()
 
@@ -491,34 +555,6 @@ class SmallVilleEnv(gym.Env):
         else:
             frame = pygame.surfarray.array3d(self._window)
             return np.transpose(frame, (1, 0, 2))
-
-    def _draw_agent_sprite(
-        self, agent: AgentState, sx: float, sy: float, tile_sz: float
-    ):
-        moving = agent.x != agent.prev_x or agent.y != agent.prev_y or bool(agent.path)
-        frame = self._get_sprite_frame(
-            agent.name, agent.direction, agent.anim_tick, moving
-        )
-        if frame is None:
-            self._draw_agent_dot(agent, sx, sy, tile_sz)
-            return
-
-        sprite_px = max(8, int(tile_sz))
-        scaled_frame = pygame.transform.smoothscale(frame, (sprite_px, sprite_px))
-        self._window.blit(scaled_frame, (int(sx), int(sy)))
-
-        cx = sx + tile_sz / 2
-
-        if self._zoom >= 0.35:
-            label = self._font.render(agent.name, True, (255, 255, 255))
-            shadow = self._font.render(agent.name, True, (0, 0, 0))
-            lx = int(cx - label.get_width() / 2)
-            ly = int(sy + sprite_px + 2)
-            self._window.blit(shadow, (lx + 1, ly + 1))
-            self._window.blit(label, (lx, ly))
-
-        if agent.pronunciatio and self._zoom >= 0.2:
-            self._draw_speech_bubble(agent.pronunciatio, cx, sy, tile_sz)
 
     def _draw_agent_dot(
         self, agent: AgentState, sx: float, sy: float, tile_sz: float
@@ -533,14 +569,8 @@ class SmallVilleEnv(gym.Env):
             self._window, agent.color, (int(cx), int(cy)), radius
         )
 
-        if agent.portrait and self._zoom >= 0.6:
-            pw = int(28 * max(0.5, self._zoom))
-            portrait = pygame.transform.smoothscale(agent.portrait, (pw, pw))
-            self._window.blit(
-                portrait, (int(cx - pw / 2), int(cy - pw / 2 - radius - pw - 2))
-            )
-
-        if self._zoom >= 0.35:
+        ez = self._effective_zoom
+        if ez >= 0.35:
             label = self._font.render(agent.name, True, (255, 255, 255))
             shadow = self._font.render(agent.name, True, (0, 0, 0))
             lx = int(cx - label.get_width() / 2)
@@ -548,12 +578,44 @@ class SmallVilleEnv(gym.Env):
             self._window.blit(shadow, (lx + 1, ly + 1))
             self._window.blit(label, (lx, ly))
 
-        if agent.pronunciatio and self._zoom >= 0.2:
+        if agent.pronunciatio and ez >= 0.2:
             self._draw_speech_bubble(
                 agent.pronunciatio, cx, cy - radius, tile_sz
             )
 
+    def _draw_legend(self, top_y: int):
+        """Draw a color legend in the top-right corner starting at top_y."""
+        pad = 8
+        swatch = 10
+        gap = 4
+        row_h = swatch + gap
+
+        widths = []
+        for label, _ in LEGEND_ENTRIES:
+            surf = self._small_font.render(label, True, (200, 200, 200))
+            widths.append(swatch + 6 + surf.get_width())
+        max_w = max(widths) if widths else 80
+
+        panel_w = max_w + pad * 2
+        panel_h = len(LEGEND_ENTRIES) * row_h + pad * 2 - gap
+        px = self.window_w - panel_w - 8
+        py = top_y + 4
+
+        bg = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
+        bg.fill((0, 0, 0, 170))
+        self._window.blit(bg, (px, py))
+
+        cy = py + pad
+        for label, color in LEGEND_ENTRIES:
+            sx = px + pad
+            pygame.draw.rect(self._window, color, (sx, cy, swatch, swatch))
+            pygame.draw.rect(self._window, (180, 180, 180), (sx, cy, swatch, swatch), 1)
+            txt = self._small_font.render(label, True, (200, 200, 200))
+            self._window.blit(txt, (sx + swatch + 6, cy - 1))
+            cy += row_h
+
     def _draw_hud(self):
+        legend_top = 6
         if self.sim_time:
             time_label = f"Step {self.sim_step}  |  {self.sim_time}"
             time_surf = self._hud_font.render(time_label, True, (255, 255, 255))
@@ -563,6 +625,9 @@ class SmallVilleEnv(gym.Env):
             bg.fill((0, 0, 0, 180))
             self._window.blit(bg, (self.window_w - tw - pad * 2 - 8, 6))
             self._window.blit(time_surf, (self.window_w - tw - pad - 8, 6 + pad))
+            legend_top = 6 + th + pad * 2
+
+        self._draw_legend(legend_top)
 
         y_off = 8
         for agent in self.agents:
@@ -571,21 +636,24 @@ class SmallVilleEnv(gym.Env):
             loc_str = " > ".join(p for p in loc_parts if p)
             text = f"{agent.name}: ({agent.x},{agent.y}) [{loc_str}]"
             if agent.description:
-                text += f" – {agent.description}"
+                text += f" \u2013 {agent.description}"
             surf = self._small_font.render(text, True, agent.color)
-            bg = pygame.Surface((surf.get_width() + 6, surf.get_height() + 2), pygame.SRCALPHA)
+            bg = pygame.Surface(
+                (surf.get_width() + 6, surf.get_height() + 2), pygame.SRCALPHA
+            )
             bg.fill((0, 0, 0, 160))
             self._window.blit(bg, (4, y_off - 1))
             self._window.blit(surf, (7, y_off))
             y_off += surf.get_height() + 4
 
         zoom_text = self._small_font.render(
-            f"Zoom: {self._zoom:.1f}x  |  Arrow/drag to pan, scroll to zoom, Home to reset",
+            f"Zoom: {self._effective_zoom:.2f}x  |  Arrow/drag to pan, scroll to zoom, Home to reset",
             True,
             (180, 180, 180),
         )
         self._window.blit(
-            zoom_text, (self.window_w - zoom_text.get_width() - 8, self.window_h - 20)
+            zoom_text,
+            (self.window_w - zoom_text.get_width() - 8, self.window_h - 20),
         )
 
     def close(self):

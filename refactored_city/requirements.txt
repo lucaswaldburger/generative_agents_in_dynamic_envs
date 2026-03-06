@@ -1,0 +1,5 @@
+gymnasium>=0.28
+pygame>=2.5
+numpy
+imageio[ffmpeg]
+openai>=1.0

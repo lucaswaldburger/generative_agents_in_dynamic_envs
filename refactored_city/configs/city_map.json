@@ -1,0 +1,144 @@
+{
+  "width": 61,
+  "height": 45,
+  "tile_size": 16,
+
+  "palette": {
+    "road":       [70, 70, 75],
+    "sidewalk":   [160, 160, 155],
+    "block":      [55, 55, 65],
+    "building":   [90, 85, 100],
+    "park":       [45, 140, 55],
+    "park_path":  [180, 170, 140],
+    "crosswalk":  [220, 220, 215],
+    "lane_mark":  [200, 200, 60],
+    "intersection": [80, 80, 85]
+  },
+
+  "access_codes": {
+    "blocked":    0,
+    "road":       1,
+    "sidewalk":   2,
+    "park":       3,
+    "building":   4,
+    "crosswalk":  5
+  },
+
+  "semantics": {
+    "can_enter":      { "0": false, "1": true, "2": true, "3": true, "4": true, "5": true },
+    "is_road":        { "0": false, "1": true, "2": false, "3": false, "4": false, "5": true },
+    "is_pedestrian":  { "0": false, "1": false, "2": true, "3": true, "4": true, "5": true }
+  },
+
+  "background_access": 1,
+
+  "blocks": [
+    { "name": "Block A", "x": 2,  "y": 2,  "w": 12, "h": 9 },
+    { "name": "Block B", "x": 17, "y": 2,  "w": 12, "h": 9 },
+    { "name": "Block C", "x": 32, "y": 2,  "w": 12, "h": 9 },
+    { "name": "Block D", "x": 47, "y": 2,  "w": 12, "h": 9 },
+    { "name": "Block E", "x": 2,  "y": 14, "w": 12, "h": 9 },
+    { "name": "Block F", "x": 17, "y": 14, "w": 12, "h": 9 },
+    { "name": "Block H", "x": 47, "y": 14, "w": 12, "h": 9 },
+    { "name": "Block I", "x": 2,  "y": 26, "w": 12, "h": 9 },
+    { "name": "Block J", "x": 17, "y": 26, "w": 12, "h": 9 },
+    { "name": "Block K", "x": 32, "y": 26, "w": 12, "h": 9 },
+    { "name": "Block L", "x": 47, "y": 26, "w": 12, "h": 9 },
+    { "name": "Block M", "x": 2,  "y": 38, "w": 27, "h": 5 },
+    { "name": "Block N", "x": 32, "y": 38, "w": 27, "h": 5 }
+  ],
+
+  "park": {
+    "name": "Central Park",
+    "x": 32, "y": 14, "w": 12, "h": 9,
+    "trees": [
+      [34, 16], [37, 16], [40, 16],
+      [34, 19], [37, 19], [40, 19],
+      [36, 17], [39, 18], [35, 20]
+    ],
+    "paths": [
+      { "x": 37, "y": 14, "w": 2, "h": 9 },
+      { "x": 32, "y": 18, "w": 12, "h": 2 }
+    ]
+  },
+
+  "buildings": [
+    { "name": "Sunrise Apartments",     "block": "Block A", "x": 3,  "y": 3,  "w": 5, "h": 3, "type": "residential", "color": [130, 100, 80] },
+    { "name": "Metro Diner",            "block": "Block A", "x": 9,  "y": 3,  "w": 4, "h": 3, "type": "restaurant",  "color": [180, 80, 60] },
+    { "name": "City Bookstore",         "block": "Block A", "x": 3,  "y": 7,  "w": 4, "h": 3, "type": "shop",        "color": [80, 120, 160] },
+    { "name": "Quick Gym",              "block": "Block A", "x": 8,  "y": 7,  "w": 5, "h": 3, "type": "gym",         "color": [200, 140, 50] },
+
+    { "name": "TechHub Office",         "block": "Block B", "x": 18, "y": 3,  "w": 5, "h": 4, "type": "office",      "color": [60, 90, 140] },
+    { "name": "Bean & Leaf Cafe",       "block": "Block B", "x": 24, "y": 3,  "w": 4, "h": 3, "type": "cafe",        "color": [140, 90, 50] },
+    { "name": "Uptown Pharmacy",        "block": "Block B", "x": 18, "y": 8,  "w": 5, "h": 2, "type": "pharmacy",    "color": [50, 160, 100] },
+    { "name": "Lakeside Bar",           "block": "Block B", "x": 24, "y": 7,  "w": 4, "h": 3, "type": "bar",         "color": [120, 50, 80] },
+
+    { "name": "Greenfield School",      "block": "Block C", "x": 33, "y": 3,  "w": 6, "h": 4, "type": "school",      "color": [90, 150, 90] },
+    { "name": "Corner Grocery",         "block": "Block C", "x": 40, "y": 3,  "w": 3, "h": 3, "type": "shop",        "color": [160, 140, 60] },
+    { "name": "Art Studio",             "block": "Block C", "x": 33, "y": 8,  "w": 4, "h": 2, "type": "studio",      "color": [160, 80, 160] },
+
+    { "name": "City Hospital",          "block": "Block D", "x": 48, "y": 3,  "w": 6, "h": 4, "type": "hospital",    "color": [200, 60, 60] },
+    { "name": "Police Station",         "block": "Block D", "x": 55, "y": 3,  "w": 3, "h": 3, "type": "government",  "color": [60, 60, 140] },
+    { "name": "Fire Station",           "block": "Block D", "x": 48, "y": 8,  "w": 5, "h": 2, "type": "government",  "color": [200, 80, 40] },
+
+    { "name": "Riverside Condos",       "block": "Block E", "x": 3,  "y": 15, "w": 5, "h": 3, "type": "residential", "color": [110, 130, 100] },
+    { "name": "Pizza Palace",           "block": "Block E", "x": 9,  "y": 15, "w": 4, "h": 3, "type": "restaurant",  "color": [190, 100, 50] },
+    { "name": "City Library",           "block": "Block E", "x": 3,  "y": 19, "w": 6, "h": 3, "type": "library",     "color": [80, 80, 130] },
+
+    { "name": "Downtown Lofts",         "block": "Block F", "x": 18, "y": 15, "w": 5, "h": 3, "type": "residential", "color": [120, 100, 90] },
+    { "name": "FitLife Yoga",           "block": "Block F", "x": 24, "y": 15, "w": 4, "h": 3, "type": "gym",         "color": [170, 130, 180] },
+    { "name": "Noodle House",           "block": "Block F", "x": 18, "y": 19, "w": 4, "h": 3, "type": "restaurant",  "color": [180, 60, 50] },
+
+    { "name": "Apex Tower Office",      "block": "Block H", "x": 48, "y": 15, "w": 6, "h": 4, "type": "office",      "color": [70, 100, 150] },
+    { "name": "Rooftop Lounge",         "block": "Block H", "x": 55, "y": 15, "w": 3, "h": 3, "type": "bar",         "color": [140, 60, 100] },
+    { "name": "Tech Repair",            "block": "Block H", "x": 48, "y": 20, "w": 4, "h": 2, "type": "shop",        "color": [100, 140, 120] },
+
+    { "name": "Harbor View Apts",       "block": "Block I", "x": 3,  "y": 27, "w": 5, "h": 3, "type": "residential", "color": [100, 110, 140] },
+    { "name": "Taco Stand",             "block": "Block I", "x": 9,  "y": 27, "w": 4, "h": 2, "type": "restaurant",  "color": [200, 150, 50] },
+    { "name": "Laundromat",             "block": "Block I", "x": 3,  "y": 31, "w": 4, "h": 3, "type": "shop",        "color": [100, 170, 190] },
+
+    { "name": "Community Center",       "block": "Block J", "x": 18, "y": 27, "w": 6, "h": 4, "type": "community",   "color": [150, 120, 80] },
+    { "name": "Music Venue",            "block": "Block J", "x": 25, "y": 27, "w": 3, "h": 3, "type": "entertainment","color": [180, 60, 140] },
+
+    { "name": "Sunset Mall",            "block": "Block K", "x": 33, "y": 27, "w": 6, "h": 4, "type": "shop",        "color": [150, 130, 100] },
+    { "name": "Cinema",                 "block": "Block K", "x": 40, "y": 27, "w": 3, "h": 3, "type": "entertainment","color": [80, 60, 120] },
+
+    { "name": "Grand Hotel",            "block": "Block L", "x": 48, "y": 27, "w": 6, "h": 4, "type": "hotel",       "color": [160, 140, 60] },
+    { "name": "Sushi Bar",              "block": "Block L", "x": 55, "y": 27, "w": 3, "h": 3, "type": "restaurant",  "color": [200, 80, 80] },
+
+    { "name": "City Hall",              "block": "Block M", "x": 3,  "y": 39, "w": 8, "h": 3, "type": "government",  "color": [140, 130, 120] },
+    { "name": "Post Office",            "block": "Block M", "x": 14, "y": 39, "w": 5, "h": 3, "type": "government",  "color": [120, 100, 80] },
+    { "name": "Bus Station",            "block": "Block M", "x": 21, "y": 39, "w": 7, "h": 3, "type": "transit",     "color": [60, 120, 160] },
+
+    { "name": "Market Square",          "block": "Block N", "x": 33, "y": 39, "w": 7, "h": 3, "type": "shop",        "color": [170, 140, 70] },
+    { "name": "Night Club",             "block": "Block N", "x": 42, "y": 39, "w": 4, "h": 3, "type": "entertainment","color": [100, 40, 140] },
+    { "name": "Train Station",          "block": "Block N", "x": 49, "y": 39, "w": 8, "h": 3, "type": "transit",     "color": [70, 90, 130] }
+  ],
+
+  "intersections": [
+    { "name": "1st & Main",     "x": 14, "y": 11, "w": 3, "h": 3 },
+    { "name": "2nd & Main",     "x": 29, "y": 11, "w": 3, "h": 3 },
+    { "name": "3rd & Main",     "x": 44, "y": 11, "w": 3, "h": 3 },
+    { "name": "1st & Central",  "x": 14, "y": 23, "w": 3, "h": 3 },
+    { "name": "2nd & Central",  "x": 29, "y": 23, "w": 3, "h": 3 },
+    { "name": "3rd & Central",  "x": 44, "y": 23, "w": 3, "h": 3 },
+    { "name": "1st & South",    "x": 14, "y": 35, "w": 3, "h": 3 },
+    { "name": "2nd & South",    "x": 29, "y": 35, "w": 3, "h": 3 },
+    { "name": "3rd & South",    "x": 44, "y": 35, "w": 3, "h": 3 }
+  ],
+
+  "car_lanes": [
+    { "name": "Main St East",   "waypoints": [[1,12],[60,12]], "color": [200, 40, 40] },
+    { "name": "Main St West",   "waypoints": [[60,13],[1,13]], "color": [40, 40, 200] },
+    { "name": "Central East",   "waypoints": [[1,24],[60,24]], "color": [40, 160, 40] },
+    { "name": "Central West",   "waypoints": [[60,25],[1,25]], "color": [200, 160, 40] },
+    { "name": "South East",     "waypoints": [[1,36],[60,36]], "color": [200, 100, 40] },
+    { "name": "South West",     "waypoints": [[60,37],[1,37]], "color": [100, 40, 200] },
+    { "name": "1st Ave South",  "waypoints": [[15,1],[15,44]], "color": [160, 60, 60] },
+    { "name": "1st Ave North",  "waypoints": [[16,44],[16,1]], "color": [60, 160, 60] },
+    { "name": "2nd Ave South",  "waypoints": [[30,1],[30,44]], "color": [60, 60, 160] },
+    { "name": "2nd Ave North",  "waypoints": [[31,44],[31,1]], "color": [160, 160, 60] },
+    { "name": "3rd Ave South",  "waypoints": [[45,1],[45,44]], "color": [160, 60, 160] },
+    { "name": "3rd Ave North",  "waypoints": [[46,44],[46,1]], "color": [60, 160, 160] }
+  ]
+}
