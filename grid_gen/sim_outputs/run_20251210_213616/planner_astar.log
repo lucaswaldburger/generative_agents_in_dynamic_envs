@@ -1,3 +1,0 @@
-2025-12-10 21:36:44 [planner] DEBUG: t=9 agent=1 command='go to Home_B' start=(7, 8) goal=(17, 8)
-2025-12-10 21:36:50 [planner] DEBUG: t=10 agent=1 command='go to Home_A' start=(7, 8) goal=(0, 8)
-2025-12-10 21:36:55 [planner] DEBUG: t=13 agent=0 command='go to Home_B' start=(10, 7) goal=(17, 8)

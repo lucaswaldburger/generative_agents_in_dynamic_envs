@@ -70,33 +70,38 @@ class LLMConversation:
             {"role": "system", "content": system_prompt}
         ]
 
-    def ask_llm(self, user_text: str, model: str = "gpt-4.1-mini", meta: dict | None = None) -> str:
+    def ask_llm(
+        self,
+        user_text: str,
+        model: str = "gpt-4.1-mini",
+        max_tokens: int = 150,
+        meta: dict | None = None,
+    ) -> str:
         """
         meta can contain:
         - "t": simulation step
         - "agent_name"
         - "call_type": "intent" | "mid" | "social" | ...
         """
-        self.messages.append({"role": "user", "content": user_text})
-
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": user_text},
+        ]
         resp = self.client.chat.completions.create(
             model=model,
-            messages=self.messages,
-            max_tokens=200,
+            messages=messages,
+            max_tokens=max_tokens,
         )
         answer = resp.choices[0].message.content.strip()
 
-        self.messages.append({"role": "assistant", "content": answer})
         usage = getattr(resp, "usage", None)
         if self.track_tokens and usage is not None:
             pt = usage.prompt_tokens
             ct = usage.completion_tokens
             tt = usage.total_tokens
-
             self.total_prompt_tokens += pt
             self.total_completion_tokens += ct
             self.total_calls += 1
-
             m = meta or {}
             self.call_log.append(
                 LLMCallRecord(
@@ -322,69 +327,32 @@ def llm_decide_social(
     current_command: str,
     clock_time: str,
     t: int,
-    ):
-    """
-    SOCIAL-LEVEL decision: should ego agent talk to a nearby friend or keep following their goal?
+):
 
-    Returns a dict:
-    {
-        "talk": bool,
-        "new_command": str | None,
-        "reason": str
-    }
-        """
-    hazard_text = "; ".join(hazards) if hazards else "none"
-
-    prompt = f"""
-    SOCIAL-LEVEL DECISION
-
-    Time:{clock_time}
-    Ego:{ego_cfg.persona_compact}
-    Friend:{friend_cfg.name}
-
-    Perception:{perception_desc}
-    Hazards:{hazard_text}
-    Current_command:{current_command}
-
-    Task:
-    Decide if the ego agent should briefly talk to this friend to exchange
-    information about the situation, or ignore and continue following the
-    current command.
-
-    If the agent SHOULD talk:
-    - "talk": true
-    - "new_command": you MAY either:
-        - leave it as null to keep the current_command, or
-        - override with a safer high-level command like "stay" or "go to Home_A".
-
-    If the agent SHOULD NOT talk:
-    - "talk": false
-    - "new_command": null
-
-    Return ONLY JSON:
-    {{
-    "talk": true or false,
-    "new_command": "<new high-level command string or null>",
-    "reason": "<1-2 sentences>"
-    }}
-    """
-
-    raw = conv.ask_llm(
-        prompt,
-        meta={
-            "t": t,
-            "agent_name": ego_cfg.name,
-            "call_type": "social",
-        },
-    )
-    try:
-        cleaned = _strip_code_fence(raw)
-        return json.loads(cleaned)
-    except Exception as e:
-        print("[WARN] llm_decide_social parse error:", e, "raw:", raw)
-        # Safe fallback: do nothing, keep current behavior
+    if not hazards:
         return {
             "talk": False,
             "new_command": None,
-            "reason": "Fallback: keep current command.",
+            "reason": "No hazards to discuss.",
         }
+ 
+    hazard_text = "; ".join(hazards)
+    prompt = (
+        f"SOCIAL DECISION Time:{clock_time}\n"
+        f"Ego:{ego_cfg.persona_compact} Friend:{friend_cfg.name}\n"
+        f"Perception:{perception_desc}\n"
+        f"Hazards:{hazard_text} Cmd:{current_command}\n"
+        f"Should ego talk to friend? If yes, optionally override command.\n"
+        f'Reply: {{"talk":true/false,"new_command":"<cmd>|null","reason":"..."}}'
+    )
+ 
+    raw = conv.ask_llm(
+        prompt,
+        max_tokens=80,
+        meta={"t": t, "agent_name": ego_cfg.name, "call_type": "social"},
+    )
+    try:
+        return json.loads(_strip_code_fence(raw))
+    except Exception as e:
+        print("[WARN] llm_decide_social parse error:", e, "raw:", raw)
+        return {"talk": False, "new_command": None, "reason": "Fallback."}

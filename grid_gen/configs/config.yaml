@@ -18,5 +18,5 @@ data:
 
 openai:
 
-  openai_api_key: "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"
+  openai_api_key: 
   key_owner: "Gaby"

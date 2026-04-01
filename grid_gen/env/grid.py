@@ -20,7 +20,7 @@ class MultiHumanGridEnv(gym.Env):
         agent_configs: list[AgentConfig],
         max_steps: int = DEFAULT_MAX_STEPS,
         render_mode: str | None = "human",
-        fire_spread_rate: float = 0.05,
+        fire_spread_rate: float = 0.01,
         traffic_mode: int = True,
         traffic_disappear_mode: bool = True,
         traffic_disappear_rate: float = 0.02,
