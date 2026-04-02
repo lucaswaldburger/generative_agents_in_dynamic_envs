@@ -5,5 +5,5 @@ def get_external_events_for_t(t):
     if t == 10:
         return "the fire alarm sounds loudly, evacuation is now required. Isabella sees smoke outside of the building."
     if t == 20:
-        return "Policy sent a message that the safe zone for evacuation is located at the park"
+        return "Policy sent alert text: safe zone for evacuation is located at the park"
     return None

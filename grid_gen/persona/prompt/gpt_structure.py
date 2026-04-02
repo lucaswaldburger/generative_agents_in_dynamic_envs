@@ -238,9 +238,9 @@ def llm_decide_intent(
         f"- Urgency HIGH/CRITICAL or safety=in_danger/critical: MUST evacuate.\n"
         f"- Urgency LOW + fire distant: may ignore.\n"
         f"- Dependents are at home; must travel there to help them.\n\n"
-        f'Reply JSON: {{"intent":"ignore|evacuate","target_location":"<loc>|null",'
-        f'"action":"stay|go to <loc>","next_action":"<brief>",'
-        f'"command":"stay|go to <loc>","reason":"<1-2 sentences>"}}'
+        f"If intent=ignore: target_location=null, action='stay', command='stay'.\n"
+        f"If intent=evacuate: target_location=one of ValidLocs, action='go to <loc>', command='go to <loc>'.\n"
+        f'Reply JSON: {{"intent":"...","target_location":"...","action":"...","next_action":"...","command":"...","reason":"..."}}'
     )
  
     raw = conv.ask_llm(
@@ -248,122 +248,20 @@ def llm_decide_intent(
         max_tokens=120,
         meta={"t": t, "agent_name": agent_cfg.name, "call_type": "intent"},
     )
-    return json.loads(_strip_code_fence(raw))
+    result = json.loads(_strip_code_fence(raw))
+ 
+    # Safety check: if command is null/None or contains "null", fix it
+    cmd = result.get("command")
+    if not cmd or cmd.strip().lower() == "null":
+        if result.get("intent") == "evacuate" and result.get("target_location"):
+            result["command"] = f"go to {result['target_location']}"
+        else:
+            result["command"] = "stay"
+            result["intent"] = "ignore"
+ 
+    return result
 
 
-# def llm_decide_intent(
-#     conv,
-#     agent_cfg,
-#     plan_item,
-#     perception_desc,
-#     external_events,
-#     clock_time,
-#     valid_locations,
-#     current_location: str | None,
-#     t: int = 0,
-#     urgency_assessment: str | None = None,
-# ):
-#     plan_text = plan_item["activity"] if plan_item else "no scheduled activity"
-#     plan_loc  = plan_item["location"] if plan_item else None
-#     is_at_plan = (plan_loc is not None and current_location is not None and plan_loc == current_location)
-
-#     persona = agent_cfg.persona_compact
-#     valid_locs = ",".join(valid_locations)
-
-#     home_loc = getattr(agent_cfg, "living_area", None)
-#     dependents_desc = summarize_dependents(agent_cfg)
-
-#     # Build urgency section separately to avoid f-string backslash issue
-#     urgency_section = ""
-#     if urgency_assessment:
-#         urgency_section = f"\nURGENCY ASSESSMENT:\n{urgency_assessment}\n"
-
-#     prompt = f"""
-#     HIGH-LEVEL INTENT PLANNER CALL
-#     (Triggered because a NEW external event occurred.)
-
-#     Time: {clock_time}
-#     External event: {external_events or "none"}
-
-#     Persona (compact): {persona}
-
-#     Daily plan: {plan_text} @ {plan_loc}
-#     Current location: {current_location}
-#     At planned location: {is_at_plan}
-
-#     Home location: {home_loc}
-#     Dependents: {dependents_desc}
-
-#     Perception: {perception_desc}
-#     Valid locations: {valid_locs}
-#     {urgency_section}
-
-#     You must choose exactly one intent from:
-#     - "ignore"
-#     - "evacuate"
-
-#     Semantics and constraints:
-#     - Dependents (children, pets) are physically located at the home location, unless explicitly stated otherwise.
-#     - The agent can only "pack" or "check_on_dependent" when they are physically at the same location as the dependent (usually Home_*).
-#     - If the agent is at work and the dependent is at home, then to help the dependent they must first travel from work to home.
-#     - When intent="ignore", the agent continues their current plan and stays where they are.
-#     - When intent="evacuate", the agent should choose a concrete evacuation goal in Valid locations
-#       (for example: Home_A to rescue a pet, or an open safe place like Park).
-#     - IMPORTANT: Consider the urgency assessment carefully. 
-#       - If urgency is CRITICAL or HIGH: You MUST choose "evacuate" - staying is not safe.
-#       - If urgency is MEDIUM: You should strongly consider "evacuate" unless there are compelling reasons to stay (e.g., 
-#         immediate danger to dependents at current location that requires staying briefly).
-#       - If urgency is LOW: You may choose "ignore" if the fire is distant and not spreading toward you.
-#       - Safety assessments indicating "in_danger" or "critical_danger" require evacuation.
-#       - Always prioritize safety over routine activities when urgency is medium or higher.
-
-#     Output JSON fields:
-
-#     - "intent": must be exactly "ignore" or "evacuate".
-#     - "target_location":
-#         - If intent="ignore": null.
-#         - If intent="evacuate": one of the valid locations (e.g., "Home_A", "Park", "Workplace_A", etc.).
-#           If the agent has a dependent at home and wants to rescue them, target_location should usually be the home location.
-#     - "action":
-#         - If intent="ignore": "stay".
-#         - If intent="evacuate": MUST be "go to <target_location>".
-#     - "next_action":
-#         - Brief natural-language description of what they will do next (e.g., "continue working",
-#           "go home to rescue my pet", "go to the park to stay safe").
-#         - It does NOT affect the planner, it is just an explanation.
-#     - "command":
-#         - Either "stay" or "go to <target_location>".
-#         - This will be sent to the motion planner, so keep it simple.
-#     - "reason": REQUIRED - A clear explanation of why this decision was made.
-#         - If intent="ignore" (staying): MUST explain why the agent chooses to stay despite the situation.
-#           Include: (1) assessment of the urgency/safety level, (2) why staying is appropriate given the urgency,
-#           (3) how the agent's persona traits influence this decision, (4) what they will do while staying.
-#           Example: "The urgency is low and fire is distant. Isabella tends to underestimate risks and is skeptical
-#           of authority warnings, so she will continue working while monitoring the situation."
-#         - If intent="evacuate": Explain why evacuation is necessary and why the chosen target location was selected.
-
-#     Return ONLY valid JSON, no extra text. Example of a valid evacuate response from work to rescue a cat at Home_A:
-
-#     # {{
-#     #   "intent": "evacuate",
-#     #   "action": "go to Home_A",
-#     #   "next_action": "go home to rescue my cat and then follow further instructions",
-#     #   "target_location": "Home_A",
-#     #   "command": "go to Home_A",
-#     #   "reason": "Explain briefly why this decision makes sense given the persona, plan, dependents, and the event."
-#     # }}
-#     # """
-
-#     raw = conv.ask_llm(
-#         prompt,
-#         meta={
-#             "t": t,
-#             "agent_name": agent_cfg.name,
-#             "call_type": "intent",
-#         },
-#     )
-#     cleaned = _strip_code_fence(raw)
-#     return json.loads(cleaned)
 
 
 def llm_decide_local_direction(

@@ -22,62 +22,50 @@ def react_to_local_fire_smoke(
     Called when THIS agent newly perceives fire/smoke.
     Triggers a fresh high-level intent just for this agent.
     """
-
-    # At t == 0 we ccould get the daily plan.
-    # Later on, we rely on current perception + command instead.
     if t == 0:
         plan_item = get_plan_for_time(agent.config, clock_time)
         current_location = plan_item["location"] if plan_item else None
     else:
         plan_item = None
-        current_location = None  # LLM infers from perception_desc
-
+        current_location = None
+ 
     local_external_events = {
         "type": "local_fire_smoke_perception",
         "source_agent": agent.config.name,
         "hazards": fire_smoke_hazards,
         "current_command": agent_commands.get(agent_id, "stay"),
     }
-
-    # Simple description (no valid_dirs); enough for high-level intent.
+ 
     intent_desc = describe_perception(env, agent_id, include_decision_info=False)
-
+ 
     decision = llm_decide_intent(
         conv=conv,
         agent_cfg=agent.config,
         plan_item=plan_item,
         perception_desc=intent_desc,
-        external_events=local_external_events,   
+        external_events=local_external_events,
         clock_time=clock_time,
         valid_locations=valid_locations,
         current_location=current_location,
         t=t,
         urgency_assessment=urgency_assessment,
     )
-
+ 
     print(
         f"[LOCAL INTENT FIRE/SMOKE] t={t} ({clock_time}) "
         f"{agent.config.name} sees fire/smoke, intent={decision.get('intent')}, "
         f"action={decision.get('action')}"
     )
-    
-    # Explicitly print reasoning when agent chooses to stay despite seeing fire/smoke
+ 
     if decision.get('intent') == 'ignore' or decision.get('action') == 'stay':
         reason = decision.get('reason', 'No reason provided')
-        # Get urgency assessment for context
-        urgency_assessment = assess_urgency(
-            env=env,
-            agent_id=agent_id,
-            agent=agent,
-            t=t,
-            fire_start_time=getattr(env, "fire_start_time", None),
-        )
-        print(f"[STAY DECISION - FIRE/SMOKE] t={t} ({clock_time}) {agent.config.name} chooses to STAY despite seeing fire/smoke")
+        # OPTIMIZATION: Use the urgency_assessment string already passed in,
+        # instead of calling assess_urgency() again (which was redundant).
+        print(f"[STAY DECISION - FIRE/SMOKE] t={t} ({clock_time}) {agent.config.name} STAY despite fire/smoke")
         print(f"  Reason: {reason}")
-        print(f"  Urgency: {urgency_assessment.urgency_level.upper()} (score: {urgency_assessment.urgency_score:.2f})")
-        print(f"  Safety: {urgency_assessment.safety_assessment}")
+        print(f"  Urgency (from caller): {urgency_assessment or 'not provided'}")
         print(f"  Hazards seen: {fire_smoke_hazards}")
-
+ 
     intent_logger.debug(
         f"t={t} ({clock_time}) [LOCAL_FIRE_SMOKE] agent={agent.config.name} "
         f"intent={decision.get('intent')} "
@@ -90,15 +78,13 @@ def react_to_local_fire_smoke(
         f"perception={intent_desc} "
         f"external_events={local_external_events}"
     )
-
+ 
     cmd = normalize_command_for_planner(decision, agent.config, env)
     if (decision.get("intent") or "").lower() == "stay" or "stay" in cmd.lower():
         agent_commands[agent_id] = "stay"
     else:
         agent_commands[agent_id] = cmd
-
     agent_commands[agent_id] = cmd
-    # Mark that this agent has reacted to fire/smoke so we don’t spam the LLM
+ 
     agent.local_fire_smoke_seen = True
-
     return cmd
