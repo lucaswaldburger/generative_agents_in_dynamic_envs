@@ -205,50 +205,50 @@ def llm_decide_local_direction(
     )
     return json.loads(_strip_code_fence(raw))
 
-# def llm_decide_intent(
-#     conv,
-#     agent_cfg,
-#     plan_item,
-#     perception_desc,
-#     external_events,
-#     clock_time,
-#     valid_locations,
-#     current_location: str | None,
-#     t: int = 0,
-#     urgency_assessment: str | None = None,
-# ):
-#     plan_text = plan_item["activity"] if plan_item else "none"
-#     plan_loc = plan_item["location"] if plan_item else None
-#     persona = agent_cfg.persona_compact
-#     home_loc = getattr(agent_cfg, "living_area", None)
-#     deps = _short_dependents(agent_cfg)
-#     valid_locs = ",".join(valid_locations)
+def llm_decide_intent(
+    conv,
+    agent_cfg,
+    plan_item,
+    perception_desc,
+    external_events,
+    clock_time,
+    valid_locations,
+    current_location: str | None,
+    t: int = 0,
+    urgency_assessment: str | None = None,
+):
+    plan_text = plan_item["activity"] if plan_item else "none"
+    plan_loc = plan_item["location"] if plan_item else None
+    persona = agent_cfg.persona_compact
+    home_loc = getattr(agent_cfg, "living_area", None)
+    deps = _short_dependents(agent_cfg)
+    valid_locs = ",".join(valid_locations)
  
-#     urg = f"\nUrgency:{urgency_assessment}" if urgency_assessment else ""
+    urg = f"\nUrgency:{urgency_assessment}" if urgency_assessment else ""
  
-#     prompt = (
-#         f"HIGH-LEVEL INTENT\n"
-#         f"Time:{clock_time} Event:{external_events or 'none'}\n"
-#         f"Persona:{persona}\n"
-#         f"Plan:{plan_text}@{plan_loc} Loc:{current_location} Home:{home_loc}\n"
-#         f"Deps:{deps}\n"
-#         f"Perception:{perception_desc}\n"
-#         f"ValidLocs:{valid_locs}{urg}\n\n"
-#         f"Rules:\n"
-#         f"- Urgency HIGH/CRITICAL or safety=in_danger/critical: MUST evacuate.\n"
-#         f"- Urgency LOW + fire distant: may ignore.\n"
-#         f"- Dependents are at home; must travel there to help them.\n\n"
-#         f'Reply JSON: {{"intent":"ignore|evacuate","target_location":"<loc>|null",'
-#         f'"action":"stay|go to <loc>","next_action":"<brief>",'
-#         f'"command":"stay|go to <loc>","reason":"<1-2 sentences>"}}'
-#     )
+    prompt = (
+        f"HIGH-LEVEL INTENT\n"
+        f"Time:{clock_time} Event:{external_events or 'none'}\n"
+        f"Persona:{persona}\n"
+        f"Plan:{plan_text}@{plan_loc} Loc:{current_location} Home:{home_loc}\n"
+        f"Deps:{deps}\n"
+        f"Perception:{perception_desc}\n"
+        f"ValidLocs:{valid_locs}{urg}\n\n"
+        f"Rules:\n"
+        f"- Urgency HIGH/CRITICAL or safety=in_danger/critical: MUST evacuate.\n"
+        f"- Urgency LOW + fire distant: may ignore.\n"
+        f"- Dependents are at home; must travel there to help them.\n\n"
+        f'Reply JSON: {{"intent":"ignore|evacuate","target_location":"<loc>|null",'
+        f'"action":"stay|go to <loc>","next_action":"<brief>",'
+        f'"command":"stay|go to <loc>","reason":"<1-2 sentences>"}}'
+    )
  
-#     raw = conv.ask_llm(
-#         prompt,
-#         max_tokens=120,
-#         meta={"t": t, "agent_name": agent_cfg.name, "call_type": "intent"},
-#     )
-#     return json.loads(_strip_code_fence(raw))
+    raw = conv.ask_llm(
+        prompt,
+        max_tokens=120,
+        meta={"t": t, "agent_name": agent_cfg.name, "call_type": "intent"},
+    )
+    return json.loads(_strip_code_fence(raw))
 
 
 # def llm_decide_intent(
