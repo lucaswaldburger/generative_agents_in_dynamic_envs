@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from persona.prompt.gpt_structure import llm_decide_intent
 from persona.cognitive.plan import normalize_command_for_planner, get_plan_for_time
 from persona.cognitive.perceive import describe_perception

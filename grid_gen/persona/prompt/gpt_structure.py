@@ -1,6 +1,7 @@
 # gpt_structure.py
+from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 from openai import OpenAI
 from omegaconf import DictConfig
 import json
@@ -54,8 +55,8 @@ SYSTEM_PROMPT = (
 )
 @dataclass
 class LLMCallRecord:
-    t: int | None
-    agent_name: str | None
+    t: Optional[int]
+    agent_name: Optional[str]
     call_type: str  # "intent", "mid_local", "social", etc.
     prompt_tokens: int
     completion_tokens: int
@@ -80,7 +81,7 @@ class LLMConversation:
         user_text: str,
         model: str = "gpt-4.1-mini",
         max_tokens: int = 150,
-        meta: dict | None = None,
+        meta: Optional[dict] = None,
     ) -> str:
         """
         meta can contain:
@@ -172,7 +173,7 @@ def llm_decide_local_direction(
     perception_desc: str,
     high_level_goal: str,
     valid_dirs: list[str],
-    route_priors: dict | None = None,
+    route_priors: Optional[dict] = None,
     t: int = 0,
 ):
     priors_line = ""
@@ -200,10 +201,14 @@ def llm_decide_local_direction(
  
     raw = conv.ask_llm(
         prompt,
-        max_tokens=60,
+        max_tokens=100,
         meta={"t": t, "agent_name": agent_cfg.name, "call_type": "mid"},
     )
-    return json.loads(_strip_code_fence(raw))
+    try:
+        return json.loads(_strip_code_fence(raw))
+    except json.JSONDecodeError:
+        print(f"[WARN] LLM returned invalid JSON for mid-level direction, falling back to stay. Raw: {raw!r}")
+        return "stay"
 
 def llm_decide_intent(
     conv,
@@ -213,9 +218,9 @@ def llm_decide_intent(
     external_events,
     clock_time,
     valid_locations,
-    current_location: str | None,
+    current_location: Optional[str],
     t: int = 0,
-    urgency_assessment: str | None = None,
+    urgency_assessment: Optional[str] = None,
 ):
     plan_text = plan_item["activity"] if plan_item else "none"
     plan_loc = plan_item["location"] if plan_item else None
@@ -245,10 +250,16 @@ def llm_decide_intent(
  
     raw = conv.ask_llm(
         prompt,
-        max_tokens=120,
+        max_tokens=200,
         meta={"t": t, "agent_name": agent_cfg.name, "call_type": "intent"},
     )
-    result = json.loads(_strip_code_fence(raw))
+    try:
+        result = json.loads(_strip_code_fence(raw))
+    except json.JSONDecodeError:
+        print(f"[WARN] LLM returned invalid JSON for intent, falling back to stay. Raw: {raw!r}")
+        result = {"intent": "ignore", "target_location": None,
+                  "action": "stay", "next_action": "stay",
+                  "command": "stay", "reason": "JSON parse failure"}
  
     # Safety check: if command is null/None or contains "null", fix it
     cmd = result.get("command")
@@ -270,7 +281,7 @@ def llm_decide_local_direction(
     perception_desc: str,
     high_level_goal: str,
     valid_dirs: list[str],
-    route_priors: dict | None = None,
+    route_priors: Optional[dict] = None,
     t: int = 0,
     ):
     # Build a short natural-language summary of priors (if available)

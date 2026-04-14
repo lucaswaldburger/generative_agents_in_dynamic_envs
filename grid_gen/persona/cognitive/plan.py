@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import heapq
 import numpy as np
 import math
@@ -163,6 +165,11 @@ def resolve_goal_tile(env, agent_id: int, command: str) -> Coord:
         raise ValueError(f"[Planner] Empty command for agent {agent_id}")
 
     place_token = tokens[-1]
+    if place_token.lower() in ("null", "none"):
+        raise ValueError(
+            f"[Planner] Agent {agent_id} command '{command}' has invalid "
+            f"place token '{place_token}' (LLM returned null target)"
+        )
     return find_object_from_command(env, place_token)
 
 def get_agent_tile(env, agent_id: int) -> Coord:
@@ -365,7 +372,7 @@ def normalize_command_for_planner(decision, agent_cfg, env):
         return "stay"
 
     # if model gave a target, trust it
-    if target:
+    if target and str(target).lower() not in ("null", "none", ""):
         return f"go to {target}"
 
     # dependent / family intent -> go home

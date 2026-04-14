@@ -1,0 +1,2 @@
+2026-04-02 20:10:29 [planner] DEBUG: t=19 agent=3 command='go to Home_A' start=(17, 14) goal=(4, 15)
+2026-04-02 20:10:41 [planner] DEBUG: t=20 agent=3 command='go to Home_A' start=(16, 14) goal=(4, 15)

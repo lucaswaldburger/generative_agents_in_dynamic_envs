@@ -1,0 +1,143 @@
+Log for Klaus Mueller
+========================================
+
+Step 11
+ Agent id: 1
+ Position: (5, 18)
+ Action: 1
+ Observation: At:Home_B See:B9
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 12
+ Agent id: 1
+ Position: (4, 18)
+ Action: 4
+ Observation: At:Home_B See:B9
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 13
+ Agent id: 1
+ Position: (4, 19)
+ Action: 3
+ Observation: At:Home_B See:nothing
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 14
+ Agent id: 1
+ Position: (4, 18)
+ Action: 1
+ Observation: At:Home_B See:B9
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 15
+ Agent id: 1
+ Position: (5, 18)
+ Action: 2
+ Observation: At:Home_B See:B10,B9,Home_B
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 16
+ Agent id: 1
+ Position: (4, 18)
+ Action: 4
+ Observation: At:Home_B See:B9
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 17
+ Agent id: 1
+ Position: (5, 18)
+ Action: 2
+ Observation: At:Home_B See:B10,B9,Home_B Hazards:traffic@(6,21):walkable
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 18
+ Agent id: 1
+ Position: (4, 18)
+ Action: 4
+ Observation: At:Home_B See:B9 Hazards:traffic@(6,21):walkable
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 19
+ Agent id: 1
+ Position: (5, 18)
+ Action: 2
+ Observation: At:Home_B See:B10,B9,Home_B Hazards:traffic@(6,21):walkable
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 20
+ Agent id: 1
+ Position: (4, 18)
+ Action: 4
+ Observation: At:Home_B See:B9 Hazards:traffic@(6,21):walkable
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 21
+ Agent id: 1
+ Position: (5, 18)
+ Action: 2
+ Observation: At:Home_B See:B10,B9,Home_B Hazards:traffic@(6,21):walkable
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 22
+ Agent id: 1
+ Position: (6, 18)
+ Action: 2
+ Observation: At:Home_B See:B10 Hazards:traffic@(6,21):walkable
+ Spatial memory: cell='Home_B', lookup_key='Home_B', rooms=['main room', 'kitchen', 'bedroom', 'bathroom', 'balcony or entry']
+------------------------------
+Step 23
+ Agent id: 1
+ Position: (7, 18)
+ Action: 2
+ Observation: At:street See:B10 Hazards:traffic@(6,21):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 24
+ Agent id: 1
+ Position: (7, 17)
+ Action: 1
+ Observation: At:street See:B5,B9,Home_A,Park Hazards:traffic@(8,14):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 25
+ Agent id: 1
+ Position: (7, 16)
+ Action: 1
+ Observation: At:street See:B5,Park Hazards:traffic@(8,14):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 26
+ Agent id: 1
+ Position: (7, 15)
+ Action: 1
+ Observation: At:street See:B5,Park Hazards:traffic@(7,12):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 27
+ Agent id: 1
+ Position: (7, 14)
+ Action: 1
+ Observation: At:street See:B5,Park Hazards:traffic@(7,12):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 28
+ Agent id: 1
+ Position: (6, 14)
+ Action: 4
+ Observation: At:street See:B5,B9,Home_A Hazards:traffic@(7,12):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 29
+ Agent id: 1
+ Position: (7, 14)
+ Action: 2
+ Observation: At:street See:B10,Park Hazards:traffic@(7,12):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 30
+ Agent id: 1
+ Position: (7, 13)
+ Action: 1
+ Observation: At:street See:B5,Park Hazards:traffic@(7,12):walkable
+ Spatial memory: cell='walkable'
+------------------------------

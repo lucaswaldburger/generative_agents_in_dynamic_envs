@@ -7,7 +7,7 @@ sim:
 
 personas:
   file: "configs/personas/persona_spec.yaml"
-  personas_in_sim: ["human_1", "human_2"]
+  personas_in_sim: ["human_1","human_2","human_3","human_4","human_5"]
 
 
 map:
@@ -18,5 +18,5 @@ data:
 
 openai:
 
-  openai_api_key: 
+  openai_api_key: ""
   key_owner: "Gaby"

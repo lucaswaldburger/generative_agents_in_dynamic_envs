@@ -1,0 +1,143 @@
+Log for Evelyn Brooks
+========================================
+
+Step 11
+ Agent id: 4
+ Position: (2, 7)
+ Action: 4
+ Observation: At:street See:nothing
+ Spatial memory: cell='walkable'
+------------------------------
+Step 12
+ Agent id: 4
+ Position: (2, 8)
+ Action: 3
+ Observation: At:street See:B5
+ Spatial memory: cell='walkable'
+------------------------------
+Step 13
+ Agent id: 4
+ Position: (3, 8)
+ Action: 2
+ Observation: At:street See:B1,B2,B5,Park
+ Spatial memory: cell='walkable'
+------------------------------
+Step 14
+ Agent id: 4
+ Position: (4, 8)
+ Action: 2
+ Observation: At:street See:B2,B5,Park
+ Spatial memory: cell='walkable'
+------------------------------
+Step 15
+ Agent id: 4
+ Position: (5, 8)
+ Action: 2
+ Observation: At:street See:B2,Park
+ Spatial memory: cell='walkable'
+------------------------------
+Step 16
+ Agent id: 4
+ Position: (6, 8)
+ Action: 2
+ Observation: At:street See:B2,Park Hazards:traffic@(3,7):walkable
+ Spatial memory: cell='walkable'
+------------------------------
+Step 17
+ Agent id: 4
+ Position: (7, 8)
+ Action: 2
+ Observation: At:street See:B2,Park
+ Spatial memory: cell='walkable'
+------------------------------
+Step 18
+ Agent id: 4
+ Position: (7, 9)
+ Action: 3
+ Observation: At:street See:B10,B5,Park
+ Spatial memory: cell='walkable'
+------------------------------
+Step 19
+ Agent id: 4
+ Position: (7, 10)
+ Action: 3
+ Observation: At:street See:B10,B5,Park
+ Spatial memory: cell='walkable'
+------------------------------
+Step 20
+ Agent id: 4
+ Position: (7, 9)
+ Action: 1
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 21
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 22
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 23
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 24
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 25
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 26
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 27
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 28
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 29
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------
+Step 30
+ Agent id: 4
+ Position: (7, 9)
+ Action: 0
+ Observation: At:street See:B1,B2
+ Spatial memory: cell='walkable'
+------------------------------

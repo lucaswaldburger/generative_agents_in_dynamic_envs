@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 def _age_to_bucket(age: int) -> str:
     if age < 25:
         return "<25"

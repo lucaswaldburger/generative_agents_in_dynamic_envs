@@ -1,0 +1,18 @@
+=== TOKEN USAGE PER STEP ===
+t=0: 1743 tokens
+t=10: 3307 tokens
+t=12: 732 tokens
+t=14: 724 tokens
+t=16: 736 tokens
+t=18: 746 tokens
+t=19: 750 tokens
+t=20: 3286 tokens
+t=26: 683 tokens
+t=27: 744 tokens
+t=29: 740 tokens
+
+=== TOTAL TOKEN USAGE ===
+Total prompt tokens: 13148
+Total completion tokens: 1043
+Total tokens: 14191
+Total LLM calls: 18

@@ -434,8 +434,15 @@ def run(cfg: DictConfig):
                         full_path = astar(env, start, goal)
                 except Exception as e:
                     print("[WARN] local decision parse error:", e)
-                    start, goal = high_level_planner(env, agent_id, cmd)
-                    full_path = astar(env, start, goal)
+                    try:
+                        start, goal = high_level_planner(env, agent_id, cmd)
+                        full_path = astar(env, start, goal)
+                    except (KeyError, ValueError) as e2:
+                        print(f"[WARN] fallback planner also failed: {e2} — agent stays")
+                        planned_paths[agent_id] = []
+                        cs.clear_segment()
+                        cs.next_level = PlannerLevel.LOW
+                        continue
 
             else:
                 # Not at intersection, A* from current tile
